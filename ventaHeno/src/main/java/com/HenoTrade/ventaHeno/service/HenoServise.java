@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -54,6 +55,10 @@ public class HenoServise {
 
     public List<Heno> buscarHeno() {
         return this.repositorio.findAll();
+    }
+
+    public Optional<Heno> buscarPorId(Long id) {
+        return this.repositorio.findById(id);
     }
 
 }

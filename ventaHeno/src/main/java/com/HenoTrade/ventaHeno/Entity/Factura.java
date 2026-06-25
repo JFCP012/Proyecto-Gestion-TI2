@@ -52,4 +52,7 @@ public class Factura {
     @Column(name = "telefonoC", nullable = false)
     private String telefonoC;
 
+    @Column(name = "envio", nullable = false)
+    private double envio;
+
 }
