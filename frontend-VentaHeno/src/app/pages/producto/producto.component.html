@@ -1,0 +1,51 @@
+<div class="productos-container">
+  <div class="header">
+    <h1>Nuestros Productos de Heno</h1>
+    <p>Calidad premium para tus animales</p>
+  </div>
+
+  <!-- Mensaje de error visible -->
+  <div *ngIf="errorMsg"
+    style="background: #fee; color: #c00; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
+    <p>{{ errorMsg }}</p>
+  </div>
+
+  <div *ngIf="henos.length === 0 && !errorMsg" style="text-align: center; padding: 3rem; color: #718096;">
+    <p>No hay productos disponibles o cargando...</p>
+  </div>
+
+  <div *ngIf="henos.length > 0" class="grid-productos">
+    <div class="producto-card" *ngFor="let heno of henos">
+      <div class="card-imagen">
+        <img *ngIf="heno.imagen" [src]="heno.imagen" [alt]="heno.nombre">
+        <div *ngIf="!heno.imagen" class="placeholder-imagen">
+          <span>🌿</span>
+        </div>
+        <span class="badge"
+          [ngClass]="{'disponible': heno.estado === 'Disponible', 'agotado': heno.estado !== 'Disponible'}">
+          {{ heno.estado }}
+        </span>
+      </div>
+
+      <div class="card-content">
+        <h2>{{ heno.nombre }}</h2>
+        <p class="descripcion">{{ heno.descripcion }}</p>
+
+        <div class="detalles">
+          <div class="precio">
+            <span class="label">Precio Unitario</span>
+            <span class="valor">${{ heno.precioU }}</span>
+          </div>
+          <div class="stock">
+            <span class="label">Stock Disp.</span>
+            <span class="valor">{{ heno.stock }} kg</span>
+          </div>
+        </div>
+
+        <button class="btn-comprar" [disabled]="heno.stock <= 0">
+          {{ heno.stock > 0 ? 'Añadir al Carrito' : 'Agotado' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
