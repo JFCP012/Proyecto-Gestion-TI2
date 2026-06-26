@@ -18,27 +18,24 @@
     </div>
     <button class="btn-crear" (click)="linkcrear()">Crear Producto</button>
   </div>
+
   <div class="filtros-container">
+    <button class="filtro-btn" (click)="cargarHenos()">
+      <div class="filtro-img-placeholder">🌾</div>
+      <span>Todos</span>
+    </button>
     <button class="filtro-btn" (click)="filtrarHenos('Vaca')">
       <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">
-      <span>Vacas</span>
+      <span>Bovinos</span>
     </button>
     <button class="filtro-btn" (click)="filtrarHenos('Oveja')">
       <img src="assets/Imagenes/oveja.png" alt="Ovejas" class="filtro-img">
-      <span>Ovejas</span>
-    </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Cerdo')">
-      <img src="assets/Imagenes/cerdo.png" alt="Cerdos" class="filtro-img">
-      <span>Cerdos</span>
+      <span>Ovinos</span>
     </button>
     <button class="filtro-btn" (click)="filtrarHenos('Caballo')">
       <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
-      <span>Caballos</span>
+      <span>Equinos</span>
     </button>
-  </div>
-
-  <div *ngIf="henos.length === 0 && !errorMsg" style="text-align: center; padding: 3rem; color: #718096;">
-    <p>No hay productos disponibles o cargando...</p>
   </div>
 
   <div *ngIf="henos.length > 0" class="grid-productos">
@@ -61,7 +58,7 @@
           </div>
           <div class="stock">
             <span class="label">Stock Disp.</span>
-            <span class="valor">{{ heno.stock }} kg</span>
+            <span class="valor">{{ heno.stock }} und </span>
           </div>
         </div>
       </div>

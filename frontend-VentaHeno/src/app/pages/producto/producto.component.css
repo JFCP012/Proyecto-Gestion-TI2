@@ -240,13 +240,13 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   width: 140px;
   box-shadow: 0 4px 6px rgba(46, 204, 113, 0.05);
 }
 
 .filtro-btn:hover {
-  transform: translateY(-5px);
+  transform: scale(1.05);
   background: #38a169;
   /* Verde vivo al pasar el mouse */
   border-color: #38a169;
@@ -254,7 +254,7 @@
 }
 
 .filtro-btn:active {
-  transform: translateY(0);
+  transform: scale(0.98);
 }
 
 /* Imagen del filtro */
@@ -271,7 +271,22 @@
   transition: transform 0.3s ease;
 }
 
-.filtro-btn:hover .filtro-img {
+.filtro-img-placeholder {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  transition: transform 0.3s ease;
+  user-select: none;
+}
+
+.filtro-btn:hover .filtro-img,
+.filtro-btn:hover .filtro-img-placeholder {
   transform: scale(1.1);
   /* Efecto zoom suave en hover */
 }

@@ -24,6 +24,8 @@ export class ProductoComponent implements OnInit {
     this.cargarHenos();
   }
 
+
+
   cargarHenos() {
     this.henoService.buscarHenos().subscribe({
       next: (data) => {
@@ -43,10 +45,12 @@ export class ProductoComponent implements OnInit {
       next: (data) => {
         this.henos = data;
         console.log('Henos filtrados:', this.henos);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al filtrar henos:', err);
         this.henos = []; // Vaciar en caso de error
+        this.cdr.detectChanges();
       }
     });
   }
@@ -59,10 +63,12 @@ export class ProductoComponent implements OnInit {
       next: (data) => {
         this.henos = data;
         console.log('Henos filtrados:', this.henos);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al filtrar henos:', err);
         this.henos = []; // Vaciar en caso de error
+        this.cdr.detectChanges();
       }
     });
   }
