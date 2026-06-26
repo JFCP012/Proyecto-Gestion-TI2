@@ -1,0 +1,232 @@
+.crear-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-form {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 20px 48px rgba(0, 0, 0, 0.03);
+  padding: 2.5rem;
+  border: 1px solid #edf2f7;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.form-header h2 {
+  font-size: 2rem;
+  color: #2d3748;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+.form-header p {
+  color: #718096;
+  font-size: 1rem;
+}
+
+/* Alertas */
+.alert {
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.alert-success {
+  background-color: #f0fff4;
+  color: #276749;
+  border: 1px solid #c6f6d5;
+}
+
+.alert-error {
+  background-color: #fff5f5;
+  color: #9b2c2c;
+  border: 1px solid #fed7d7;
+}
+
+/* Grid de Formulario */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+  .full-width {
+    grid-column: span 1;
+  }
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #4a5568;
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs, Selects, Textareas */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 0.8rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #2d3748;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #38a169;
+  background-color: white;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.15);
+}
+
+/* Upload de Imagen */
+.upload-zone {
+  border: 2px dashed #cbd5e0;
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  background-color: #f8fafc;
+  transition: all 0.2s ease;
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-zone:hover {
+  border-color: #38a169;
+  background-color: #f0fff4;
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.upload-icon {
+  font-size: 2.5rem;
+}
+
+.upload-text {
+  color: #718096;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.preview-container {
+  width: 100%;
+  max-height: 250px;
+  overflow: hidden;
+  border-radius: 12px;
+  position: relative;
+}
+
+.preview-img {
+  width: 100%;
+  height: auto;
+  max-height: 250px;
+  object-fit: cover;
+}
+
+.preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.preview-container:hover .preview-overlay {
+  opacity: 1;
+}
+
+/* Botón de Enviar */
+.form-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.btn-submit {
+  padding: 1rem 3rem;
+  background-color: #38a169;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(56, 161, 105, 0.15);
+}
+
+.btn-submit:hover:not([disabled]) {
+  background-color: #2f855a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(56, 161, 105, 0.2);
+}
+
+.btn-submit:active:not([disabled]) {
+  transform: translateY(0);
+}
+
+.btn-submit[disabled] {
+  background-color: #cbd5e0;
+  color: #a0aec0;
+  cursor: not-allowed;
+  box-shadow: none;
+}

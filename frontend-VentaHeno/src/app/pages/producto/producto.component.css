@@ -217,3 +217,208 @@
     transform: rotate(360deg);
   }
 }
+
+/* Contenedor de filtros */
+.filtros-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+/* Estilo de los botones de filtro */
+.filtro-btn {
+  background: #f0fff4;
+  /* Verde pastel suave */
+  border: 2px solid #c6f6d5;
+  /* Borde verde claro */
+  border-radius: 16px;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 140px;
+  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.05);
+}
+
+.filtro-btn:hover {
+  transform: translateY(-5px);
+  background: #38a169;
+  /* Verde vivo al pasar el mouse */
+  border-color: #38a169;
+  box-shadow: 0 10px 20px -5px rgba(56, 161, 105, 0.3);
+}
+
+.filtro-btn:active {
+  transform: translateY(0);
+}
+
+/* Imagen del filtro */
+.filtro-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 0.75rem;
+  background-color: transparent;
+  /* Se adapta al fondo del botón */
+  border: none;
+  /* Sin borde gris circular */
+  transition: transform 0.3s ease;
+}
+
+.filtro-btn:hover .filtro-img {
+  transform: scale(1.1);
+  /* Efecto zoom suave en hover */
+}
+
+.filtro-btn span {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #2f855a;
+  /* Texto verde oscuro */
+  transition: color 0.3s ease;
+}
+
+.filtro-btn:hover span {
+  color: white;
+  /* Texto blanco en hover */
+}
+
+/* Botón Crear Producto */
+.botones-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 2rem;
+}
+
+.btn-crear {
+  padding: 0.8rem 1.8rem;
+  background-color: #38a169;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(56, 161, 105, 0.15);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-crear:hover {
+  background-color: #2f855a;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(56, 161, 105, 0.2);
+}
+
+.btn-crear:active {
+  transform: translateY(0);
+}
+
+/* Buscador de Heno */
+.search-and-create-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  padding: 1rem;
+  border-radius: 20px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 2px solid #edf2f7;
+  border-radius: 14px;
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  flex-grow: 1;
+  max-width: 500px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-box:focus-within {
+  border-color: #38a169;
+  box-shadow: 0 10px 20px -5px rgba(56, 161, 105, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.01);
+}
+
+.search-icon {
+  font-size: 1.1rem;
+  margin-right: 0.75rem;
+  user-select: none;
+  opacity: 0.7;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  color: #2d3748;
+  width: 100%;
+  padding: 0.6rem 0;
+  background: transparent;
+}
+
+.search-box input::placeholder {
+  color: #a0aec0;
+}
+
+.btn-buscar {
+  background: #38a169;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
+}
+
+.btn-buscar:hover {
+  background: #2f855a;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(56, 161, 105, 0.3);
+}
+
+.btn-buscar:active {
+  transform: translateY(0);
+}
+
+.btn-limpiar {
+  background: transparent;
+  color: #a0aec0;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+}
+
+.btn-limpiar:hover {
+  background-color: #fed7d7;
+  color: #e53e3e;
+}

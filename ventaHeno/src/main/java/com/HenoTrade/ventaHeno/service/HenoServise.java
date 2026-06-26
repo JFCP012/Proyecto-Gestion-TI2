@@ -3,6 +3,7 @@ package com.HenoTrade.ventaHeno.service;
 import com.HenoTrade.ventaHeno.Entity.Heno;
 import com.HenoTrade.ventaHeno.Repository.HenoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -59,6 +60,14 @@ public class HenoServise {
 
     public Optional<Heno> buscarPorId(Long id) {
         return this.repositorio.findById(id);
+    }
+
+    public List<Heno> buscarPorTipo(String nombre) {
+        return this.repositorio.buscarPorTipo(nombre);
+    }
+
+    public List<Heno> buscarPorNombre(String nombreHeno) {
+        return this.repositorio.buscarPorNombre(nombreHeno);
     }
 
 }
