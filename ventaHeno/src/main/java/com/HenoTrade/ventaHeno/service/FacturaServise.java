@@ -17,13 +17,4 @@ public class FacturaServise {
         return this.facturaRepositorio.save(factura);
     }
 
-    public Factura obtenerFactura(Long id) {
-        return this.facturaRepositorio.findById(id).orElse(null);
-    }
-
-    public Factura eliminarFactura(Long id) {
-        this.facturaRepositorio.deleteById(id);
-        return null;
-    }
-
 }
