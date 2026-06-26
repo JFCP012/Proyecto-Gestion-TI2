@@ -24,10 +24,11 @@ public class HenoControlador {
     @PostMapping("/crear")
     public ResponseEntity<?> crearHeno(
             @RequestParam("heno") String henoJson,
-            @RequestParam("imagen") MultipartFile archivoImagen) {
+            @RequestParam("imagen") MultipartFile archivoImagen,
+            @RequestParam(value = "idAnimales", required = false) List<Long> idAnimales) {
 
         try {
-            Heno henoGuardado = henoServise.crearHeno(henoJson, archivoImagen);
+            Heno henoGuardado = henoServise.crearHeno(henoJson, archivoImagen, idAnimales);
             return ResponseEntity.ok(henoGuardado);
         } catch (IOException e) {
             return ResponseEntity.internalServerError().body("Error al procesar la peticion: " + e.getMessage());

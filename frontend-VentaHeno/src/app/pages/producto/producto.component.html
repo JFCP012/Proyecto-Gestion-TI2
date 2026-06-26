@@ -24,32 +24,31 @@
       <div class="filtro-img-placeholder">🌾</div>
       <span>Todos</span>
     </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Vaca')">
+    <button class="filtro-btn" (click)="filtrarHenos('Bovinos')">
       <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">
       <span>Bovinos</span>
     </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Oveja')">
+    <button class="filtro-btn" (click)="filtrarHenos('Ovinos')">
       <img src="assets/Imagenes/oveja.png" alt="Ovejas" class="filtro-img">
       <span>Ovinos</span>
     </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Caballo')">
+    <button class="filtro-btn" (click)="filtrarHenos('Equinos')">
       <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
       <span>Equinos</span>
     </button>
   </div>
 
   <div *ngIf="henos.length > 0" class="grid-productos">
-    <div class="producto-card" *ngFor="let heno of henos">
+    <div class="producto-card" *ngFor="let heno of henos" (click)="detallePorId(heno.idHeno)">
       <div class="card-imagen">
         <img *ngIf="heno.imagen" [src]="heno.imagen" [alt]="heno.nombre">
         <div *ngIf="!heno.imagen" class="placeholder-imagen">
           <span>🌿</span>
         </div>
       </div>
-
       <div class="card-content">
         <h2>{{ heno.nombre }}</h2>
-        <p class="descripcion">{{ heno.descripcion }}</p>
+        <p class="descripcion">{{ heno.descripcionCorta }}</p>
 
         <div class="detalles">
           <div class="precio">

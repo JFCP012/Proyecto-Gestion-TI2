@@ -74,8 +74,13 @@
   grid-column: span 2;
 }
 
+.group-estado {
+  grid-column: span 2;
+  align-items: center;
+}
+
 @media (max-width: 600px) {
-  .full-width {
+  .full-width, .group-estado {
     grid-column: span 1;
   }
 }
@@ -91,6 +96,8 @@
 .form-group input,
 .form-group select,
 .form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.8rem 1rem;
   border: 2px solid #e2e8f0;
   border-radius: 12px;
@@ -99,6 +106,10 @@
   background-color: #f8fafc;
   transition: all 0.2s ease;
   font-family: inherit;
+}
+
+.group-estado select {
+  max-width: 300px;
 }
 
 .form-group input:focus,
