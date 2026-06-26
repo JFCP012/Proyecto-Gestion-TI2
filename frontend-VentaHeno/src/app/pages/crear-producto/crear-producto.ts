@@ -22,12 +22,21 @@ export class CrearProducto {
     nombre: '',
     precioU: 0,
     stock: 0,
-    descripcion: '',
+    descripcionCorta: '',
+    descripcionLarga: '',
     precioC: 0,
     fechaEntrada: '',
     estado: '',
   }
+  idAnimales: number[] = [];
 
+  toggleAnimal(event: any, id: number) {
+    if (event.target.checked) {
+      this.idAnimales.push(id);
+    } else {
+      this.idAnimales = this.idAnimales.filter(animalId => animalId !== id);
+    }
+  }
   imagen: File | null = null;
   imagenPreview: string | ArrayBuffer | null = null;
   loading = false;
@@ -59,7 +68,12 @@ export class CrearProducto {
     this.successMsg = '';
     this.errorMsg = '';
 
-    this.henoService.crearHeno(this.heno, file).subscribe({
+    if (!this.idAnimales || this.idAnimales.length === 0) {
+      this.errorMsg = 'Debe seleccionar al menos un animal';
+      return;
+    }
+
+    this.henoService.crearHeno(this.heno, file, this.idAnimales).subscribe({
       next: (heno) => {
         console.log('Heno creado con éxito:', heno);
         this.successMsg = '¡Producto creado con éxito!';

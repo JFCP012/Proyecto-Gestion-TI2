@@ -1,9 +1,10 @@
 export interface Heno {
-  id_heno?: number;
+  idHeno?: number;
   nombre: string;
   precioU: number;
   stock: number;
-  descripcion: string;
+  descripcionCorta: string;
+  descripcionLarga: string;
   precioC?: number;
   fechaEntrada: string;
   estado: string;

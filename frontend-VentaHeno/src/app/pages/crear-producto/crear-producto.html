@@ -35,14 +35,6 @@
                     <input type="number" id="stock" name="stock" [(ngModel)]="heno.stock" required min="1"
                         placeholder="Ej. 500">
                 </div>
-
-                <!-- Precio Compra -->
-                <div class="form-group">
-                    <label for="precioC">Precio Compra ($)</label>
-                    <input type="number" id="precioC" name="precioC" [(ngModel)]="heno.precioC" required min="1"
-                        placeholder="Ej. 120">
-                </div>
-
                 <!-- Precio Unitario (Venta) -->
                 <div class="form-group">
                     <label for="precioU">Precio de Venta Unitario ($)</label>
@@ -57,7 +49,7 @@
                 </div>
 
                 <!-- Estado -->
-                <div class="form-group">
+                <div class="form-group group-estado">
                     <label for="estado">Estado</label>
                     <select id="estado" name="estado" [(ngModel)]="heno.estado" required>
                         <option value="" disabled selected>Seleccione un estado</option>
@@ -67,11 +59,17 @@
                     </select>
                 </div>
 
-                <!-- Descripción -->
+                <!-- Descripción Corta -->
                 <div class="form-group full-width">
-                    <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" name="descripcion" [(ngModel)]="heno.descripcion" rows="3"
-                        placeholder="Detalles sobre el lote, origen, calidad, etc." required></textarea>
+                    <label for="descripcionCorta">Descripción Corta</label>
+                    <textarea id="descripcionCorta" name="descripcionCorta" [(ngModel)]="heno.descripcionCorta" rows="2"
+                        placeholder="Resumen breve del producto" required></textarea>
+                </div>
+                <!-- Descripción Larga -->
+                <div class="form-group full-width">
+                    <label for="descripcionLarga">Descripción Larga</label>
+                    <textarea id="descripcionLarga" name="descripcionLarga" [(ngModel)]="heno.descripcionLarga" rows="4"
+                        placeholder="Detalles completos sobre el lote, origen, calidad, etc." required></textarea>
                 </div>
 
                 <!-- Imagen -->
@@ -95,6 +93,27 @@
                         <input type="file" id="imagen" class="file-input" (change)="onFileSelected($event)"
                             accept="image/*">
                     </div>
+                </div>
+            </div>
+            <!-- Animales -->
+            <div class="form-group group-estado full-width">
+                <label>Animales a los que está destinado</label>
+                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
+                    <label
+                        style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" [checked]="idAnimales.includes(1)" (change)="toggleAnimal($event, 1)">
+                        Bovinos
+                    </label>
+                    <label
+                        style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" [checked]="idAnimales.includes(2)" (change)="toggleAnimal($event, 2)">
+                        Equinos
+                    </label>
+                    <label
+                        style="display: flex; align-items: center; gap: 0.5rem; font-weight: normal; cursor: pointer;">
+                        <input type="checkbox" [checked]="idAnimales.includes(3)" (change)="toggleAnimal($event, 3)">
+                        Ovinos
+                    </label>
                 </div>
             </div>
 

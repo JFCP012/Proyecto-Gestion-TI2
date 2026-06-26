@@ -1,0 +1,151 @@
+<!-- src/app/pages/detalle-producto/detalle-producto.html -->
+
+<div class="product-page" *ngIf="heno">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+        <span class="breadcrumb-link" (click)="volver()">Inicio</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-link" (click)="volver()">Productos</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">{{ heno.nombre }}</span>
+    </nav>
+
+    <!-- Main Product Section -->
+    <div class="product-main">
+
+        <!-- LEFT: Image Gallery -->
+        <div class="product-gallery">
+            <div class="gallery-main">
+                <div class="image-container" *ngIf="heno.imagen">
+                    <img [src]="heno.imagen" [alt]="heno.nombre" class="main-image" />
+                </div>
+                <div class="image-placeholder" *ngIf="!heno.imagen">
+                    <span class="placeholder-emoji">🌾</span>
+                    <span class="placeholder-text">Sin imagen</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- CENTER: Product Info -->
+        <div class="product-info">
+            <h1 class="product-title">{{ heno.nombre }}</h1>
+
+            <hr class="divider" />
+
+            <!-- Precio -->
+            <div class="price-section">
+                <div class="price-row">
+                    <span class="price-currency">$</span>
+                    <span class="price-amount">{{ heno.precioU | number:'1.0-0' }}</span>
+                </div>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Descripción -->
+            <div class="description-section">
+                <h3 class="section-label">Descripción</h3>
+                <p class="description-text">{{ heno.descripcionLarga }}</p>
+            </div>
+
+            <hr class="divider" />
+
+            <!-- Especificaciones -->
+            <div class="specs-section">
+                <h3 class="section-label">Detalles del producto</h3>
+                <table class="specs-table">
+                    <tr>
+                        <td class="spec-key">Producto</td>
+                        <td class="spec-value">{{ heno.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-key">Precio unitario</td>
+                        <td class="spec-value">${{ heno.precioU | number:'1.0-0' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="spec-key">Stock</td>
+                        <td class="spec-value">{{ heno.stock }} unidades</td>
+                    </tr>
+                    <tr *ngIf="heno.fechaEntrada">
+                        <td class="spec-key">Fecha de ingreso</td>
+                        <td class="spec-value">{{ heno.fechaEntrada }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- RIGHT: Buy Box -->
+        <div class="buy-box">
+            <div class="buy-box-inner">
+                <div class="buy-price">
+                    <span class="buy-currency">$</span>
+                    <span class="buy-amount">{{ heno.precioU | number:'1.0-0' }}</span>
+                </div>
+                <span class="buy-tax">Precio por unidad</span>
+
+                <!-- Cantidad -->
+                <div class="quantity-section" *ngIf="heno.stock > 0">
+                    <label class="qty-label">Cantidad:</label>
+                    <div class="qty-selector">
+                        <button class="qty-btn" (click)="decrementarCantidad()">−</button>
+                        <span class="qty-value">{{ cantidad }}</span>
+                        <button class="qty-btn" (click)="incrementarCantidad()">+</button>
+                    </div>
+                    <span class="qty-available">({{ heno.stock }} disponibles)</span>
+                </div>
+
+                <!-- Botones de compra -->
+                <div class="buy-buttons">
+                    <button class="btn-add-cart" [disabled]="heno.stock <= 0" (click)="agregarAlCarrito()">
+                        🛒 Agregar al carrito
+                    </button>
+                </div>
+
+                <!-- Garantías -->
+                <div class="trust-badges">
+                    <div class="trust-item">
+                        <span class="trust-icon">🔒</span>
+                        <span>Compra segura</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">✅</span>
+                        <span>Garantía de calidad</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón volver -->
+            <button class="btn-back" (click)="volver()">
+                ← Volver al catálogo
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Error State -->
+<div class="error-page" *ngIf="errorMsg">
+    <div class="error-box">
+        <span class="error-emoji">😕</span>
+        <h2>Producto no encontrado</h2>
+        <p>{{ errorMsg }}</p>
+        <button class="btn-error-back" (click)="volver()">Volver al catálogo</button>
+    </div>
+</div>
+
+<!-- Modal Pop-up (Se muestra cuando mostrarModalCarrito es true) -->
+<div class="modal-overlay" *ngIf="mostrarModalCarrito">
+    <div class="modal-content">
+        <div class="modal-icon">✅</div>
+        <h3>¡Producto agregado!</h3>
+        <p>Se ha añadido al carrito de compras exitosamente.</p>
+        
+        <div class="modal-actions">
+            <button class="btn-continue" (click)="seguirComprando()">Seguir comprando</button>
+            <button class="btn-go-cart" (click)="irAlCarrito()">Ir al carrito 🛒</button>
+        </div>
+    </div>
+</div>

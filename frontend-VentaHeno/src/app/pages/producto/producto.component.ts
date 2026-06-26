@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.css']
 })
-export class ProductoComponent implements OnInit {
+export class ProductoComponent {
   constructor(private router: Router) { }
 
   henos: Heno[] = [];
@@ -19,12 +19,6 @@ export class ProductoComponent implements OnInit {
 
   private henoService = inject(HenoService);
   private cdr = inject(ChangeDetectorRef); // 2. Inyectar el detector de cambios
-
-  ngOnInit(): void {
-    this.cargarHenos();
-  }
-
-
 
   cargarHenos() {
     this.henoService.buscarHenos().subscribe({
@@ -71,5 +65,14 @@ export class ProductoComponent implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  detallePorId(idHeno: number | undefined) {
+    if (!idHeno) {
+      this.errorMsg = 'ID de producto no válido';
+      return;
+    }
+    console.log('ID:', idHeno);
+    this.router.navigate(['/detalle-producto', idHeno]);
   }
 }

@@ -37,8 +37,11 @@ public class Heno {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @Column(name = "descripcion", nullable = false, length = 255)
-    private String descripcion;
+    @Column(name = "descripcionCorta", nullable = true, length = 255)
+    private String descripcionCorta;
+
+    @Column(name = "descripcionLarga", nullable = true, length = 2000)
+    private String descripcionLarga;
 
     @Column(name = "precioC", nullable = false)
     private Double precioC;

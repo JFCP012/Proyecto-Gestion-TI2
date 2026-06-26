@@ -20,15 +20,35 @@ import java.util.UUID;
 public class HenoServise {
 
     private final HenoRepositorio repositorio;
+    private final TipoHenoServise tipoHenoServise;
 
-    public HenoServise(HenoRepositorio repositorio) {
+    public HenoServise(HenoRepositorio repositorio, TipoHenoServise tipoHenoServise) {
         this.repositorio = repositorio;
+        this.tipoHenoServise = tipoHenoServise;
     }
 
-    public Heno crearHeno(String henoJson, MultipartFile archivoImagen) throws IOException {
+    @Autowired
+    private org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
+
+    @jakarta.annotation.PostConstruct
+    public void fixDatabaseSchema() {
+        try {
+            jdbcTemplate.execute("ALTER TABLE heno ALTER COLUMN descripcion DROP NOT NULL");
+            System.out.println("==== FIX DB APLICADO: Columna 'descripcion' en tabla 'heno' ahora permite nulos ====");
+        } catch(Exception e) {
+            System.out.println("==== FIX DB INFO: " + e.getMessage() + " ====");
+        }
+    }
+
+    public Heno crearHeno(String henoJson, MultipartFile archivoImagen, List<Long> idAnimales) throws IOException {
         // 1. Parsear el JSON del heno a un objeto de la entidad Heno
         ObjectMapper objectMapper = new ObjectMapper();
         Heno heno = objectMapper.readValue(henoJson, Heno.class);
+
+        double precioU = heno.getPrecioU();
+        double precioC = (precioU * heno.getStock());
+        heno.setPrecioC(precioC);
+        Long idHeno = heno.getIdHeno();
 
         // 2. Crear la carpeta "uploads" si no existe
         Path directorioImagenes = Paths.get("uploads");
@@ -51,7 +71,16 @@ public class HenoServise {
         heno.setImagen(linkImagen);
 
         // 7. Guardar el heno en la base de datos
-        return repositorio.save(heno);
+        Heno henoGuardado = repositorio.save(heno);
+
+        // 8. Crear la relación con los animales si se proporcionaron
+        if (idAnimales != null && !idAnimales.isEmpty()) {
+            for (Long idAnimal : idAnimales) {
+                tipoHenoServise.crearTipoHeno(idAnimal, henoGuardado.getIdHeno());
+            }
+        }
+
+        return henoGuardado;
     }
 
     public List<Heno> buscarHeno() {

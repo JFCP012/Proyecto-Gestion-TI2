@@ -1,1 +1,7 @@
 <router-outlet />
+
+<!-- Botón flotante del carrito -->
+<div class="floating-cart" (click)="irAlCarrito()" *ngIf="cantidadEnCarrito > 0">
+    <span class="cart-icon">🛒</span>
+    <span class="cart-badge">{{ cantidadEnCarrito }}</span>
+</div>

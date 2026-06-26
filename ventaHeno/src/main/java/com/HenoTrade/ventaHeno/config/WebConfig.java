@@ -12,8 +12,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // Todo lo que entre por /images/ buscará físicamente en la carpeta "uploads"
         // del proyecto
+        java.nio.file.Path uploadDir = java.nio.file.Paths.get("uploads");
+        String uploadPath = uploadDir.toFile().getAbsolutePath();
+
         registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:uploads/");
+                .addResourceLocations("file:" + uploadPath + "/");
     }
 
     @Override

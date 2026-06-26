@@ -1,0 +1,216 @@
+
+> frontend-venta-heno@0.0.0 build
+> ng build
+
+[33m>[39m Building...
+[32m√[39m Building...
+Application bundle generation failed. [2.080 seconds] - 2026-06-26T18:41:40.004Z
+
+[1m[33m[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8103: NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component. Find more at https://v21.angular.dev/extended-diagnostics/NG8103[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:9:10:
+[37m      9 │     <div *[32mngIf[37m="heno" class="card-detalle">
+        ╵           [32m~~~~[0m
+
+  Warning occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8103: NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component. Find more at https://v21.angular.dev/extended-diagnostics/NG8103[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:13:18:
+[37m      13 │             <div *[32mngIf[37m="heno.imagen" class="imagen-producto">
+         ╵                   [32m~~~~[0m
+
+  Warning occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8103: NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component. Find more at https://v21.angular.dev/extended-diagnostics/NG8103[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:16:18:
+[37m      16 │             <div *[32mngIf[37m="!heno.imagen" class="imagen-placeholder">
+         ╵                   [32m~~~~[0m
+
+  Warning occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8103: NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component. Find more at https://v21.angular.dev/extended-diagnostics/NG8103[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:46:10:
+[37m      46 │     <div *[32mngIf[37m="!heno && !errorMsg" class="loading">
+         ╵           [32m~~~~[0m
+
+  Warning occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[33m▲ [43;33m[[43;30mWARNING[43;33m][0m [1mNG8103: NG8103: The `*ngIf` directive was used in the template, but neither the `NgIf` directive nor the `CommonModule` was imported. Use Angular's built-in control flow @if or make sure that either the `NgIf` directive or the `CommonModule` is included in the `@Component.imports` array of this component. Find more at https://v21.angular.dev/extended-diagnostics/NG8103[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:51:10:
+[37m      51 │     <div *[32mngIf[37m="errorMsg" class="error">
+         ╵           [32m~~~~[0m
+
+  Warning occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'volver' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:5:21:
+[37m      5 │     <button (click)="[32mvolver[37m()" class="btn-volver">
+        ╵                      [32m~~~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:14:28:
+[37m      14 │                 <img [src]="[32mheno[37m.imagen" [alt]="heno.nombre">
+         ╵                             [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:14:48:
+[37m      14 │                 <img [src]="heno.imagen" [alt]="[32mheno[37m.nombre">
+         ╵                                                 [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:24:40:
+[37m      24 │             <span class="badge-tipo">{{ [32mheno[37m.estado }}</span>
+         ╵                                         [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:26:19:
+[37m      26 │             <h1>{{ [32mheno[37m.nombre }}</h1>
+         ╵                    [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:28:38:
+[37m      28 │             <p class="descripcion">{{ [32mheno[37m.descripcion }}</p>
+         ╵                                       [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:32:47:
+[37m      32 │                 <span class="precio-total">${{ [32mheno[37m.precioU }}</span>
+         ╵                                                [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:33:52:
+[37m      33 │ ...          <span class="unidad">IVA incl. | {{ [32mheno[37m.stock }}</span>
+         ╵                                                  [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'heno' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:37:50:
+[37m      37 │ ...span>📦 Stock:</span> <strong>{[32m{ he[37mno.stock }} unidades</strong>
+         ╵                                  [32m~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mNG5002: Empty expressions are not allowed[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:40:49:
+[37m      40 │             <button class="btn-comprar" (click)="[32m"[37m>
+         ╵                                                  [32m^[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+
+[31mX [41;31m[[41;97mERROR[41;31m][0m [1mTS2339: Property 'errorMsg' does not exist on type 'DetalleProducto'.[0m [1m[35m[plugin angular-compiler][0m
+
+    src/app/pages/detalle-producto/detalle-producto.html:52:14:
+[37m      52 │         <p>{{ [32merrorMsg[37m }}</p>
+         ╵               [32m~~~~~~~~[0m
+
+  Error occurs in the template of component DetalleProducto.
+
+    src/app/pages/detalle-producto/detalle-producto.ts:6:15:
+[37m      6 │   templateUrl: [32m'./detalle-producto.html'[37m,
+        ╵                [32m~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[39m[22m
