@@ -5,7 +5,7 @@ export interface Heno {
   stock: number;
   descripcion: string;
   precioC: number;
-  fecha_Entrada: string;
+  fechaEntrada: string;
   estado: string;
   imagen: string;
 }

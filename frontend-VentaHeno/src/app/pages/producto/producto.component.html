@@ -4,12 +4,6 @@
     <p>Calidad premium para tus animales</p>
   </div>
 
-  <!-- Mensaje de error visible -->
-  <div *ngIf="errorMsg"
-    style="background: #fee; color: #c00; padding: 1rem; border-radius: 8px; margin-bottom: 2rem; text-align: center;">
-    <p>{{ errorMsg }}</p>
-  </div>
-
   <div *ngIf="henos.length === 0 && !errorMsg" style="text-align: center; padding: 3rem; color: #718096;">
     <p>No hay productos disponibles o cargando...</p>
   </div>
