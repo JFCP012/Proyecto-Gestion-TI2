@@ -3,6 +3,39 @@
     <h1>Nuestros Productos de Heno</h1>
     <p>Calidad premium para tus animales</p>
   </div>
+  <div class="search-and-create-container">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Buscar heno por nombre..." #searchInput
+        (keyup.enter)="buscarHenosPorNombre(searchInput.value)" (input)="0">
+      <button *ngIf="searchInput.value" class="btn-limpiar" (click)="searchInput.value=''; buscarHenosPorNombre('')"
+        title="Limpiar búsqueda">
+        ✕
+      </button>
+      <button class="btn-buscar" (click)="buscarHenosPorNombre(searchInput.value)">
+        Buscar
+      </button>
+    </div>
+    <button class="btn-crear" (click)="linkcrear()">Crear Producto</button>
+  </div>
+  <div class="filtros-container">
+    <button class="filtro-btn" (click)="filtrarHenos('Vaca')">
+      <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">
+      <span>Vacas</span>
+    </button>
+    <button class="filtro-btn" (click)="filtrarHenos('Oveja')">
+      <img src="assets/Imagenes/oveja.png" alt="Ovejas" class="filtro-img">
+      <span>Ovejas</span>
+    </button>
+    <button class="filtro-btn" (click)="filtrarHenos('Cerdo')">
+      <img src="assets/Imagenes/cerdo.png" alt="Cerdos" class="filtro-img">
+      <span>Cerdos</span>
+    </button>
+    <button class="filtro-btn" (click)="filtrarHenos('Caballo')">
+      <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
+      <span>Caballos</span>
+    </button>
+  </div>
 
   <div *ngIf="henos.length === 0 && !errorMsg" style="text-align: center; padding: 3rem; color: #718096;">
     <p>No hay productos disponibles o cargando...</p>
@@ -15,10 +48,6 @@
         <div *ngIf="!heno.imagen" class="placeholder-imagen">
           <span>🌿</span>
         </div>
-        <span class="badge"
-          [ngClass]="{'disponible': heno.estado === 'Disponible', 'agotado': heno.estado !== 'Disponible'}">
-          {{ heno.estado }}
-        </span>
       </div>
 
       <div class="card-content">
@@ -35,10 +64,6 @@
             <span class="valor">{{ heno.stock }} kg</span>
           </div>
         </div>
-
-        <button class="btn-comprar" [disabled]="heno.stock <= 0">
-          {{ heno.stock > 0 ? 'Añadir al Carrito' : 'Agotado' }}
-        </button>
       </div>
     </div>
   </div>

@@ -23,8 +23,8 @@ public class HenoControlador {
 
     @PostMapping("/crear")
     public ResponseEntity<?> crearHeno(
-            @RequestPart("heno") String henoJson,
-            @RequestPart("archivoImagen") MultipartFile archivoImagen) {
+            @RequestParam("heno") String henoJson,
+            @RequestParam("imagen") MultipartFile archivoImagen) {
 
         try {
             Heno henoGuardado = henoServise.crearHeno(henoJson, archivoImagen);
@@ -47,6 +47,16 @@ public class HenoControlador {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("buscarPorTipo")
+    public List<Heno> buscarPorTipo(@RequestParam String nombre) {
+        return this.henoServise.buscarPorTipo(nombre);
+    }
+
+    @GetMapping("buscarPorNombre")
+    public List<Heno> buscarPorNombre(@RequestParam String nombreHeno) {
+        return this.henoServise.buscarPorNombre(nombreHeno);
     }
 
 }

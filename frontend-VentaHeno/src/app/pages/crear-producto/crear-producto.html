@@ -1,0 +1,109 @@
+<div class="crear-container">
+    <div style="margin-bottom: 1.5rem;">
+        <button (click)="volver()"
+            style="background: none; border: none; color: #38a169; font-weight: 600; font-size: 1rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0;">
+            ← Volver a la lista
+        </button>
+    </div>
+
+    <div class="card-form">
+        <div class="form-header">
+            <h2>Crear Nuevo Producto de Heno</h2>
+            <p>Complete los datos para registrar un nuevo lote de heno</p>
+        </div>
+
+        <!-- Mensajes de Estado -->
+        <div *ngIf="successMsg" class="alert alert-success">
+            {{ successMsg }}
+        </div>
+        <div *ngIf="errorMsg" class="alert alert-error">
+            {{ errorMsg }}
+        </div>
+
+        <form (ngSubmit)="crearHeno()" #henoForm="ngForm">
+            <div class="form-grid">
+                <!-- Nombre -->
+                <div class="form-group">
+                    <label for="nombre">Nombre del Producto</label>
+                    <input type="text" id="nombre" name="nombre" [(ngModel)]="heno.nombre" required
+                        placeholder="Ej. Heno Alfalfa Premium">
+                </div>
+
+                <!-- Stock -->
+                <div class="form-group">
+                    <label for="stock">Stock (kg)</label>
+                    <input type="number" id="stock" name="stock" [(ngModel)]="heno.stock" required min="1"
+                        placeholder="Ej. 500">
+                </div>
+
+                <!-- Precio Compra -->
+                <div class="form-group">
+                    <label for="precioC">Precio Compra ($)</label>
+                    <input type="number" id="precioC" name="precioC" [(ngModel)]="heno.precioC" required min="1"
+                        placeholder="Ej. 120">
+                </div>
+
+                <!-- Precio Unitario (Venta) -->
+                <div class="form-group">
+                    <label for="precioU">Precio de Venta Unitario ($)</label>
+                    <input type="number" id="precioU" name="precioU" [(ngModel)]="heno.precioU" required min="1"
+                        placeholder="Ej. 180">
+                </div>
+
+                <!-- Fecha Entrada -->
+                <div class="form-group">
+                    <label for="fechaEntrada">Fecha de Entrada</label>
+                    <input type="date" id="fechaEntrada" name="fechaEntrada" [(ngModel)]="heno.fechaEntrada" required>
+                </div>
+
+                <!-- Estado -->
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select id="estado" name="estado" [(ngModel)]="heno.estado" required>
+                        <option value="" disabled selected>Seleccione un estado</option>
+                        <option value="Excelente">Excelente</option>
+                        <option value="Bueno">Bueno</option>
+                        <option value="Regular">Regular</option>
+                    </select>
+                </div>
+
+                <!-- Descripción -->
+                <div class="form-group full-width">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" name="descripcion" [(ngModel)]="heno.descripcion" rows="3"
+                        placeholder="Detalles sobre el lote, origen, calidad, etc." required></textarea>
+                </div>
+
+                <!-- Imagen -->
+                <div class="form-group full-width">
+                    <label>Imagen del Producto</label>
+                    <div class="upload-zone">
+                        <!-- Si no hay imagen seleccionada -->
+                        <div *ngIf="!imagenPreview" class="upload-placeholder">
+                            <span class="upload-icon">📸</span>
+                            <span class="upload-text">Haga clic o arrastre una imagen aquí</span>
+                        </div>
+
+                        <!-- Si hay imagen seleccionada, mostrar vista previa -->
+                        <div *ngIf="imagenPreview" class="preview-container">
+                            <img [src]="imagenPreview" alt="Vista previa de la imagen" class="preview-img">
+                            <div class="preview-overlay">
+                                <span>Cambiar Imagen</span>
+                            </div>
+                        </div>
+
+                        <input type="file" id="imagen" class="file-input" (change)="onFileSelected($event)"
+                            accept="image/*">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="form-actions">
+                <button type="submit" class="btn-submit" [disabled]="!henoForm.form.valid || !imagen || loading">
+                    {{ loading ? 'Guardando...' : 'Crear Producto' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

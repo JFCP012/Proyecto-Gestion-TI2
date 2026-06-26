@@ -2,6 +2,7 @@ import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; //
 import { CommonModule } from '@angular/common';
 import { HenoService } from '../../services/heno.service';
 import { Heno } from '../../models/heno.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-producto',
@@ -11,6 +12,8 @@ import { Heno } from '../../models/heno.model';
   styleUrls: ['./producto.component.css']
 })
 export class ProductoComponent implements OnInit {
+  constructor(private router: Router) { }
+
   henos: Heno[] = [];
   errorMsg = '';
 
@@ -32,6 +35,34 @@ export class ProductoComponent implements OnInit {
       error: (error) => {
         this.errorMsg = 'Error al conectar con el backend: ' + error.message;
         console.error('Error al traer los henos:', error);
+      }
+    });
+  }
+  filtrarHenos(nombre: string) {
+    this.henoService.buscarHenosPorTipo(nombre).subscribe({
+      next: (data) => {
+        this.henos = data;
+        console.log('Henos filtrados:', this.henos);
+      },
+      error: (err) => {
+        console.error('Error al filtrar henos:', err);
+        this.henos = []; // Vaciar en caso de error
+      }
+    });
+  }
+
+  linkcrear() {
+    this.router.navigate(['/crear-producto']);
+  }
+  buscarHenosPorNombre(nombre: string) {
+    this.henoService.buscarHenosPorNombre(nombre).subscribe({
+      next: (data) => {
+        this.henos = data;
+        console.log('Henos filtrados:', this.henos);
+      },
+      error: (err) => {
+        console.error('Error al filtrar henos:', err);
+        this.henos = []; // Vaciar en caso de error
       }
     });
   }
