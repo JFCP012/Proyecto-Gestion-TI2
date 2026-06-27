@@ -91,7 +91,7 @@ export class CrearProducto {
   }
 
   volver() {
-    this.router.navigate(['/producto']);
+    this.router.navigate(['/admin']);
   }
 }
 

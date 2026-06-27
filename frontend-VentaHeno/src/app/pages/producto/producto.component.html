@@ -16,7 +16,9 @@
         Buscar
       </button>
     </div>
-    <button class="btn-crear" (click)="linkcrear()">Crear Producto</button>
+    <button class="btn-crear" (click)="abrirModalLogin()">
+      <span>🔒</span> Modo Admin
+    </button>
   </div>
 
   <div class="filtros-container">
@@ -55,11 +57,43 @@
             <span class="label">Precio Unitario</span>
             <span class="valor">${{ heno.precioU }}</span>
           </div>
+
           <div class="stock">
             <span class="label">Stock Disp.</span>
             <span class="valor">{{ heno.stock }} und </span>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Popup para Login de Admin -->
+  <div class="modal-overlay" *ngIf="mostrarModalLogin" (click)="cerrarModalLogin()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Ingreso Administrador</h2>
+        <button class="modal-close-btn" (click)="cerrarModalLogin()">×</button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="submitLoginAdmin()">
+          <div class="form-group-modal">
+            <label for="idAdmin">ID Administrador</label>
+            <input type="number" id="idAdmin" name="idAdmin" [(ngModel)]="idAdminInput" required
+              placeholder="Ingrese su ID de Admin">
+          </div>
+          <div class="form-group-modal">
+            <label for="clave">Contraseña</label>
+            <input type="password" id="clave" name="clave" [(ngModel)]="claveInput" required
+              placeholder="Ingrese su contraseña">
+          </div>
+          <div class="error-message-modal" *ngIf="loginError">
+            ⚠️ {{ loginError }}
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn-cancelar" (click)="cerrarModalLogin()">Cancelar</button>
+            <button type="submit" class="btn-ingresar">Ingresar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
