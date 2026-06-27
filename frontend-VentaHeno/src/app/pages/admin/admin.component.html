@@ -12,36 +12,44 @@
   </div>
 
   <div class="dashboard-grid">
-    <!-- Card de Gestión de Productos -->
     <div class="dashboard-card highlight">
       <div class="card-icon">🌾</div>
       <div class="card-content">
         <h2>Gestión de Heno</h2>
-        <p>Añade nuevos tipos de heno a la tienda, gestiona su precio de venta, su stock y la descripción para tus clientes.</p>
+        <p>Añade nuevos tipos de heno, gestiona precios, stock y descripciones para tus clientes.</p>
         <button class="btn-dashboard-action" (click)="linkCrear()">
-          <span>➕ Crear Nuevo Producto</span>
+          <span>➕ Crear Producto</span>
         </button>
       </div>
     </div>
 
-    <!-- Card de Ventas y Facturación (Informativo) -->
     <div class="dashboard-card">
-      <div class="card-icon">📄</div>
+      <div class="card-icon">📅</div>
       <div class="card-content">
-        <h2>Historial de Ventas</h2>
-        <p>Visualiza y gestiona las facturas de venta emitidas a los clientes.</p>
+        <h2>Ventas por Mes</h2>
+        <p>Genera reportes detallados de las ventas organizadas de forma mensual.</p>
+        <button class="btn-dashboard-action" (click)="seleccionarReportePorMes()">
+          <span>📊 Generar Reporte</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="dashboard-card">
+      <div class="card-icon">🐾</div>
+      <div class="card-content">
+        <h2>Ventas por Animal</h2>
+        <p>Analiza el rendimiento de tus productos según el tipo de animal de tus clientes.</p>
         <button class="btn-dashboard-action secondary" disabled>
           <span>Próximamente...</span>
         </button>
       </div>
     </div>
 
-    <!-- Card de Impuestos (Informativo) -->
     <div class="dashboard-card">
-      <div class="card-icon">💰</div>
+      <div class="card-icon">📦</div>
       <div class="card-content">
-        <h2>Configurar Impuestos</h2>
-        <p>Administra los porcentajes e impuestos aplicables a los productos de heno.</p>
+        <h2>Ventas por Paca</h2>
+        <p>Visualiza estadísticas de ventas segmentadas por la presentación o tipo de paca.</p>
         <button class="btn-dashboard-action secondary" disabled>
           <span>Próximamente...</span>
         </button>
