@@ -271,11 +271,35 @@
     margin-bottom: 2rem;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #cbd5e1;
+    padding: 0.9rem 1.5rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
 .btn-primary {
     background: #10b981;
     color: #ffffff;
     border: none;
-    padding: 0.9rem 2rem;
+    padding: 0.9rem 1.5rem;
     border-radius: 10px;
     font-size: 1rem;
     font-weight: 600;
