@@ -2,8 +2,11 @@
     <div *ngIf="compraExitosa" class="success-screen">
         <div class="success-icon">✅</div>
         <h2>¡Compra Realizada con Éxito!</h2>
-        <p>Tu pedido ha sido procesado. La factura será enviada a tu correo.</p>
-        <button class="btn-primary" (click)="volverInicio()">Volver a la tienda</button>
+        <p>Tu pedido ha sido procesado satisfactoriamente.</p>
+        <div class="action-buttons">
+            <button class="btn-secondary" (click)="descargarFacturaPDF()">📄 Descargar Factura</button>
+            <button class="btn-primary" (click)="volverInicio()">Volver a la tienda</button>
+        </div>
     </div>
 
     <div *ngIf="!compraExitosa" class="checkout-layout">
