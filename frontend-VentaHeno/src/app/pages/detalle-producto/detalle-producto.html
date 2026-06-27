@@ -89,7 +89,7 @@
                     <label class="qty-label">Cantidad:</label>
                     <div class="qty-selector">
                         <button class="qty-btn" (click)="decrementarCantidad()">−</button>
-                        <span class="qty-value">{{ cantidad }}</span>
+                        <input type="number" class="qty-value" [value]="cantidad" (change)="onCantidadChange($event)" (blur)="onCantidadChange($event)" [max]="heno.stock" min="1" />
                         <button class="qty-btn" (click)="incrementarCantidad()">+</button>
                     </div>
                     <span class="qty-available">({{ heno.stock }} disponibles)</span>

@@ -28,7 +28,7 @@
 
           <div class="item-quantity">
             <button class="qty-btn" (click)="decrementar(item)">−</button>
-            <span class="qty-val">{{ item.cantidad }}</span>
+            <input type="number" class="qty-val" [value]="item.cantidad" (change)="onCantidadChange($event, item)" (blur)="onCantidadChange($event, item)" [max]="item.producto.stock" min="1" />
             <button class="qty-btn" (click)="incrementar(item)"
               [disabled]="item.cantidad >= item.producto.stock">+</button>
           </div>

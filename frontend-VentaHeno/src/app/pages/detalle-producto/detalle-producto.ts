@@ -61,6 +61,17 @@ export class DetalleProducto implements OnInit {
     }
   }
 
+  onCantidadChange(event: any) {
+    let nuevaCantidad = parseInt(event.target.value, 10);
+    if (isNaN(nuevaCantidad) || nuevaCantidad < 1) {
+      nuevaCantidad = 1;
+    } else if (this.heno && nuevaCantidad > this.heno.stock) {
+      nuevaCantidad = this.heno.stock;
+    }
+    this.cantidad = nuevaCantidad;
+    event.target.value = nuevaCantidad;
+  }
+
   volver() {
     this.router.navigate(['/producto']);
   }

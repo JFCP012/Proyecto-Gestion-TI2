@@ -24,6 +24,17 @@ export class CarritoComponent {
     this.carritoService.actualizarCantidad(item.producto.idHeno, item.cantidad - 1);
   }
 
+  onCantidadChange(event: any, item: any) {
+    let nuevaCantidad = parseInt(event.target.value, 10);
+    if (isNaN(nuevaCantidad) || nuevaCantidad < 1) {
+      nuevaCantidad = 1;
+    } else if (nuevaCantidad > item.producto.stock) {
+      nuevaCantidad = item.producto.stock;
+    }
+    event.target.value = nuevaCantidad;
+    this.carritoService.actualizarCantidad(item.producto.idHeno, nuevaCantidad);
+  }
+
   remover(idHeno: number) {
     this.carritoService.removerDelCarrito(idHeno);
   }
