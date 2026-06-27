@@ -1,13 +1,15 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core'; // 1. Importar ChangeDetectorRef
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { HenoService } from '../../services/heno.service';
+import { AdminService } from '../../services/admin.service';
 import { Heno } from '../../models/heno.model';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-producto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.css']
 })
@@ -17,7 +19,14 @@ export class ProductoComponent {
   henos: Heno[] = [];
   errorMsg = '';
 
+  // Variables para el modal de login de Admin
+  mostrarModalLogin = false;
+  idAdminInput: number | null = null;
+  claveInput = '';
+  loginError = '';
+
   private henoService = inject(HenoService);
+  private adminService = inject(AdminService);
   private cdr = inject(ChangeDetectorRef); // 2. Inyectar el detector de cambios
 
   cargarHenos() {
@@ -49,9 +58,45 @@ export class ProductoComponent {
     });
   }
 
-  linkcrear() {
-    this.router.navigate(['/crear-producto']);
+  abrirModalLogin() {
+    this.mostrarModalLogin = true;
+    this.idAdminInput = null;
+    this.claveInput = '';
+    this.loginError = '';
+    this.cdr.detectChanges();
   }
+
+  cerrarModalLogin() {
+    this.mostrarModalLogin = false;
+    this.cdr.detectChanges();
+  }
+
+  submitLoginAdmin() {
+    if (!this.idAdminInput || !this.claveInput) {
+      this.loginError = 'Por favor complete todos los campos';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.adminService.loginAdmin(this.idAdminInput, this.claveInput).subscribe({
+      next: (isValid) => {
+        if (isValid) {
+          this.mostrarModalLogin = false;
+          this.router.navigate(['/admin']);
+        } else {
+          this.loginError = 'ID de Admin o clave incorrectos';
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al iniciar sesión como Admin:', err);
+        this.loginError = 'Error de conexión con el servidor';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+
 
   buscarHenosPorNombre(nombre: string) {
     this.henoService.buscarHenosPorNombre(nombre).subscribe({

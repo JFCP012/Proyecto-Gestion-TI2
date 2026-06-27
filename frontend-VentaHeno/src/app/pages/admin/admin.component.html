@@ -1,0 +1,51 @@
+<div class="admin-dashboard-container">
+  <div class="admin-header">
+    <div class="header-left">
+      <div class="header-actions">
+        <button class="btn-back-tienda" (click)="volverTienda()">← Ir a la Tienda</button>
+        <button class="btn-logout-admin" (click)="cerrarSesion()">Cerrar Sesión 🔓</button>
+      </div>
+      <h1>Panel de Administración</h1>
+      <p>Gestión de HenoTrade y control de inventario</p>
+    </div>
+    <div class="admin-badge">Admin Mode 🔒</div>
+  </div>
+
+  <div class="dashboard-grid">
+    <!-- Card de Gestión de Productos -->
+    <div class="dashboard-card highlight">
+      <div class="card-icon">🌾</div>
+      <div class="card-content">
+        <h2>Gestión de Heno</h2>
+        <p>Añade nuevos tipos de heno a la tienda, gestiona su precio de venta, su stock y la descripción para tus clientes.</p>
+        <button class="btn-dashboard-action" (click)="linkCrear()">
+          <span>➕ Crear Nuevo Producto</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card de Ventas y Facturación (Informativo) -->
+    <div class="dashboard-card">
+      <div class="card-icon">📄</div>
+      <div class="card-content">
+        <h2>Historial de Ventas</h2>
+        <p>Visualiza y gestiona las facturas de venta emitidas a los clientes.</p>
+        <button class="btn-dashboard-action secondary" disabled>
+          <span>Próximamente...</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Card de Impuestos (Informativo) -->
+    <div class="dashboard-card">
+      <div class="card-icon">💰</div>
+      <div class="card-content">
+        <h2>Configurar Impuestos</h2>
+        <p>Administra los porcentajes e impuestos aplicables a los productos de heno.</p>
+        <button class="btn-dashboard-action secondary" disabled>
+          <span>Próximamente...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

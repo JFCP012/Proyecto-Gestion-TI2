@@ -20,6 +20,13 @@ export class App {
     return this.carritoService.obtenerCantidadTotal();
   }
 
+  get mostrarCarrito() {
+    const url = this.router.url;
+    // Ocultar si la ruta actual contiene '/admin' o '/crear-producto'
+    const esRutaAdmin = url.includes('/admin') || url.includes('/crear-producto');
+    return !esRutaAdmin && this.cantidadEnCarrito > 0;
+  }
+
   irAlCarrito() {
     this.router.navigate(['/carrito']);
   }
