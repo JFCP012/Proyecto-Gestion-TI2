@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.HenoTrade.ventaHeno.Entity.Factura;
-import com.HenoTrade.ventaHeno.Repository.FacturaRepositorio;
+import com.HenoTrade.ventaHeno.service.FacturaServise;
+import com.HenoTrade.ventaHeno.dto.CompraDTO;
 
 @RestController
 @RequestMapping("/Factura")
@@ -18,11 +19,15 @@ import com.HenoTrade.ventaHeno.Repository.FacturaRepositorio;
 public class FacturaControlador {
 
     @Autowired
-    private FacturaRepositorio facturaRepositorio;
+    private FacturaServise facturaServise;
 
     @PostMapping("/guardarFactura")
-    public Factura guardarAnimal(@RequestBody Factura factura) {
-        return this.facturaRepositorio.save(factura);
+    public Factura guardarFactura(@RequestBody Factura factura) {
+        return this.facturaServise.guardarFactura(factura);
     }
-
+    
+    @PostMapping("/procesarCompra")
+    public Factura procesarCompra(@RequestBody CompraDTO compraDTO) {
+        return this.facturaServise.procesarCompra(compraDTO);
+    }
 }

@@ -48,8 +48,7 @@ export class CarritoComponent {
   }
 
   procederPago() {
-    alert('Funcionalidad de pago en construcción');
-    // this.router.navigate(['/pago']);
+    this.router.navigate(['/factura']);
   }
   
   volver() {
