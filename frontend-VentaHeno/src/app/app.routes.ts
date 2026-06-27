@@ -5,6 +5,7 @@ import { DetalleProducto } from './pages/detalle-producto/detalle-producto';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { Factura } from './pages/factura/factura';
 import { AdminComponent } from './pages/admin/admin.component';
+import { ReportesMesComponent } from './pages/reportes-mes/reportes-mes.component';
 import { adminGuard } from './guards/admin.guard';
 
 export const routes: Routes = [
@@ -15,4 +16,5 @@ export const routes: Routes = [
     { path: 'carrito', component: CarritoComponent },
     { path: 'factura', component: Factura },
     { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
+    { path: 'reportes-mes', component: ReportesMesComponent, canActivate: [adminGuard] },
 ];

@@ -1,18 +1,22 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent {
   private router = inject(Router);
   private adminService = inject(AdminService);
+
+  // Variables para reportes
+  menuReportesAbierto: boolean = false;
 
   linkCrear() {
     this.router.navigate(['/crear-producto']);
@@ -26,4 +30,13 @@ export class AdminComponent {
     this.adminService.logoutAdmin();
     this.router.navigate(['/producto']);
   }
+
+  toggleMenuReportes() {
+    this.menuReportesAbierto = !this.menuReportesAbierto;
+  }
+
+  seleccionarReportePorMes() {
+    this.router.navigate(['/reportes-mes']);
+  }
 }
+

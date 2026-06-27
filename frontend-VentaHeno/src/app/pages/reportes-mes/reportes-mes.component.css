@@ -1,0 +1,340 @@
+.reportes-mes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Encabezado */
+.page-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.btn-back {
+  background: transparent;
+  border: 1px solid #e2e8f0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #4a5568;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-bottom: 1.5rem;
+}
+
+.btn-back:hover {
+  background: #f7fafc;
+  color: #1a202c;
+  border-color: #cbd5e0;
+}
+
+.page-header h1 {
+  font-size: 2.25rem;
+  color: #1a202c;
+  font-weight: 800;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.02em;
+}
+
+.page-header p {
+  color: #718096;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Tarjeta de Selector */
+.selector-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.selector-content {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.icon-wrapper {
+  font-size: 3rem;
+  background: #ebf8ff;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  flex-shrink: 0;
+}
+
+.form-wrapper {
+  flex-grow: 1;
+}
+
+.form-wrapper label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.input-group input[type="month"] {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  color: #2d3748;
+  outline: none;
+  transition: all 0.2s;
+  background: #f8fafc;
+}
+
+.input-group input[type="month"]:focus {
+  border-color: #3182ce;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.15);
+}
+
+.btn-generar {
+  background: #3182ce;
+  color: white;
+  border: none;
+  padding: 0 2rem;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 6px rgba(49, 130, 206, 0.2);
+}
+
+.btn-generar:hover:not([disabled]) {
+  background: #2b6cb0;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px rgba(49, 130, 206, 0.25);
+}
+
+.btn-generar[disabled] {
+  background: #a0aec0;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+.error-msg {
+  color: #e53e3e;
+  font-size: 0.9rem;
+  margin-top: 0.75rem;
+  font-weight: 500;
+}
+
+/* Resultados del Reporte */
+.reporte-resultados-container {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.reporte-header {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  background: #f8fafc;
+}
+
+.reporte-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2d3748;
+  font-weight: 700;
+}
+
+.reporte-summary-cards {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.summary-card {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  min-width: 140px;
+}
+
+.summary-card.highlight {
+  background: #ebf8ff;
+  border-color: #bee3f8;
+}
+
+.summary-card .label {
+  font-size: 0.8rem;
+  color: #718096;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  letter-spacing: 0.05em;
+}
+
+.summary-card .value {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #2d3748;
+}
+
+.summary-card.highlight .value {
+  color: #2b6cb0;
+}
+
+.reporte-tabla-wrapper {
+  overflow-x: auto;
+}
+
+.reporte-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.reporte-tabla th,
+.reporte-tabla td {
+  padding: 1.25rem 2.5rem;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.reporte-tabla th {
+  background: white;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4a5568;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.reporte-tabla td {
+  font-size: 0.95rem;
+  color: #4a5568;
+}
+
+.reporte-tabla tbody tr {
+  transition: background 0.2s;
+}
+
+.reporte-tabla tbody tr:hover {
+  background: #f7fafc;
+}
+
+.reporte-tabla td.td-monto {
+  font-weight: 700;
+  color: #2d3748;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 5rem 2rem;
+  color: #718096;
+  background: white;
+}
+
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+/* Nuevos Estilos para el Bloque de Paginación */
+.paginacion-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  border-top: 1px solid #edf2f7;
+  background: #f8fafc;
+}
+
+.btn-pagina {
+  background: white;
+  border: 1px solid #e2e8f0;
+  color: #4a5568;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  user-select: none;
+}
+
+.btn-pagina:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  color: #1a202c;
+}
+
+.btn-pagina.activa {
+  background: #3182ce;
+  color: white;
+  border-color: #3182ce;
+  box-shadow: 0 4px 6px rgba(49, 130, 206, 0.25);
+  cursor: default;
+  transform: none;
+}
+
+.btn-pagina:active:not(.activa) {
+  transform: scale(0.95);
+  background: #e2e8f0;
+}

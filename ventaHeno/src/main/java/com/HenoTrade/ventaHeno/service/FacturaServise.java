@@ -1,5 +1,8 @@
 package com.HenoTrade.ventaHeno.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +17,8 @@ import com.HenoTrade.ventaHeno.Repository.HenoRepositorio;
 import com.HenoTrade.ventaHeno.Repository.VendedorRepositorio;
 import com.HenoTrade.ventaHeno.dto.CompraDTO;
 import com.HenoTrade.ventaHeno.dto.DetalleVentaDTO;
+import com.HenoTrade.ventaHeno.dto.FacturaReporteDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteVentaMensualDTO;
 
 @Service
 public class FacturaServise {
@@ -78,4 +83,36 @@ public class FacturaServise {
         
         return facturaGuardada;
     }
+
+    /**
+     * Genera un reporte de ventas filtrado por mes y año.
+     * Consulta todas las facturas del período y calcula los totales.
+     */
+    public ReporteVentaMensualDTO generarReportePorMes(int anio, int mes) {
+        List<Factura> facturas = facturaRepositorio.findByAnioAndMes(anio, mes);
+
+        List<FacturaReporteDTO> facturasDTO = facturas.stream()
+            .map(f -> FacturaReporteDTO.builder()
+                .idFactura(f.getIdFactura())
+                .fechaFactura(f.getFechaFactura().toString())
+                .nombreCliente(f.getNombreC())
+                .cedulaCliente(f.getCedulaC())
+                .totalVenta(f.getTotalVenta())
+                .envio(f.getEnvio())
+                .build())
+            .collect(Collectors.toList());
+
+        Double montoTotal = facturasDTO.stream()
+            .mapToDouble(FacturaReporteDTO::getTotalVenta)
+            .sum();
+
+        return ReporteVentaMensualDTO.builder()
+            .anio(anio)
+            .mes(mes)
+            .totalFacturas(facturasDTO.size())
+            .montoTotal(montoTotal)
+            .facturas(facturasDTO)
+            .build();
+    }
 }
+

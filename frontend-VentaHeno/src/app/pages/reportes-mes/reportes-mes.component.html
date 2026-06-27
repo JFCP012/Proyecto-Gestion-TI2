@@ -1,0 +1,85 @@
+<div class="reportes-mes-container">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="volverAdmin()">← Volver al Panel</button>
+      <h1>Reporte de Ventas por Mes</h1>
+      <p>Selecciona un mes y año para consultar el historial detallado de facturación.</p>
+    </div>
+  </div>
+
+  <div class="selector-card">
+    <div class="selector-content">
+      <div class="icon-wrapper">📅</div>
+      <div class="form-wrapper">
+        <label for="mes-reporte">Mes de Consulta:</label>
+        <div class="input-group">
+          <input type="month" id="mes-reporte" [(ngModel)]="mesSeleccionado" />
+          <button class="btn-generar" (click)="generarReporteMensual()" [disabled]="cargandoReporte">
+            {{ cargandoReporte ? 'Generando...' : 'Generar Reporte' }}
+          </button>
+        </div>
+        <div class="error-msg" *ngIf="errorReporte">{{ errorReporte }}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="cargandoReporte" style="text-align: center; padding: 3rem;">
+    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...
+    </p>
+  </div>
+
+  <div class="reporte-resultados-container" *ngIf="reporteMensual && !cargandoReporte">
+    <div class="reporte-header">
+      <h2>Resultados para: {{ reporteMensual.mes }}/{{ reporteMensual.anio }}</h2>
+      <div class="reporte-summary-cards">
+        <div class="summary-card">
+          <span class="label">Total Facturas</span>
+          <span class="value">{{ reporteMensual.totalFacturas }}</span>
+        </div>
+        <div class="summary-card highlight">
+          <span class="label">Ingresos Totales</span>
+          <span class="value">{{ reporteMensual.montoTotal | currency:'USD' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reporte-tabla-wrapper">
+      <table class="reporte-tabla">
+        <thead>
+          <tr>
+            <th>ID Factura</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Cédula</th>
+            <th>Envío</th>
+            <th>Total Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of facturasPaginadas">
+            <td>#{{ factura.idFactura }}</td>
+            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy' }}</td>
+            <td>{{ factura.nombreCliente }}</td>
+            <td>{{ factura.cedulaCliente }}</td>
+            <td>{{ factura.envio | currency:'USD' }}</td>
+            <td class="td-monto">{{ factura.totalVenta | currency:'USD' }}</td>
+          </tr>
+
+          <tr *ngIf="reporteMensual.totalFacturas === 0">
+            <td colspan="6" class="empty-state">
+              <div class="empty-icon">🍃</div>
+              No se encontraron ventas para el mes seleccionado.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="paginacion-container" *ngIf="paginas.length > 1">
+      <button *ngFor="let pagina of paginas" class="btn-pagina" [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+        {{ pagina }}
+      </button>
+    </div>
+  </div>
+</div>
