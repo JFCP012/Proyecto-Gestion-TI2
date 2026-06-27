@@ -1,1 +1,89 @@
-<p>factura works!</p>
+<div class="checkout-container">
+    <div *ngIf="compraExitosa" class="success-screen">
+        <div class="success-icon">✅</div>
+        <h2>¡Compra Realizada con Éxito!</h2>
+        <p>Tu pedido ha sido procesado. La factura será enviada a tu correo.</p>
+        <button class="btn-primary" (click)="volverInicio()">Volver a la tienda</button>
+    </div>
+
+    <div *ngIf="!compraExitosa" class="checkout-layout">
+        <div class="checkout-header">
+            <button class="btn-back" (click)="volverCarrito()">← Volver al carrito</button>
+            <h2>Finalizar Compra</h2>
+        </div>
+
+        <div class="checkout-content">
+            <!-- Columna Izquierda: Formulario -->
+            <div class="billing-form">
+                <h3>Datos de Facturación</h3>
+                <form (ngSubmit)="procesarCompra()">
+                    <div class="form-group">
+                        <label for="nombreC">Nombre Completo</label>
+                        <input type="text" id="nombreC" name="nombreC" [(ngModel)]="factura.nombreC" required placeholder="Ej: Juan Pérez">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cedulaC">Cédula / NIT</label>
+                        <input type="text" id="cedulaC" name="cedulaC" [(ngModel)]="factura.cedulaC" required placeholder="Ej: 123456789">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telefonoC">Teléfono</label>
+                        <input type="tel" id="telefonoC" name="telefonoC" [(ngModel)]="factura.telefonoC" required placeholder="Ej: 3001234567">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="direccionC">Dirección de Envío</label>
+                        <input type="text" id="direccionC" name="direccionC" [(ngModel)]="factura.direccionC" required placeholder="Ej: Calle 123 # 45-67">
+                    </div>
+
+                    <!-- Botón Mobile -->
+                    <button type="submit" class="btn-submit mobile-only">Confirmar y Pagar</button>
+                </form>
+            </div>
+
+            <!-- Columna Derecha: Resumen de Compra -->
+            <div class="order-summary">
+                <h3>Resumen de tu Pedido</h3>
+                
+                <div class="items-list" *ngIf="items$ | async as items">
+                    <div class="summary-item" *ngFor="let item of items">
+                        <div class="item-img-container">
+                            <img [src]="item.producto.imagen" [alt]="item.producto.nombre" *ngIf="item.producto.imagen">
+                            <span class="img-placeholder" *ngIf="!item.producto.imagen">🌾</span>
+                            <span class="item-badge">{{ item.cantidad }}</span>
+                        </div>
+                        <div class="item-info">
+                            <span class="item-name">{{ item.producto.nombre }}</span>
+                        </div>
+                        <span class="item-price">${{ (item.producto.precioU * item.cantidad) | number:'1.0-0' }}</span>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="totals-section">
+                    <div class="total-row">
+                        <span>Subtotal</span>
+                        <span>${{ subtotal | number:'1.0-0' }}</span>
+                    </div>
+                    <div class="total-row">
+                        <span>Envío</span>
+                        <span>${{ envio | number:'1.0-0' }}</span>
+                    </div>
+                    <hr class="divider">
+                    <div class="total-row grand-total">
+                        <span>Total a Pagar</span>
+                        <span>${{ total | number:'1.0-0' }}</span>
+                    </div>
+                </div>
+
+                <button class="btn-submit desktop-only" (click)="procesarCompra()">Confirmar y Pagar</button>
+                
+                <div class="secure-checkout">
+                    <span>🔒 Pago 100% seguro y encriptado</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

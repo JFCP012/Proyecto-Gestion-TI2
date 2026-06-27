@@ -23,10 +23,9 @@ export class ProductoComponent {
   cargarHenos() {
     this.henoService.buscarHenos().subscribe({
       next: (data) => {
-        this.henos = data;
+        this.henos = data.filter((h: Heno) => h.stock > 0 && h.estado !== 'Inactivo');
         console.log(this.henos);
-
-        this.cdr.detectChanges(); // 3. Avisarle a Angular que el HTML debe actualizarse YA
+        this.cdr.detectChanges();
       },
       error: (error) => {
         this.errorMsg = 'Error al conectar con el backend: ' + error.message;
@@ -34,16 +33,17 @@ export class ProductoComponent {
       }
     });
   }
+
   filtrarHenos(nombre: string) {
     this.henoService.buscarHenosPorTipo(nombre).subscribe({
       next: (data) => {
-        this.henos = data;
+        this.henos = data.filter((h: Heno) => h.stock > 0 && h.estado !== 'Inactivo');
         console.log('Henos filtrados:', this.henos);
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al filtrar henos:', err);
-        this.henos = []; // Vaciar en caso de error
+        this.henos = [];
         this.cdr.detectChanges();
       }
     });
@@ -52,16 +52,17 @@ export class ProductoComponent {
   linkcrear() {
     this.router.navigate(['/crear-producto']);
   }
+
   buscarHenosPorNombre(nombre: string) {
     this.henoService.buscarHenosPorNombre(nombre).subscribe({
       next: (data) => {
-        this.henos = data;
+        this.henos = data.filter((h: Heno) => h.stock > 0 && h.estado !== 'Inactivo');
         console.log('Henos filtrados:', this.henos);
         this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error al filtrar henos:', err);
-        this.henos = []; // Vaciar en caso de error
+        this.henos = [];
         this.cdr.detectChanges();
       }
     });
