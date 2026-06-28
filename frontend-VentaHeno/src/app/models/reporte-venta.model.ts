@@ -16,3 +16,25 @@ export interface ReporteVentaMensual {
   montoTotal: number;
   facturas: FacturaReporte[];
 }
+
+export interface Animal {
+  idAnimales: number;
+  nombre: string;
+}
+
+/** Respuesta completa del reporte de facturas por animal */
+export interface ReporteFacturasAnimal {
+  idAnimal: number;
+  nombreAnimal: string;
+  totalFacturas: number;
+  montoTotal: number;
+  facturas: FacturaReporte[];
+}
+
+/** Respuesta completa del reporte de facturas por paca (heno) */
+export interface ReporteFacturasHeno {
+  nombreHeno: string;
+  totalFacturas: number;
+  montoTotal: number;
+  facturas: FacturaReporte[];
+}

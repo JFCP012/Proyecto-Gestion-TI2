@@ -19,6 +19,10 @@ import com.HenoTrade.ventaHeno.dto.CompraDTO;
 import com.HenoTrade.ventaHeno.dto.DetalleVentaDTO;
 import com.HenoTrade.ventaHeno.dto.FacturaReporteDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteVentaMensualDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteFacturasHenoDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteVentaAnimalDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteFacturasAnimalDTO;
+import com.HenoTrade.ventaHeno.dto.VentaAnimalDTO;
 
 @Service
 public class FacturaServise {
@@ -109,6 +113,65 @@ public class FacturaServise {
         return ReporteVentaMensualDTO.builder()
             .anio(anio)
             .mes(mes)
+            .totalFacturas(facturasDTO.size())
+            .montoTotal(montoTotal)
+            .facturas(facturasDTO)
+            .build();
+    }
+
+    /**
+     * Genera un reporte de ventas detallado filtrado por el tipo de animal destino.
+     */
+    public ReporteFacturasAnimalDTO generarReportePorAnimal(Long idAnimal, String nombreAnimal) {
+        List<Factura> facturas = facturaRepositorio.findFacturasPorAnimalId(idAnimal);
+
+        List<FacturaReporteDTO> facturasDTO = facturas.stream()
+            .map(f -> FacturaReporteDTO.builder()
+                .idFactura(f.getIdFactura())
+                .fechaFactura(f.getFechaFactura().toString())
+                .nombreCliente(f.getNombreC())
+                .cedulaCliente(f.getCedulaC())
+                .totalVenta(f.getTotalVenta())
+                .envio(f.getEnvio())
+                .build())
+            .collect(Collectors.toList());
+
+        Double montoTotal = facturasDTO.stream()
+            .mapToDouble(FacturaReporteDTO::getTotalVenta)
+            .sum();
+
+        return ReporteFacturasAnimalDTO.builder()
+            .idAnimal(idAnimal)
+            .nombreAnimal(nombreAnimal)
+            .totalFacturas(facturasDTO.size())
+            .montoTotal(montoTotal)
+            .facturas(facturasDTO)
+            .build();
+    }
+    
+    /**
+     * Genera un reporte de ventas detallado filtrado por el nombre del heno.
+     */
+    public ReporteFacturasHenoDTO generarReportePorHeno(String nombreHeno) {
+        List<Factura> facturas = facturaRepositorio.findFacturasPorNombreHeno(nombreHeno);
+
+        List<FacturaReporteDTO> facturasDTO = facturas.stream()
+            .map(f -> FacturaReporteDTO.builder()
+                .idFactura(f.getIdFactura())
+                .fechaFactura(f.getFechaFactura().toString())
+                .nombreCliente(f.getNombreC())
+                .cedulaCliente(f.getCedulaC())
+                .totalVenta(f.getTotalVenta())
+                .envio(f.getEnvio())
+                .build())
+            .collect(Collectors.toList());
+
+        Double montoTotal = facturasDTO.stream()
+            .mapToDouble(FacturaReporteDTO::getTotalVenta)
+            .sum();
+
+        return ReporteFacturasHenoDTO.builder()
+            .nombreHeno(nombreHeno)
             .totalFacturas(facturasDTO.size())
             .montoTotal(montoTotal)
             .facturas(facturasDTO)

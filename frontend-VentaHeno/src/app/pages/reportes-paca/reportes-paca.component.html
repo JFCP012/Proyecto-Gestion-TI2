@@ -1,0 +1,79 @@
+<div class="reportes-mes-container">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="volverAdmin()">← Volver al Panel</button>
+      <h1>Reporte de Ventas por Tipo de Paca</h1>
+      <p>Selecciona un tipo de heno (paca) para consultar el historial detallado de facturación de ventas.</p>
+    </div>
+  </div>
+
+  <div class="animal-cards-grid">
+    <div class="animal-card" *ngFor="let paca of tiposPaca" 
+         [class.selected]="pacaSeleccionada === paca"
+         (click)="seleccionarPaca(paca)">
+      <div class="animal-icon">
+        <span style="font-size: 3rem;">🌾</span>
+      </div>
+      <h3>{{ paca.replace('_', ' ') }}</h3>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="cargandoReporte" style="text-align: center; padding: 3rem;">
+    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...</p>
+  </div>
+
+  <div class="reporte-resultados-container" *ngIf="reportePaca && !cargandoReporte">
+    <div class="reporte-header">
+      <h2>Resultados para: {{ reportePaca.nombreHeno.replace('_', ' ') }}</h2>
+      <div class="reporte-summary-cards">
+        <div class="summary-card">
+          <span class="label">Total Facturas</span>
+          <span class="value">{{ reportePaca.totalFacturas }}</span>
+        </div>
+        <div class="summary-card highlight">
+          <span class="label">Ingresos Totales</span>
+          <span class="value">{{ reportePaca.montoTotal | currency:'USD' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reporte-tabla-wrapper">
+      <table class="reporte-tabla">
+        <thead>
+          <tr>
+            <th>ID Factura</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Cédula</th>
+            <th>Envío</th>
+            <th>Total Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of facturasPaginadas">
+            <td>#{{ factura.idFactura }}</td>
+            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy' }}</td>
+            <td>{{ factura.nombreCliente }}</td>
+            <td>{{ factura.cedulaCliente }}</td>
+            <td>{{ factura.envio | currency:'USD' }}</td>
+            <td class="td-monto">{{ factura.totalVenta | currency:'USD' }}</td>
+          </tr>
+
+          <tr *ngIf="reportePaca.totalFacturas === 0">
+            <td colspan="6" class="empty-state">
+              <div class="empty-icon">🍃</div>
+              No se encontraron ventas para este tipo de heno.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="paginacion-container" *ngIf="paginas.length > 1">
+      <button *ngFor="let pagina of paginas" class="btn-pagina" [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+        {{ pagina }}
+      </button>
+    </div>
+  </div>
+</div>

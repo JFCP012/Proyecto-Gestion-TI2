@@ -1,0 +1,80 @@
+<div class="reportes-mes-container">
+  <div class="page-header">
+    <div class="header-left">
+      <button class="btn-back" (click)="volverAdmin()">← Volver al Panel</button>
+      <h1>Reporte de Ventas por Tipo de Animal</h1>
+      <p>Selecciona un tipo de animal para consultar el historial detallado de facturación de heno destinado a este.</p>
+    </div>
+  </div>
+
+  <div class="animal-cards-grid">
+    <div class="animal-card" *ngFor="let animal of animalesList" 
+         [class.selected]="animalSeleccionadoId === animal.idAnimales"
+         (click)="seleccionarAnimal(animal.idAnimales, animal.nombre)">
+      <div class="animal-icon">
+        <img *ngIf="getAnimalIcon(animal.nombre) !== ''" [src]="getAnimalIcon(animal.nombre)" [alt]="animal.nombre">
+        <span *ngIf="getAnimalIcon(animal.nombre) === ''">🐾</span>
+      </div>
+      <h3>{{ animal.nombre }}</h3>
+    </div>
+  </div>
+
+  <div class="loading-state" *ngIf="cargandoReporte" style="text-align: center; padding: 3rem;">
+    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...</p>
+  </div>
+
+  <div class="reporte-resultados-container" *ngIf="reporteAnimal && !cargandoReporte">
+    <div class="reporte-header">
+      <h2>Resultados para: {{ reporteAnimal.nombreAnimal }}</h2>
+      <div class="reporte-summary-cards">
+        <div class="summary-card">
+          <span class="label">Total Facturas</span>
+          <span class="value">{{ reporteAnimal.totalFacturas }}</span>
+        </div>
+        <div class="summary-card highlight">
+          <span class="label">Ingresos Totales</span>
+          <span class="value">{{ reporteAnimal.montoTotal | currency:'USD' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reporte-tabla-wrapper">
+      <table class="reporte-tabla">
+        <thead>
+          <tr>
+            <th>ID Factura</th>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Cédula</th>
+            <th>Envío</th>
+            <th>Total Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of facturasPaginadas">
+            <td>#{{ factura.idFactura }}</td>
+            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy' }}</td>
+            <td>{{ factura.nombreCliente }}</td>
+            <td>{{ factura.cedulaCliente }}</td>
+            <td>{{ factura.envio | currency:'USD' }}</td>
+            <td class="td-monto">{{ factura.totalVenta | currency:'USD' }}</td>
+          </tr>
+
+          <tr *ngIf="reporteAnimal.totalFacturas === 0">
+            <td colspan="6" class="empty-state">
+              <div class="empty-icon">🍃</div>
+              No se encontraron ventas para este tipo de animal.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="paginacion-container" *ngIf="paginas.length > 1">
+      <button *ngFor="let pagina of paginas" class="btn-pagina" [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+        {{ pagina }}
+      </button>
+    </div>
+  </div>
+</div>
