@@ -28,30 +28,32 @@
       <div class="card-content">
         <h2>Ventas por Mes</h2>
         <p>Genera reportes detallados de las ventas organizadas de forma mensual.</p>
-        <button class="btn-dashboard-action" (click)="seleccionarReportePorMes()">
+        <button class="btn-dashboard-action" (click)="irAReportesMes()">
           <span>📊 Generar Reporte</span>
         </button>
       </div>
     </div>
 
+    <!-- Tarjeta 2: Reporte de Ventas por Animal -->
     <div class="dashboard-card">
       <div class="card-icon">🐾</div>
       <div class="card-content">
         <h2>Ventas por Animal</h2>
-        <p>Analiza el rendimiento de tus productos según el tipo de animal de tus clientes.</p>
-        <button class="btn-dashboard-action secondary" disabled>
-          <span>Próximamente...</span>
+        <p>Analiza el volumen de facturación segmentado por el tipo de animal destino.</p>
+        <button class="btn-dashboard-action" (click)="irAReportesAnimal()">
+          <span>📊 Generar Reporte</span>
         </button>
       </div>
     </div>
 
+    <!-- Tarjeta 3: Reporte de Ventas por Paca -->
     <div class="dashboard-card">
-      <div class="card-icon">📦</div>
+      <div class="card-icon">🌾</div>
       <div class="card-content">
         <h2>Ventas por Paca</h2>
-        <p>Visualiza estadísticas de ventas segmentadas por la presentación o tipo de paca.</p>
-        <button class="btn-dashboard-action secondary" disabled>
-          <span>Próximamente...</span>
+        <p>Analiza el volumen de facturación segmentado por el tipo de heno vendido.</p>
+        <button class="btn-dashboard-action" (click)="irAReportesPaca()">
+          <span>📊 Generar Reporte</span>
         </button>
       </div>
     </div>

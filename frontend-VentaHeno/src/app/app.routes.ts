@@ -7,6 +7,8 @@ import { Factura } from './pages/factura/factura';
 import { AdminComponent } from './pages/admin/admin.component';
 import { ReportesMesComponent } from './pages/reportes-mes/reportes-mes.component';
 import { adminGuard } from './guards/admin.guard';
+import { ReportesAnimalComponent } from './pages/reportes-animal/reportes-animal.component';
+import { ReportesPacaComponent } from './pages/reportes-paca/reportes-paca.component';
 
 export const routes: Routes = [
     { path: '', component: ProductoComponent },
@@ -17,4 +19,6 @@ export const routes: Routes = [
     { path: 'factura', component: Factura },
     { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
     { path: 'reportes-mes', component: ReportesMesComponent, canActivate: [adminGuard] },
+    { path: 'reportes-animal', component: ReportesAnimalComponent, canActivate: [adminGuard] },
+    { path: 'reportes-paca', component: ReportesPacaComponent, canActivate: [adminGuard] },
 ];

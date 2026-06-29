@@ -35,8 +35,15 @@ export class AdminComponent {
     this.menuReportesAbierto = !this.menuReportesAbierto;
   }
 
-  seleccionarReportePorMes() {
+  irAReportesMes() {
     this.router.navigate(['/reportes-mes']);
   }
-}
 
+  irAReportesAnimal() {
+    this.router.navigate(['/reportes-animal']);
+  }
+
+  irAReportesPaca() {
+    this.router.navigate(['/reportes-paca']);
+  }
+}

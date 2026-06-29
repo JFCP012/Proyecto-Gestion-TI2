@@ -25,6 +25,11 @@ public class AnimalControlaor {
         return this.animalRepositorio.findById(id).get();
     }
 
+    @GetMapping("/todos")
+    public java.util.List<Animales> obtenerTodos() {
+        return this.animalRepositorio.findAll();
+    }
+
     @PostMapping("/guardar")
     public Animales guardarAnimal(@RequestBody Animales animal) {
         return this.animalRepositorio.save(animal);

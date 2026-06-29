@@ -14,4 +14,12 @@ public interface FacturaRepositorio extends JpaRepository<Factura, Long> {
     @Query("SELECT f FROM Factura f WHERE YEAR(f.fechaFactura) = :anio AND MONTH(f.fechaFactura) = :mes")
     List<Factura> findByAnioAndMes(@Param("anio") int anio, @Param("mes") int mes);
 
+    @Query("SELECT DISTINCT f FROM Factura f JOIN DetalleVenta dv ON f.idFactura = dv.factura.idFactura " +
+           "JOIN dv.heno h JOIN Tipo_Heno th ON h.idHeno = th.heno.idHeno " +
+           "WHERE th.animales.idAnimales = :idAnimal")
+    List<Factura> findFacturasPorAnimalId(@Param("idAnimal") Long idAnimal);
+
+    @Query("SELECT DISTINCT f FROM Factura f JOIN DetalleVenta dv ON f.idFactura = dv.factura.idFactura " +
+           "JOIN dv.heno h WHERE LOWER(h.nombre) LIKE LOWER(CONCAT('%', :nombreHeno, '%'))")
+    List<Factura> findFacturasPorNombreHeno(@Param("nombreHeno") String nombreHeno);
 }
