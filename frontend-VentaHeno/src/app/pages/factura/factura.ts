@@ -154,7 +154,9 @@ export class Factura implements OnInit {
     doc.setTextColor(71, 85, 105);
     doc.text(`N° Factura: ${f.idFactura || 'Pendiente'}`, 14, 60);
     doc.text(`Fecha: ${f.fechaFactura || this.factura.fechaFactura}`, 14, 67);
-    doc.text(`Vendedor (Cédula): ${f.vendedor?.cedulaV || '1054544178'}`, 14, 74);
+    doc.text(`Nombre Vendedor: ${f.vendedor?.nombre || ''}`, 14, 74);
+    doc.text(`Vendedor (Cédula): ${f.vendedor?.cedulaV || '1054544178'}`, 14, 81);
+
 
     // Datos del cliente
     doc.setFontSize(11);
