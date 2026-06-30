@@ -137,7 +137,7 @@ export class Factura implements OnInit {
     // Nombre empresa
     doc.setFontSize(22);
     doc.setTextColor(56, 161, 105);
-    doc.text("HenoTrade", 46, 22);
+    doc.text("AgroHeno", 46, 22);
 
     // Línea separadora
     doc.setDrawColor(56, 161, 105);
@@ -222,9 +222,9 @@ export class Factura implements OnInit {
     doc.line(14, 275, 196, 275);
     doc.setFontSize(9);
     doc.setTextColor(148, 163, 184);
-    doc.text("Gracias por su compra en HenoTrade.", 105, 281, { align: 'center' });
+    doc.text("Gracias por su compra en AgroHeno.", 105, 281, { align: 'center' });
 
-    doc.save(`Factura_HenoTrade_${f.idFactura || Date.now()}.pdf`);
+    doc.save(`Factura_AgroHeno_${f.idFactura || Date.now()}.pdf`);
   }
 
   volverInicio() {
