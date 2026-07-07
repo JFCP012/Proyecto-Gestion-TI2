@@ -46,8 +46,8 @@ export class ReportesPacaComponent implements OnInit {
     });
   }
 
-  volverAdmin() { 
-    this.router.navigate(['/admin']); 
+  volverAdmin() {
+    this.router.navigate(['/admin']);
   }
 
   get facturasPaginadas() {
@@ -62,8 +62,8 @@ export class ReportesPacaComponent implements OnInit {
     return Array.from({ length: total }, (_, i) => i + 1);
   }
 
-  cambiarPagina(p: number) { 
-    this.paginaActual = p; 
+  cambiarPagina(p: number) {
+    this.paginaActual = p;
     this.cdr.detectChanges();
   }
 
@@ -73,9 +73,9 @@ export class ReportesPacaComponent implements OnInit {
   }
 
   generarReportePaca() {
-    if (!this.pacaSeleccionada) { 
-      this.errorReporte = 'Selecciona un tipo de paca'; 
-      return; 
+    if (!this.pacaSeleccionada) {
+      this.errorReporte = 'Selecciona un tipo de paca';
+      return;
     }
 
     this.cargandoReporte = true;
@@ -84,15 +84,15 @@ export class ReportesPacaComponent implements OnInit {
     this.paginaActual = 1;
 
     this.reportesService.obtenerReportePorHeno(this.pacaSeleccionada).subscribe({
-      next: (data) => { 
-        this.reportePaca = data; 
-        this.cargandoReporte = false; 
+      next: (data) => {
+        this.reportePaca = data;
+        this.cargandoReporte = false;
         this.cdr.detectChanges();
       },
-      error: (err) => { 
+      error: (err) => {
         console.error(err);
-        this.errorReporte = 'Error al consultar las ventas.'; 
-        this.cargandoReporte = false; 
+        this.errorReporte = 'Error al consultar las ventas.';
+        this.cargandoReporte = false;
         this.cdr.detectChanges();
       }
     });

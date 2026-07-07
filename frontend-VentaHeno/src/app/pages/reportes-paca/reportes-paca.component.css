@@ -64,7 +64,8 @@
 
 .icon-wrapper {
   font-size: 3rem;
-  background: rgba(3, 108, 57, 0.08); /* Soft olive background tint */
+  background: rgba(3, 108, 57, 0.08);
+  /* Soft olive background tint */
   color: var(--primary-olive);
   width: 80px;
   height: 80px;

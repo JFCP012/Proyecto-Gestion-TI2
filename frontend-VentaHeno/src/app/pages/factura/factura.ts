@@ -171,7 +171,8 @@ export class Factura implements OnInit {
     }
 
     this.procesando = true;
-    this.factura.fechaFactura = new Date().toISOString().split('T')[0];
+    const hoy = new Date();
+    this.factura.fechaFactura = `${hoy.getFullYear()}-${String(hoy.getMonth() + 1).padStart(2, '0')}-${String(hoy.getDate()).padStart(2, '0')}`;
     this.factura.totalVenta = this.total;
     this.factura.envio = this.envio;
 
@@ -184,7 +185,7 @@ export class Factura implements OnInit {
       const compraDTO = {
         factura: {
           ...this.factura,
-          vendedor: { cedulaV: 1054544178 }
+          administrador: { cedulaV: 1 }
         },
         detalles: detalles
       };

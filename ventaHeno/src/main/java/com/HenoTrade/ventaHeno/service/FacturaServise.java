@@ -54,6 +54,9 @@ public class FacturaServise {
             factura.setAdministrador(administrador);
         }
         
+        // Asegurar que la fecha sea exactamente la de hoy en la zona horaria del servidor
+        factura.setFechaFactura(java.sql.Date.valueOf(java.time.LocalDate.now()));
+        
         // 1. Guardar factura
         Factura facturaGuardada = facturaRepositorio.save(factura);
         
