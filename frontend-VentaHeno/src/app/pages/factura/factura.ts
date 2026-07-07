@@ -87,14 +87,14 @@ export class Factura implements OnInit {
     // Subscribe to cart items to keep totals updated reactively
     this.items$.subscribe(items => {
       if (this.compraExitosa) return; // Prevent redirect and recalculations when cart is emptied after success
-      
+
       this.subtotal = items.reduce((sum, item) => sum + (item.producto.precioU * item.cantidad), 0);
       this.totalPacas = items.reduce((sum, item) => sum + item.cantidad, 0);
-      
+
       if (this.subtotal === 0) {
         this.router.navigate(['/carrito']);
       }
-      
+
       this.actualizarEnvio();
     });
 
@@ -264,7 +264,10 @@ export class Factura implements OnInit {
     doc.text(`Nombre: ${f.nombreC || this.factura.nombreC}`, 120, 60);
     doc.text(`Cédula/NIT: ${f.cedulaC || this.factura.cedulaC}`, 120, 67);
     doc.text(`Teléfono: ${f.telefonoC || this.factura.telefonoC}`, 120, 74);
-    doc.text(`Dirección: ${f.direccionC || this.factura.direccionC}`, 120, 81);
+    // Dirección con salto de línea automático
+    const direccion = `Dirección: ${f.direccionC || this.factura.direccionC}`;
+    const direccionLines = doc.splitTextToSize(direccion, 75); // 75 = ancho máximo en mm
+    doc.text(direccionLines, 120, 81);
 
     // Tabla productos
     const tableBody = this.ultimaCompra.detalles.map((d: any) => {
