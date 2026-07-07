@@ -1,100 +1,219 @@
-<div class="productos-container">
-  <div class="header">
-    <h1>Nuestros Productos de Heno</h1>
-    <p>Calidad premium para tus animales</p>
-  </div>
-  <div class="search-and-create-container">
-    <div class="search-box">
-      <span class="search-icon">🔍</span>
-      <input type="text" placeholder="Buscar heno por nombre..." #searchInput
-        (keyup.enter)="buscarHenosPorNombre(searchInput.value)" (input)="0">
-      <button *ngIf="searchInput.value" class="btn-limpiar" (click)="searchInput.value=''; buscarHenosPorNombre('')"
-        title="Limpiar búsqueda">
-        ✕
-      </button>
-      <button class="btn-buscar" (click)="buscarHenosPorNombre(searchInput.value)">
-        Buscar
-      </button>
-    </div>
-    <button class="btn-crear" (click)="abrirModalLogin()">
-      <span>🔒</span> Modo Admin
-    </button>
-  </div>
+<div class="page-wrapper">
 
-  <div class="filtros-container">
-    <button class="filtro-btn" (click)="cargarHenos()">
-      <div class="filtro-img-placeholder">🌾</div>
-      <span>Todos</span>
-    </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Bovinos')">
-      <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">
-      <span>Bovinos</span>
-    </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Ovinos')">
-      <img src="assets/Imagenes/oveja.png" alt="Ovejas" class="filtro-img">
-      <span>Ovinos</span>
-    </button>
-    <button class="filtro-btn" (click)="filtrarHenos('Equinos')">
-      <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
-      <span>Equinos</span>
-    </button>
-  </div>
+  <!-- HEADER UNIFICADO VERDE AGROHENO -->
+  <header class="agroheno-header">
+    <div class="header-inner">
+      <!-- Left side: Admin -->
+      <div class="header-left">
+        <button class="header-admin-btn" (click)="abrirModalLogin()" title="Modo Administrador">
+          <span class="lock-icon">🔒</span>
+          <span class="admin-label">Admin</span>
+        </button>
+      </div>
 
-  <div *ngIf="henos.length > 0" class="grid-productos">
-    <div class="producto-card" *ngFor="let heno of henos" (click)="detallePorId(heno.idHeno)">
-      <div class="card-imagen">
-        <img *ngIf="heno.imagen" [src]="heno.imagen" [alt]="heno.nombre">
-        <div *ngIf="!heno.imagen" class="placeholder-imagen">
-          <span>🌿</span>
+      <!-- Center Logo & Branding -->
+      <div class="header-branding" (click)="cargarHenos()" title="Inicio - Cargar Henos">
+        <!-- Logo Image -->
+        <img src="assets/logo.png" alt="AgroHeno Logo" class="agroheno-logo">
+        <div class="brand-text-container">
+          <span class="brand-main">AgroHeno</span>
+          <span class="brand-sub">FABRICANTES DE HENO</span>
         </div>
       </div>
-      <div class="card-content">
-        <h2>{{ heno.nombre }}</h2>
-        <p class="descripcion">{{ heno.descripcionCorta }}</p>
 
-        <div class="detalles">
-          <div class="precio">
-            <span class="label">Precio Unitario</span>
-            <span class="valor">${{ heno.precioU }}</span>
-          </div>
+      <!-- Right side: Search & Cart -->
+      <div class="header-right">
+        <!-- Search Box (Pill shape) -->
+        <div class="search-box-header">
+          <span class="search-icon">🔍</span>
+          <input type="text" placeholder="Buscar" #searchInput (keyup.enter)="buscarHenosPorNombre(searchInput.value)"
+            (input)="0">
+          <button *ngIf="searchInput.value" class="btn-limpiar-header"
+            (click)="searchInput.value=''; buscarHenosPorNombre('')" title="Limpiar búsqueda">
+            ✕
+          </button>
+        </div>
 
-          <div class="stock">
-            <span class="label">Stock Disp.</span>
-            <span class="valor">{{ heno.stock }} und </span>
-          </div>
+        <!-- Cart Icon Button (Old Style: premium outline with 🛒 and text) -->
+        <button class="nav-cart-btn-premium" (click)="irAlCarrito()" title="Ver Carrito">
+          <span class="cart-icon-text">🛒</span>
+          <span *ngIf="cantidadEnCarrito > 0" class="cart-badge-pill">{{ cantidadEnCarrito }}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANNER HERO ("¿Quiénes Somos?") -->
+  <div class="hero-banner-image" [style.backgroundImage]="getHeroImageUrl()">
+    <div class="hero-overlay">
+      <div class="hero-content">
+        <div class="hero-left">
+          <h2 class="hero-title">¿QUIENES<br>SOMOS?</h2>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-right">
+          <p class="hero-desc">
+            Somos una empresa fabricante de heno de alta calidad que comercializa sus productos a través de una
+            plataforma web, ofreciendo una experiencia de compra eficiente y confiable.
+          </p>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal Popup para Login de Admin -->
-  <div class="modal-overlay" *ngIf="mostrarModalLogin" (click)="cerrarModalLogin()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <div class="modal-header">
-        <h2>Ingreso Administrador</h2>
-        <button class="modal-close-btn" (click)="cerrarModalLogin()">×</button>
-      </div>
-      <div class="modal-body">
-        <form (ngSubmit)="submitLoginAdmin()">
-          <div class="form-group-modal">
-            <label for="cedulaV">Cédula Administrador</label>
-            <input type="number" id="cedulaV" name="cedulaV" [(ngModel)]="cedulaVInput" required
-              placeholder="Ingrese su cédula de Admin">
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="productos-container">
+    <div class="header">
+      <h2 class="section-title">¿Para qué animal buscas heno?</h2>
+    </div>
+
+    <!-- Filter Buttons (AgroHeno Styled Cards) -->
+    <div class="filtros-container">
+      <button class="filtro-btn" (click)="cargarHenos()" [class.active]="categoriaSeleccionada === 'Todos'">
+        <!-- Stacked hay bales SVG -->
+        <svg viewBox="0 0 64 64" class="filtro-img-svg" xmlns="http://www.w3.org/2000/svg">
+          <g fill="#f1c40f" stroke="#3d2302" stroke-width="1.8" stroke-linejoin="round">
+            <!-- Bale 1 (bottom left) -->
+            <polygon points="10,48 26,48 26,58 10,58" />
+            <polygon points="26,48 34,42 34,52 26,58" />
+            <polygon points="10,48 18,42 34,42 26,48" />
+
+            <!-- Bale 2 (bottom middle-right) -->
+            <polygon points="28,48 44,48 44,58 28,58" />
+            <polygon points="44,48 52,42 52,52 44,58" />
+            <polygon points="28,48 36,42 52,42 44,48" />
+
+            <!-- Bale 3 (top middle) -->
+            <polygon points="19,36 35,36 35,46 19,46" />
+            <polygon points="35,36 43,30 43,40 35,46" />
+            <polygon points="19,36 27,30 43,30 35,36" />
+          </g>
+          <!-- Straw textures -->
+          <path d="M13,53 h8 M13,55 h6 M31,53 h8 M31,55 h6 M22,41 h8 M22,43 h6" stroke="#8c5a15" stroke-width="1"
+            stroke-linecap="round" />
+        </svg>
+        <span>Todos</span>
+      </button>
+      <button class="filtro-btn" (click)="filtrarHenos('Equinos')" [class.active]="categoriaSeleccionada === 'Equinos'">
+        <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
+        <span>Caballos</span>
+      </button>
+      <button class="filtro-btn" (click)="filtrarHenos('Bovinos')" [class.active]="categoriaSeleccionada === 'Bovinos'">
+        <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">
+        <span>Bovinos</span>
+      </button>
+      <button class="filtro-btn" (click)="filtrarHenos('Ovinos')" [class.active]="categoriaSeleccionada === 'Ovinos'">
+        <img src="assets/Imagenes/oveja.png" alt="Ovejas" class="filtro-img">
+        <span>Ovinos</span>
+      </button>
+    </div>
+
+    <div *ngIf="henos.length > 0" class="grid-productos">
+      <div class="producto-card" *ngFor="let heno of henos" (click)="detallePorId(heno.idHeno)">
+        <div class="card-imagen">
+          <img *ngIf="heno.imagen" [src]="heno.imagen" [alt]="heno.nombre">
+          <div *ngIf="!heno.imagen" class="placeholder-imagen">
+            <span>🌿</span>
           </div>
-          <div class="form-group-modal">
-            <label for="clave">Contraseña</label>
-            <input type="password" id="clave" name="clave" [(ngModel)]="claveInput" required
-              placeholder="Ingrese su contraseña">
+        </div>
+        <div class="card-content">
+          <h2>{{ heno.nombre }}</h2>
+          <p class="descripcion">{{ heno.descripcionCorta }}</p>
+
+          <div class="detalles">
+            <div class="precio">
+              <span class="label">Precio Unitario</span>
+              <span class="valor">${{ heno.precioU }}</span>
+            </div>
+
+            <div class="stock">
+              <span class="label">Stock Disp.</span>
+              <span class="valor">{{ heno.stock }} und </span>
+            </div>
           </div>
-          <div class="error-message-modal" *ngIf="loginError">
-            ⚠️ {{ loginError }}
-          </div>
-          <div class="modal-actions">
-            <button type="button" class="btn-cancelar" (click)="cerrarModalLogin()">Cancelar</button>
-            <button type="submit" class="btn-ingresar">Ingresar</button>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
-  </div>
+
+    <!-- Modal Popup para Login de Admin -->
+    <div class="modal-overlay" *ngIf="mostrarModalLogin" (click)="cerrarModalLogin()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Ingreso Administrador</h2>
+          <button class="modal-close-btn" (click)="cerrarModalLogin()">×</button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="submitLoginAdmin()">
+            <div class="form-group-modal">
+              <label for="idAdmin">ID Administrador</label>
+              <input type="number" id="idAdmin" name="idAdmin" [(ngModel)]="idAdminInput" required
+                placeholder="Ingrese su ID de Admin">
+            </div>
+            <div class="form-group-modal">
+              <label for="clave">Contraseña</label>
+              <input type="password" id="clave" name="clave" [(ngModel)]="claveInput" required
+                placeholder="Ingrese su contraseña">
+            </div>
+            <div class="error-message-modal" *ngIf="loginError">
+              ⚠️ {{ loginError }}
+            </div>
+            <div class="modal-actions">
+              <button type="button" class="btn-cancelar" (click)="cerrarModalLogin()">Cancelar</button>
+              <button type="submit" class="btn-ingresar">Ingresar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER PREMIUM -->
+  <footer class="main-footer">
+    <div class="footer-top">
+      <div class="footer-section brand-column">
+        <div class="footer-logo">
+          <span class="logo-icon">🌾</span>
+          <span class="logo-brand">Agro<span class="logo-accent">Heno</span></span>
+        </div>
+        <p class="brand-desc">
+          Especialistas en la producción y distribución de heno de la más alta calidad. Comprometidos con el bienestar y
+          nutrición de tu ganado o equinos.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-link" title="Instagram">📸 Instagram</a>
+          <a href="#" class="social-link" title="Facebook">🔵 Facebook</a>
+        </div>
+      </div>
+
+      <div class="footer-section contact-column" id="contacto">
+        <h3>Contacto</h3>
+        <ul class="contact-info">
+          <li>
+            <span class="contact-icon">📍</span>
+            <span class="contact-text">Vía Principal, Km 12. Facatativá, Cundinamarca</span>
+          </li>
+          <li>
+            <span class="contact-icon">📞</span>
+            <span class="contact-text">+57 (300) 123-4567</span>
+          </li>
+          <li>
+            <span class="contact-icon">✉️</span>
+            <span class="contact-text">contacto@agroheno.com</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-content">
+        <p>&copy; 2026 AgroHeno. Todos los derechos reservados. Nutrición premium para el campo colombiano.</p>
+        <div class="footer-bottom-links">
+          <a href="#">Términos y Condiciones</a>
+          <span class="bullet">•</span>
+          <a href="#">Política de Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
 </div>

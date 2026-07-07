@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --primary-olive: #036c39; /* Verde esmeralda de AgroHeno */
+  --primary-gold: #cca243;  /* Dorado/arena cálido para botones inactivos */
+  --gold-dark: #8c5a15;     /* Marrón/dorado oscuro para botón activo */
+  --nav-cream: #f7f5f0;
+  --white: #ffffff;
+  --text-dark: #3d2302;     /* Marrón oscuro para tipografía de filtros */
+  --text-muted: #718096;
+  --bg-cream: #fcfdfa;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-cream);
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

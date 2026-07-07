@@ -41,6 +41,21 @@ public class HenoServise {
         } catch(Exception e) {
             System.out.println("==== FIX DB INFO: " + e.getMessage() + " ====");
         }
+
+        try {
+            Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM animales", Integer.class);
+            if (count == null || count == 0) {
+                jdbcTemplate.execute("INSERT INTO animales (id_animales, nombre) VALUES (1, 'Bovinos'), (2, 'Equinos'), (3, 'Ovinos')");
+                try {
+                    jdbcTemplate.execute("SELECT setval(pg_get_serial_sequence('animales', 'id_animales'), 3)");
+                } catch(Exception seqEx) {
+                    System.out.println("==== SEED SEQUENCE INFO: " + seqEx.getMessage() + " ====");
+                }
+                System.out.println("==== SEED APLICADO: Animales (Bovinos, Equinos, Ovinos) creados con éxito ====");
+            }
+        } catch(Exception e) {
+            System.out.println("==== SEED ERR: " + e.getMessage() + " ====");
+        }
     }
 
     public Heno crearHeno(String henoJson, MultipartFile archivoImagen, List<Long> idAnimales) throws IOException {
