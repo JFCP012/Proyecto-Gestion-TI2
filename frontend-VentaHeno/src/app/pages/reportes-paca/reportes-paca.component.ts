@@ -1,8 +1,10 @@
-import { Component, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, inject, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReportesService } from '../../services/reportes.service';
+import { HenoService } from '../../services/heno.service';
+import { Heno } from '../../models/heno.model';
 import { ReporteFacturasHeno } from '../../models/reporte-venta.model';
 
 @Component({
@@ -12,13 +14,13 @@ import { ReporteFacturasHeno } from '../../models/reporte-venta.model';
   templateUrl: './reportes-paca.component.html',
   styleUrls: ['./reportes-paca.component.css']
 })
-export class ReportesPacaComponent {
+export class ReportesPacaComponent implements OnInit {
   private router = inject(Router);
   private reportesService = inject(ReportesService);
+  private henoService = inject(HenoService);
   private cdr = inject(ChangeDetectorRef);
 
-  // Tipos de heno estáticos según requerimiento
-  tiposPaca = ['Angleton', 'Pangola', 'Heno_Vegetal'];
+  henosList: Heno[] = [];
   pacaSeleccionada: string | null = null;
 
   reportePaca: ReporteFacturasHeno | null = null;
@@ -27,6 +29,22 @@ export class ReportesPacaComponent {
 
   paginaActual: number = 1;
   itemsPorPagina: number = 5;
+
+  ngOnInit() {
+    this.cargarListaHenos();
+  }
+
+  cargarListaHenos() {
+    this.henoService.buscarHenos().subscribe({
+      next: (data) => {
+        this.henosList = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error al cargar lista de henos para reportes:', err);
+      }
+    });
+  }
 
   volverAdmin() { 
     this.router.navigate(['/admin']); 

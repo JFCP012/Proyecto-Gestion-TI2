@@ -1,14 +1,29 @@
-<div class="admin-dashboard-container">
-  <div class="admin-header">
-    <div class="header-left">
-      <div class="header-actions">
-        <button class="btn-back-tienda" (click)="volverTienda()">← Ir a la Tienda</button>
-        <button class="btn-logout-admin" (click)="cerrarSesion()">Cerrar Sesión 🔓</button>
-      </div>
-      <h1>Panel de Administración</h1>
-      <p>Gestión de AgroHeno y control de inventario</p>
+<header class="admin-top-header">
+  <div class="admin-header-inner">
+    <!-- Left: back to store -->
+    <div class="admin-header-left">
+      <button class="btn-admin-back" (click)="volverTienda()">← Ir a la Tienda</button>
     </div>
-    <div class="admin-badge">Admin Mode 🔒</div>
+    <!-- Center: Logo -->
+    <div class="admin-header-branding">
+      <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
+      <div class="admin-brand-text">
+        <span class="brand-main">AgroHeno</span>
+        <span class="brand-sub">PANEL DE CONTROL</span>
+      </div>
+    </div>
+    <!-- Right: Logout -->
+    <div class="admin-header-right">
+      <span class="admin-header-badge">Admin Mode 🔒</span>
+      <button class="btn-admin-logout" (click)="cerrarSesion()">Cerrar Sesión 🔓</button>
+    </div>
+  </div>
+</header>
+
+<div class="admin-dashboard-container">
+  <div class="dashboard-title-area">
+    <h1>Panel de Administración</h1>
+    <p>Gestión de AgroHeno y control de inventario</p>
   </div>
 
   <div class="dashboard-grid">
