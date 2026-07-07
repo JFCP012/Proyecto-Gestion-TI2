@@ -11,18 +11,22 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "admin")
+@Table(name = "administrador")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Admin {
-
+public class Administrador {
+    
     @Id
-    @Column(name = "idAdmin", nullable = false, unique = true)
-    private Long idAdmin;
+    @Column(name = "cedulaV", nullable = false, unique = true)
+    private Long cedulaV;
 
     @Column(name = "clave", nullable = false)
     private String clave;
+
+    @Column(name = "nombre", nullable = false)
+    private String nombre;
+
 }

@@ -21,7 +21,7 @@ export class ProductoComponent {
 
   // Variables para el modal de login de Admin
   mostrarModalLogin = false;
-  idAdminInput: number | null = null;
+  cedulaVInput: number | null = null;
   claveInput = '';
   loginError = '';
 
@@ -60,7 +60,7 @@ export class ProductoComponent {
 
   abrirModalLogin() {
     this.mostrarModalLogin = true;
-    this.idAdminInput = null;
+    this.cedulaVInput = null;
     this.claveInput = '';
     this.loginError = '';
     this.cdr.detectChanges();
@@ -72,19 +72,19 @@ export class ProductoComponent {
   }
 
   submitLoginAdmin() {
-    if (!this.idAdminInput || !this.claveInput) {
+    if (!this.cedulaVInput || !this.claveInput) {
       this.loginError = 'Por favor complete todos los campos';
       this.cdr.detectChanges();
       return;
     }
 
-    this.adminService.loginAdmin(this.idAdminInput, this.claveInput).subscribe({
+    this.adminService.loginAdmin(this.cedulaVInput, this.claveInput).subscribe({
       next: (isValid) => {
         if (isValid) {
           this.mostrarModalLogin = false;
           this.router.navigate(['/admin']);
         } else {
-          this.loginError = 'ID de Admin o clave incorrectos';
+          this.loginError = 'Cédula de Admin o clave incorrectos';
         }
         this.cdr.detectChanges();
       },

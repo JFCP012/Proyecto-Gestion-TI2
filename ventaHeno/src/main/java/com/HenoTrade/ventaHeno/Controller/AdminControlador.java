@@ -2,7 +2,7 @@ package com.HenoTrade.ventaHeno.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import com.HenoTrade.ventaHeno.Entity.Admin;
+import com.HenoTrade.ventaHeno.Entity.Administrador;
 import com.HenoTrade.ventaHeno.service.AdminServise;
 
 @RestController
@@ -14,7 +14,7 @@ public class AdminControlador {
     private AdminServise adminServise;
 
     @GetMapping("/login")
-    public boolean loginAdmin(@RequestParam Long idAdmin, @RequestParam String clave) {
-        return this.adminServise.loginAdmin(idAdmin, clave);
+    public boolean loginAdmin(@RequestParam Long cedulaV, @RequestParam String clave) {
+        return this.adminServise.loginAdmin(cedulaV, clave);
     }
 }
