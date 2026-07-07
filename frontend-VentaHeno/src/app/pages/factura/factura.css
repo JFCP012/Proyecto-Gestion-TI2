@@ -310,3 +310,219 @@
     50% { transform: scale(1.1); opacity: 1; }
     100% { transform: scale(1); }
 }
+
+/* ---- Delivery Options ---- */
+.delivery-title {
+    font-size: 1.05rem !important;
+    margin-bottom: 1rem !important;
+    display: block;
+    color: #1f2937;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 600px) {
+    .radio-group {
+        flex-direction: row;
+    }
+    .radio-card {
+        flex: 1;
+    }
+}
+
+.radio-card {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: all 0.2s ease;
+    background: #fff;
+}
+
+.radio-card input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.radio-card:hover {
+    border-color: #a5b4fc;
+    background-color: #f8fafc;
+}
+
+.radio-card input[type="radio"]:checked + .card-content {
+    /* No visual change on the wrapper needed if we style the parent, but we can't do :has easily across all browsers yet, so we style the content inner instead, wait, the radio is inside .radio-card */
+}
+/* A better way is using focus-within or checked sibling */
+.radio-card:has(input[type="radio"]:checked) {
+    border-color: #4f46e5;
+    background-color: #eef2ff;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+}
+
+/* Fallback for older browsers without :has */
+.radio-card input[type="radio"]:checked ~ .card-content {
+    color: #4f46e5;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-content .icon {
+    font-size: 1.8rem;
+}
+
+.card-content .details {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-content .title {
+    font-weight: 600;
+    color: #111827;
+    font-size: 1rem;
+}
+
+.card-content .subtitle {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin-top: 0.2rem;
+}
+
+.radio-card:has(input[type="radio"]:checked) .title {
+    color: #4f46e5;
+}
+
+.form-row {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+}
+
+@media (min-width: 600px) {
+    .form-row {
+        flex-direction: row;
+    }
+}
+
+.half-width {
+    flex: 1;
+}
+
+select {
+    padding: 0.85rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+select:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+select:disabled {
+    background-color: #f3f4f6;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.shipping-details {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- Quantity Controls ---- */
+.qty-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    background: #f1f5f9;
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.btn-qty {
+    background: #e2e8f0;
+    border: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-qty:hover {
+    background: #cbd5e1;
+}
+
+.qty-input {
+    font-size: 0.9rem;
+    font-weight: 600;
+    width: 45px;
+    text-align: center;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    padding: 0.2rem;
+    background: #fff;
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.qty-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+}
+
+/* ---- Warning Banner ---- */
+.warning-banner {
+    background-color: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 0 8px 8px 0;
+    color: #92400e;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.disabled-btn {
+    background-color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
