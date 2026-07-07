@@ -11,8 +11,8 @@ export class AdminService {
 
   constructor(private http: HttpClient) { }
 
-  loginAdmin(idAdmin: number, clave: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/login?idAdmin=${idAdmin}&clave=${encodeURIComponent(clave)}`)
+  loginAdmin(cedulaV: number, clave: string): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/login?cedulaV=${cedulaV}&clave=${encodeURIComponent(clave)}`)
       .pipe(
         tap(isValid => {
           if (isValid) {

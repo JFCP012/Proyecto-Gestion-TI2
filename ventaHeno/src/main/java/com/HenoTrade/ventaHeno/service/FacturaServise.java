@@ -10,11 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.HenoTrade.ventaHeno.Entity.DetalleVenta;
 import com.HenoTrade.ventaHeno.Entity.Factura;
 import com.HenoTrade.ventaHeno.Entity.Heno;
-import com.HenoTrade.ventaHeno.Entity.Vendedor;
+import com.HenoTrade.ventaHeno.Entity.Administrador;
 import com.HenoTrade.ventaHeno.Repository.DetalleVentaRepositorio;
 import com.HenoTrade.ventaHeno.Repository.FacturaRepositorio;
 import com.HenoTrade.ventaHeno.Repository.HenoRepositorio;
-import com.HenoTrade.ventaHeno.Repository.VendedorRepositorio;
+import com.HenoTrade.ventaHeno.Repository.AdministradorRepositorio;
 import com.HenoTrade.ventaHeno.dto.CompraDTO;
 import com.HenoTrade.ventaHeno.dto.DetalleVentaDTO;
 import com.HenoTrade.ventaHeno.dto.FacturaReporteDTO;
@@ -37,7 +37,7 @@ public class FacturaServise {
     private HenoRepositorio henoRepositorio;
     
     @Autowired
-    private VendedorRepositorio vendedorRepositorio;
+    private AdministradorRepositorio administradorRepositorio;
 
     public Factura guardarFactura(Factura factura) {
         return this.facturaRepositorio.save(factura);
@@ -47,11 +47,11 @@ public class FacturaServise {
     public Factura procesarCompra(CompraDTO compra) {
         Factura factura = compra.getFactura();
         
-        // Asignar Vendedor (Asumiendo que viene el cedulaV en el objeto Factura)
-        if (factura.getVendedor() != null && factura.getVendedor().getCedulaV() != null) {
-            Vendedor vendedor = vendedorRepositorio.findById(factura.getVendedor().getCedulaV())
-                .orElseThrow(() -> new RuntimeException("Vendedor no encontrado con cédula: " + factura.getVendedor().getCedulaV()));
-            factura.setVendedor(vendedor);
+        // Asignar Administrador (Asumiendo que viene el cedulaV en el objeto Factura)
+        if (factura.getAdministrador() != null && factura.getAdministrador().getCedulaV() != null) {
+            Administrador administrador = administradorRepositorio.findById(factura.getAdministrador().getCedulaV())
+                .orElseThrow(() -> new RuntimeException("Administrador no encontrado con cédula: " + factura.getAdministrador().getCedulaV()));
+            factura.setAdministrador(administrador);
         }
         
         // 1. Guardar factura

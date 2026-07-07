@@ -32,7 +32,7 @@ public class Factura {
 
     @ManyToOne
     @JoinColumn(name = "cedulaV", referencedColumnName = "cedulaV")
-    private Vendedor vendedor;
+    private Administrador administrador;
 
     @Column(name = "fechaFactura", nullable = false)
     private Date fechaFactura;
