@@ -22,42 +22,105 @@
                 <form (ngSubmit)="procesarCompra()">
                     <div class="form-group">
                         <label for="nombreC">Nombre Completo</label>
-                        <input type="text" id="nombreC" name="nombreC" [(ngModel)]="factura.nombreC" required placeholder="Ej: Juan Pérez">
+                        <input type="text" id="nombreC" name="nombreC" [(ngModel)]="factura.nombreC" required
+                            placeholder="Ej: Juan Pérez">
                     </div>
 
                     <div class="form-group">
                         <label for="cedulaC">Cédula / NIT</label>
-                        <input type="text" id="cedulaC" name="cedulaC" [(ngModel)]="factura.cedulaC" required placeholder="Ej: 123456789">
+                        <input type="text" id="cedulaC" name="cedulaC" [(ngModel)]="factura.cedulaC" required
+                            placeholder="Ej: 123456789">
                     </div>
 
                     <div class="form-group">
                         <label for="telefonoC">Teléfono</label>
-                        <input type="tel" id="telefonoC" name="telefonoC" [(ngModel)]="factura.telefonoC" required placeholder="Ej: 3001234567">
+                        <input type="tel" id="telefonoC" name="telefonoC" [(ngModel)]="factura.telefonoC" required
+                            placeholder="Ej: 3001234567">
                     </div>
 
-                    <div class="form-group">
-                        <label for="direccionC">Dirección de Envío</label>
-                        <input type="text" id="direccionC" name="direccionC" [(ngModel)]="factura.direccionC" required placeholder="Ej: Calle 123 # 45-67">
+                    <div class="form-group delivery-options">
+                        <label class="delivery-title">Método de Entrega</label>
+                        <div class="radio-group">
+                            <label class="radio-card">
+                                <input type="radio" name="tipoEntrega" value="bodega" [(ngModel)]="tipoEntrega"
+                                    (change)="onTipoEntregaChange()">
+                                <div class="card-content">
+                                    <span class="icon">🏪</span>
+                                    <div class="details">
+                                        <span class="title">Recoger en bodega</span>
+                                        <span class="subtitle">Finca Santa Helena - La Dorada, Caldas</span>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="radio-card">
+                                <input type="radio" name="tipoEntrega" value="envio" [(ngModel)]="tipoEntrega"
+                                    (change)="onTipoEntregaChange()">
+                                <div class="card-content">
+                                    <span class="icon">🚚</span>
+                                    <div class="details">
+                                        <span class="title">Con envío</span>
+                                        <span class="subtitle">$2,000 COP por paca</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div *ngIf="tipoEntrega === 'envio'" class="shipping-details">
+                        <div class="form-row">
+                            <div class="form-group half-width">
+                                <label for="departamento">Departamento</label>
+                                <select id="departamento" name="departamento" [(ngModel)]="departamentoSeleccionado"
+                                    (change)="onDepartamentoChange()" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option *ngFor="let depto of departamentos" [value]="depto">{{ depto }}</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group half-width">
+                                <label for="municipio">Municipio</label>
+                                <select id="municipio" name="municipio" [(ngModel)]="municipioSeleccionado"
+                                    [disabled]="!departamentoSeleccionado" required>
+                                    <option value="" disabled selected>Seleccione</option>
+                                    <option *ngFor="let mun of municipiosDisponibles" [value]="mun">{{ mun }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="direccionC">Dirección de Envío Exacta</label>
+                            <input type="text" id="direccionC" name="direccionC" [(ngModel)]="factura.direccionC"
+                                required placeholder="Ej: Calle 123 # 45-67, Barrio Centro">
+                        </div>
                     </div>
 
                     <!-- Botón Mobile -->
-                    <button type="submit" class="btn-submit mobile-only">Confirmar y Pagar</button>
+                    <button type="submit" class="btn-submit mobile-only" [disabled]="tipoEntrega === 'envio' && totalPacas < 50" [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">Confirmar y Pagar</button>
                 </form>
             </div>
 
             <!-- Columna Derecha: Resumen de Compra -->
             <div class="order-summary">
                 <h3>Resumen de tu Pedido</h3>
-                
+
+                <div class="warning-banner" *ngIf="tipoEntrega === 'envio' && totalPacas < 50">
+                    ⚠️ La cantidad mínima para envíos es de 50 pacas. Tienes {{ totalPacas }} pacas.
+                </div>
+
                 <div class="items-list" *ngIf="items$ | async as items">
                     <div class="summary-item" *ngFor="let item of items">
                         <div class="item-img-container">
                             <img [src]="item.producto.imagen" [alt]="item.producto.nombre" *ngIf="item.producto.imagen">
                             <span class="img-placeholder" *ngIf="!item.producto.imagen">🌾</span>
-                            <span class="item-badge">{{ item.cantidad }}</span>
                         </div>
                         <div class="item-info">
                             <span class="item-name">{{ item.producto.nombre }}</span>
+                            <div class="qty-control">
+                                <button type="button" class="btn-qty" (click)="actualizarCantidad(item, item.cantidad - 1)">-</button>
+                                <input type="number" class="qty-input" [ngModel]="item.cantidad" (ngModelChange)="actualizarCantidad(item, $event)" min="1" [max]="item.producto.stock">
+                                <button type="button" class="btn-qty" (click)="actualizarCantidad(item, item.cantidad + 1)">+</button>
+                            </div>
                         </div>
                         <span class="item-price">${{ (item.producto.precioU * item.cantidad) | number:'1.0-0' }}</span>
                     </div>
@@ -81,8 +144,10 @@
                     </div>
                 </div>
 
-                <button class="btn-submit desktop-only" (click)="procesarCompra()">Confirmar y Pagar</button>
-                
+                <button class="btn-submit desktop-only" (click)="procesarCompra()" [disabled]="tipoEntrega === 'envio' && totalPacas < 50" [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">
+                    Confirmar y Pagar
+                </button>
+
                 <div class="secure-checkout">
                     <span>🔒 Pago 100% seguro y encriptado</span>
                 </div>

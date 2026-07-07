@@ -24,8 +24,9 @@ export class Factura implements OnInit {
 
   items$ = this.carritoService.cartItems$;
   subtotal = 0;
-  envio = 15000;
+  envio = 0;
   total = 0;
+  totalPacas = 0;
 
   factura: Partial<FacturaModel> = {
     nombreC: '',
@@ -34,18 +35,98 @@ export class Factura implements OnInit {
     telefonoC: ''
   };
 
+  tipoEntrega: 'bodega' | 'envio' = 'envio';
+  departamentoSeleccionado: string = '';
+  municipioSeleccionado: string = '';
+
+  departamentosYMunicipios: { [key: string]: string[] } = {
+    'Amazonas': ['Leticia', 'Puerto Nariño'],
+    'Antioquia': ['Medellín', 'Bello', 'Itagüí', 'Envigado', 'Rionegro', 'Apartadó', 'Turbo', 'Caucasia', 'Sabaneta', 'Copacabana', 'La Estrella', 'Caldas', 'Marinilla', 'Guarne', 'Carmen de Viboral', 'Santa fe de Antioquia', 'Sonsón', 'Yarumal', 'Andes', 'Urrao'],
+    'Arauca': ['Arauca', 'Arauquita', 'Saravena', 'Tame'],
+    'Atlántico': ['Barranquilla', 'Soledad', 'Malambo', 'Sabanalarga', 'Baranoa', 'Galapa', 'Puerto Colombia', 'Polonuevo', 'Sabanagrande'],
+    'Bogotá D.C.': ['Bogotá D.C.'],
+    'Bolívar': ['Cartagena', 'Magangué', 'Turbaco', 'Arjona', 'El Carmen de Bolívar', 'Mompós', 'María La Baja', 'San Juan Nepomuceno'],
+    'Boyacá': ['Tunja', 'Duitama', 'Sogamoso', 'Chiquinquirá', 'Paipa', 'Puerto Boyacá', 'Villa de Leyva', 'Moniquirá', 'Garagoa'],
+    'Caldas': ['Manizales', 'La Dorada', 'Villamaría', 'Chinchiná', 'Riosucio', 'Anserma', 'Supía', 'Pensilvania', 'Salamina'],
+    'Caquetá': ['Florencia', 'San Vicente del Caguán', 'Cartagena del Chairá', 'Puerto Rico'],
+    'Casanare': ['Yopal', 'Aguazul', 'Paz de Ariporo', 'Villanueva', 'Tauramena', 'Monterrey'],
+    'Cauca': ['Popayán', 'Santander de Quilichao', 'Puerto Tejada', 'El Tambo', 'Piendamó', 'Corinto', 'Miranda', 'Caldono'],
+    'Cesar': ['Valledupar', 'Aguachica', 'Agustín Codazzi', 'Bosconia', 'Curumaní', 'El Paso', 'La Paz', 'Pueblo Bello'],
+    'Chocó': ['Quibdó', 'Istmina', 'Tadó', 'Condoto', 'Bahía Solano', 'Nuquí'],
+    'Córdoba': ['Montería', 'Lorica', 'Cereté', 'Sahagún', 'Montelíbano', 'Planeta Rica', 'Tierralta', 'San Antero'],
+    'Cundinamarca': ['Soacha', 'Facatativá', 'Chía', 'Zipaquirá', 'Mosquera', 'Funza', 'Madrid', 'Cajicá', 'Girardot', 'Fusagasugá', 'Tocancipá', 'Cota', 'La Calera'],
+    'Guainía': ['Inírida'],
+    'Guaviare': ['San José del Guaviare', 'Calamar', 'El Retorno'],
+    'Huila': ['Neiva', 'Pitalito', 'Garzón', 'La Plata', 'Campoalegre', 'San Agustín', 'Aipe'],
+    'La Guajira': ['Riohacha', 'Maicao', 'Uribia', 'San Juan del Cesar', 'Fonseca', 'Manaure'],
+    'Magdalena': ['Santa Marta', 'Ciénaga', 'Fundación', 'El Banco', 'Plato', 'Aracataca', 'Pivijay'],
+    'Meta': ['Villavicencio', 'Acacías', 'Granada', 'Puerto López', 'Puerto Gaitán', 'San Martín', 'Restrepo', 'Cumaral'],
+    'Nariño': ['Pasto', 'Tumaco', 'Ipiales', 'Samaniego', 'Túquerres', 'La Unión', 'Sandoná', 'Barbacoas'],
+    'Norte de Santander': ['Cúcuta', 'Ocaña', 'Villa del Rosario', 'Los Patios', 'Pamplona', 'Tibú', 'El Zulia', 'Ábrego'],
+    'Putumayo': ['Mocoa', 'Puerto Asís', 'Orito', 'Valle del Guamuez', 'Sibundoy'],
+    'Quindío': ['Armenia', 'Calarcá', 'Montenegro', 'Quimbaya', 'La Tebaida', 'Circasia', 'Salento', 'Filandia'],
+    'Risaralda': ['Pereira', 'Dosquebradas', 'Santa Rosa de Cabal', 'La Virginia', 'Belén de Umbría', 'Quinchía', 'Apía'],
+    'San Andrés y Providencia': ['San Andrés', 'Providencia'],
+    'Santander': ['Bucaramanga', 'Floridablanca', 'Barrancabermeja', 'Girón', 'Piedecuesta', 'San Gil', 'Socorro', 'Málaga', 'Lebrija', 'Zapatoca', 'Barichara'],
+    'Sucre': ['Sincelejo', 'Corozal', 'San Marcos', 'Sampués', 'Tolú', 'San Onofre', 'Coveñas', 'Majagual'],
+    'Tolima': ['Ibagué', 'Espinal', 'Melgar', 'Honda', 'Chaparral', 'Mariquita', 'Líbano', 'Purificación', 'Guamo', 'Fresno'],
+    'Valle del Cauca': ['Cali', 'Buenaventura', 'Palmira', 'Tuluá', 'Yumbo', 'Cartago', 'Buga', 'Jamundí', 'Florida', 'Pradera', 'Zarzal', 'Roldanillo', 'Sevilla'],
+    'Vaupés': ['Mitú', 'Carurú'],
+    'Vichada': ['Puerto Carreño', 'La Primavera', 'Santa Rosalía', 'Cumaribo']
+  };
+
+  departamentos: string[] = Object.keys(this.departamentosYMunicipios);
+  municipiosDisponibles: string[] = [];
+
   compraExitosa = false;
   procesando = false;
   ultimaCompra: any = null;
   private logoBase64: string = '';
 
   ngOnInit() {
-    this.subtotal = this.carritoService.obtenerTotal();
-    if (this.subtotal === 0) {
-      this.router.navigate(['/carrito']);
+    // Subscribe to cart items to keep totals updated reactively
+    this.items$.subscribe(items => {
+      if (this.compraExitosa) return; // Prevent redirect and recalculations when cart is emptied after success
+      
+      this.subtotal = items.reduce((sum, item) => sum + (item.producto.precioU * item.cantidad), 0);
+      this.totalPacas = items.reduce((sum, item) => sum + item.cantidad, 0);
+      
+      if (this.subtotal === 0) {
+        this.router.navigate(['/carrito']);
+      }
+      
+      this.actualizarEnvio();
+    });
+
+    this.cargarLogo();
+  }
+
+  actualizarCantidad(item: any, nuevaCantidad: number) {
+    if (nuevaCantidad < 1) nuevaCantidad = 1;
+    if (nuevaCantidad > item.producto.stock) nuevaCantidad = item.producto.stock;
+    this.carritoService.actualizarCantidad(item.producto.idHeno, nuevaCantidad);
+  }
+
+  onDepartamentoChange() {
+    this.municipioSeleccionado = '';
+    if (this.departamentoSeleccionado) {
+      this.municipiosDisponibles = this.departamentosYMunicipios[this.departamentoSeleccionado] || [];
+    } else {
+      this.municipiosDisponibles = [];
+    }
+  }
+
+  onTipoEntregaChange() {
+    this.actualizarEnvio();
+  }
+
+  actualizarEnvio() {
+    if (this.tipoEntrega === 'bodega') {
+      this.envio = 0;
+    } else {
+      this.envio = this.totalPacas * 2000;
     }
     this.total = this.subtotal + this.envio;
-    this.cargarLogo();
   }
 
 
@@ -70,9 +151,23 @@ export class Factura implements OnInit {
   }
 
   procesarCompra() {
-    if (!this.factura.nombreC || !this.factura.cedulaC || !this.factura.direccionC || !this.factura.telefonoC) {
-      alert('Por favor complete todos los campos');
+    if (!this.factura.nombreC || !this.factura.cedulaC || !this.factura.telefonoC) {
+      alert('Por favor complete todos los campos obligatorios');
       return;
+    }
+
+    if (this.tipoEntrega === 'envio') {
+      if (this.totalPacas < 50) {
+        alert('La cantidad mínima para envíos es de 50 pacas. Por favor, ajuste su pedido.');
+        return;
+      }
+      if (!this.factura.direccionC || !this.departamentoSeleccionado || !this.municipioSeleccionado) {
+        alert('Por favor complete todos los campos de la dirección de envío');
+        return;
+      }
+      this.factura.direccionC = `${this.factura.direccionC}, ${this.municipioSeleccionado}, ${this.departamentoSeleccionado}`;
+    } else {
+      this.factura.direccionC = 'Finca Santa Helena - La Dorada, Caldas';
     }
 
     this.procesando = true;
@@ -154,8 +249,8 @@ export class Factura implements OnInit {
     doc.setTextColor(71, 85, 105);
     doc.text(`N° Factura: ${f.idFactura || 'Pendiente'}`, 14, 60);
     doc.text(`Fecha: ${f.fechaFactura || this.factura.fechaFactura}`, 14, 67);
-    doc.text(`Nombre Vendedor: ${f.vendedor?.nombre || ''}`, 14, 74);
-    doc.text(`Vendedor (Cédula): ${f.vendedor?.cedulaV || '1054544178'}`, 14, 81);
+    const tipoVenta = this.tipoEntrega === 'bodega' ? 'POS' : 'Online';
+    doc.text(`Tipo de Venta: ${tipoVenta}`, 14, 74);
 
 
     // Datos del cliente
@@ -196,8 +291,8 @@ export class Factura implements OnInit {
 
     // Totales
     const finalY = (doc as any).lastAutoTable.finalY + 10;
-    const totalVenta = f.totalVenta || this.factura.totalVenta;
-    const envio = f.envio || this.factura.envio;
+    const totalVenta = f.totalVenta ?? this.factura.totalVenta;
+    const envio = f.envio ?? this.factura.envio ?? 0;
     const subtotal = totalVenta - envio;
 
     // Caja de totales
