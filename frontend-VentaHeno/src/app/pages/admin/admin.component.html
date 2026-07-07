@@ -2,7 +2,7 @@
   <div class="admin-header-inner">
     <!-- Left: back to store -->
     <div class="admin-header-left">
-      <button class="btn-admin-back" (click)="volverTienda()">← Ir a la Tienda</button>
+      <button class="btn-admin-logout" (click)="cerrarSesion()">Cerrar Sesión 🔓</button>
     </div>
     <!-- Center: Logo -->
     <div class="admin-header-branding">
@@ -13,10 +13,6 @@
       </div>
     </div>
     <!-- Right: Logout -->
-    <div class="admin-header-right">
-      <span class="admin-header-badge">Admin Mode 🔒</span>
-      <button class="btn-admin-logout" (click)="cerrarSesion()">Cerrar Sesión 🔓</button>
-    </div>
   </div>
 </header>
 
@@ -33,7 +29,7 @@
         <h2>Gestión de Heno</h2>
         <p>Añade nuevos tipos de heno, gestiona precios, stock y descripciones para tus clientes.</p>
         <button class="btn-dashboard-action" (click)="linkCrear()">
-          <span>➕ Crear Producto</span>
+          <span>Crear Producto</span>
         </button>
       </div>
     </div>
@@ -44,7 +40,7 @@
         <h2>Ventas por Mes</h2>
         <p>Genera reportes detallados de las ventas organizadas de forma mensual.</p>
         <button class="btn-dashboard-action" (click)="irAReportesMes()">
-          <span>📊 Generar Reporte</span>
+          <span>Generar Reporte</span>
         </button>
       </div>
     </div>
@@ -56,7 +52,7 @@
         <h2>Ventas por Animal</h2>
         <p>Analiza el volumen de facturación segmentado por el tipo de animal destino.</p>
         <button class="btn-dashboard-action" (click)="irAReportesAnimal()">
-          <span>📊 Generar Reporte</span>
+          <span>Generar Reporte</span>
         </button>
       </div>
     </div>
@@ -68,7 +64,7 @@
         <h2>Ventas por Paca</h2>
         <p>Analiza el volumen de facturación segmentado por el tipo de heno vendido.</p>
         <button class="btn-dashboard-action" (click)="irAReportesPaca()">
-          <span>📊 Generar Reporte</span>
+          <span>Generar Reporte</span>
         </button>
       </div>
     </div>
