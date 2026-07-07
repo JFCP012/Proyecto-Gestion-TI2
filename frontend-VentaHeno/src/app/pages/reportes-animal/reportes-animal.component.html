@@ -1,7 +1,27 @@
+<header class="admin-top-header">
+  <div class="admin-header-inner">
+    <!-- Left: back to admin panel -->
+    <div class="admin-header-left">
+      <button class="btn-admin-back" (click)="volverAdmin()">← Volver al Panel</button>
+    </div>
+    <!-- Center: Logo -->
+    <div class="admin-header-branding">
+      <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
+      <div class="admin-brand-text">
+        <span class="brand-main">AgroHeno</span>
+        <span class="brand-sub">REPORTES POR ANIMAL</span>
+      </div>
+    </div>
+    <!-- Right: Badge -->
+    <div class="admin-header-right">
+      <span class="admin-header-badge">Admin Mode 🔒</span>
+    </div>
+  </div>
+</header>
+
 <div class="reportes-mes-container">
   <div class="page-header">
     <div class="header-left">
-      <button class="btn-back" (click)="volverAdmin()">← Volver al Panel</button>
       <h1>Reporte de Ventas por Tipo de Animal</h1>
       <p>Selecciona un tipo de animal para consultar el historial detallado de facturación de heno destinado a este.</p>
     </div>
