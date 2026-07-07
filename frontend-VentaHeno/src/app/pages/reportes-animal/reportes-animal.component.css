@@ -55,33 +55,30 @@
 }
 
 .animal-card {
-  background: #f0fff4;
-  border: 2px solid #c6f6d5;
-  border-radius: 16px;
-  padding: 2rem;
+  background-color: var(--primary-gold);
+  border: none;
+  border-radius: 20px;
+  padding: 1.5rem 1rem;
   width: 160px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between;
   cursor: pointer;
-  transition: all 0.3s ease;
-  animation: fadeIn 0.4s ease-out;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
 }
 
 .animal-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(72, 187, 120, 0.2);
-  border-color: #9ae6b4;
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .animal-card.selected {
-  background: #e6fffa;
-  border-color: #38b2ac;
-  box-shadow: 0 4px 6px rgba(56, 178, 172, 0.2);
-}
-
-.animal-card.selected h3 {
-  color: #285e61;
+  background-color: var(--gold-dark) !important;
+  border: none !important;
+  box-shadow: 0 15px 30px rgba(140, 90, 21, 0.4) !important;
 }
 
 .animal-icon {
@@ -96,18 +93,23 @@
   width: 60px;
   height: 60px;
   object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: brightness(0) saturate(100%) invert(18%) sepia(21%) saturate(996%) hue-rotate(345deg) brightness(97%) contrast(92%);
 }
 
-.animal-icon span {
-  font-size: 3.5rem;
-  line-height: 1;
+.animal-card:hover .animal-icon img,
+.animal-card.selected .animal-icon img {
+  transform: scale(1.1);
 }
 
 .animal-card h3 {
-  color: #276749;
-  font-weight: 800;
+  color: var(--text-dark);
+  font-weight: 700;
   margin: 0;
-  font-size: 1.2rem;
+  font-size: 1.15rem;
+  font-family: 'Outfit', 'Inter', sans-serif;
+  letter-spacing: 0.5px;
+  transition: color 0.3s ease;
 }
 
 .btn-generar {
