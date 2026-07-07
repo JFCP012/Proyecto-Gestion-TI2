@@ -184,13 +184,13 @@ body {
 
 /* Selected states in report cards */
 .animal-card.selected {
-  background: rgba(3, 108, 57, 0.06) !important;
-  border-color: var(--primary-olive) !important;
-  box-shadow: 0 4px 6px rgba(3, 108, 57, 0.15) !important;
+  background: var(--gold-dark) !important;
+  border-color: transparent !important;
+  box-shadow: 0 15px 30px rgba(140, 90, 21, 0.4) !important;
 }
 
 .animal-card.selected h3 {
-  color: var(--primary-olive) !important;
+  color: var(--text-dark) !important;
 }
 
 .animal-card h3 {
