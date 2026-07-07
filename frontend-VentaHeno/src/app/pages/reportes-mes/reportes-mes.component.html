@@ -78,7 +78,7 @@
         <tbody>
           <tr *ngFor="let factura of facturasPaginadas">
             <td>#{{ factura.idFactura }}</td>
-            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy' }}</td>
+            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy':'UTC' }}</td>
             <td>{{ factura.nombreCliente }}</td>
             <td>{{ factura.cedulaCliente }}</td>
             <td>{{ factura.envio | currency:'USD' }}</td>
