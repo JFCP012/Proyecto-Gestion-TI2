@@ -339,5 +339,5 @@
 
 .btn-pagina:active:not(.activa) {
   transform: scale(0.95);
-  background: #e2e8f0;
+  background: #e2e8f0f3;
 }
