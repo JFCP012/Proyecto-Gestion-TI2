@@ -45,69 +45,71 @@
   margin: 0;
 }
 
-/* Tarjetas de Selección de Animales (Estilo Imagen) */
-.animal-cards-grid {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.animal-card {
-  background: #f0fff4;
-  border: 2px solid #c6f6d5;
+/* Tarjeta de Selector */
+.selector-card {
+  background: white;
   border-radius: 16px;
+  border: 1px solid rgba(226, 232, 240, 0.8);
   padding: 2rem;
-  width: 160px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+  margin-bottom: 2rem;
   animation: fadeIn 0.4s ease-out;
 }
 
-.animal-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px -3px rgba(72, 187, 120, 0.2);
-  border-color: #9ae6b4;
-}
-
-.animal-card.selected {
-  background: #e6fffa;
-  border-color: #38b2ac;
-  box-shadow: 0 4px 6px rgba(56, 178, 172, 0.2);
-}
-
-.animal-card.selected h3 {
-  color: #285e61;
-}
-
-.animal-icon {
-  margin-bottom: 1rem;
+.selector-content {
   display: flex;
-  justify-content: center;
   align-items: center;
-  height: 60px;
+  gap: 2rem;
 }
 
-.animal-icon img {
-  width: 60px;
-  height: 60px;
-  object-fit: contain;
+.icon-wrapper {
+  font-size: 3rem;
+  background: rgba(3, 108, 57, 0.08); /* Soft olive background tint */
+  color: var(--primary-olive);
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  flex-shrink: 0;
 }
 
-.animal-icon span {
-  font-size: 3.5rem;
-  line-height: 1;
+.form-wrapper {
+  flex-grow: 1;
 }
 
-.animal-card h3 {
-  color: #276749;
-  font-weight: 800;
-  margin: 0;
-  font-size: 1.2rem;
+.form-wrapper label {
+  display: block;
+  font-weight: 600;
+  color: #4a5568;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.input-group select {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 1.05rem;
+  color: #2d3748;
+  outline: none;
+  transition: all 0.2s;
+  background: #f8fafc;
+  width: 100%;
+}
+
+.input-group select:focus {
+  border-color: var(--primary-gold);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(204, 162, 67, 0.15);
 }
 
 .btn-generar {

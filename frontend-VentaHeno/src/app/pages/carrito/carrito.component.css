@@ -1,28 +1,20 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
 .carrito-container {
+  flex: 1;
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
   font-family: 'Inter', sans-serif;
   color: #2d3748;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.btn-volver {
-  background: none;
-  border: none;
-  color: #38a169;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0;
-  transition: color 0.2s;
-}
-
-.btn-volver:hover {
-  color: #276749;
-}
 
 h2 {
   font-size: 2rem;
