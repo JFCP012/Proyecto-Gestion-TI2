@@ -55,4 +55,8 @@ public class Heno {
     @Column(name = "imagen", length = 255)
     private String imagen;
 
+    @Column(name = "activo", nullable = false, columnDefinition = "boolean default true")
+    @Builder.Default
+    private Boolean activo = true;
+
 }

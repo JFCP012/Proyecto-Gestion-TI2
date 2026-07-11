@@ -14,4 +14,6 @@ public interface HenoRepositorio extends JpaRepository<Heno, Long> {
     @Query("SELECT h FROM Heno h WHERE LOWER(h.nombre) LIKE LOWER(CONCAT('%', :nombreHeno, '%'))")
     List<Heno> buscarPorNombre(String nombreHeno);
 
+    List<Heno> findByActivoTrue();
+
 }

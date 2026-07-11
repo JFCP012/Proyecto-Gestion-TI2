@@ -1,30 +1,31 @@
 <header class="admin-top-header">
-  <div class="admin-header-inner">
-    <!-- Left: back to admin panel -->
-    <div class="admin-header-left">
-      <button class="btn-admin-back" (click)="volver()">← Volver al Panel</button>
+    <div class="admin-header-inner">
+        <!-- Left: back to admin panel -->
+        <div class="admin-header-left">
+            <button class="btn-admin-back" (click)="volver()">← Volver</button>
+        </div>
+        <!-- Center: Logo -->
+        <div class="admin-header-branding">
+            <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
+            <div class="admin-brand-text">
+                <span class="brand-main">AgroHeno</span>
+                <span class="brand-sub">{{ isEditMode ? 'EDITAR PRODUCTO' : 'NUEVO PRODUCTO' }}</span>
+            </div>
+        </div>
+        <!-- Right: Badge -->
+        <div class="admin-header-right">
+            <span class="admin-header-badge">Admin Mode 🔒</span>
+        </div>
     </div>
-    <!-- Center: Logo -->
-    <div class="admin-header-branding">
-      <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
-      <div class="admin-brand-text">
-        <span class="brand-main">AgroHeno</span>
-        <span class="brand-sub">NUEVO PRODUCTO</span>
-      </div>
-    </div>
-    <!-- Right: Badge -->
-    <div class="admin-header-right">
-      <span class="admin-header-badge">Admin Mode 🔒</span>
-    </div>
-  </div>
 </header>
 
 <div class="crear-container">
 
     <div class="card-form">
         <div class="form-header">
-            <h2>Crear Nuevo Producto de Heno</h2>
-            <p>Complete los datos para registrar un nuevo lote de heno</p>
+            <h2>{{ isEditMode ? 'Editar Producto de Heno' : 'Crear Nuevo Producto de Heno' }}</h2>
+            <p>{{ isEditMode ? 'Modifique los campos necesarios para actualizar el producto' : 'Complete los datos para
+                registrar un nuevo lote de heno' }}</p>
         </div>
 
         <!-- Mensajes de Estado -->
@@ -47,7 +48,7 @@
                 <!-- Stock -->
                 <div class="form-group">
                     <label for="stock">Stock (kg)</label>
-                    <input type="number" id="stock" name="stock" [(ngModel)]="heno.stock" required min="1"
+                    <input type="number" id="stock" name="stock" [(ngModel)]="heno.stock" required min="0"
                         placeholder="Ej. 500">
                 </div>
                 <!-- Precio Unitario (Venta) -->
@@ -134,8 +135,9 @@
 
             <!-- Acciones -->
             <div class="form-actions">
-                <button type="submit" class="btn-submit" [disabled]="!henoForm.form.valid || !imagen || loading">
-                    {{ loading ? 'Guardando...' : 'Crear Producto' }}
+                <button type="submit" class="btn-submit"
+                    [disabled]="!henoForm.form.valid || (!imagen && !isEditMode) || loading">
+                    {{ loading ? 'Guardando...' : (isEditMode ? 'Guardar Cambios' : 'Crear Producto') }}
                 </button>
             </div>
         </form>

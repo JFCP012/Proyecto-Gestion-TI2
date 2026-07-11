@@ -75,6 +75,7 @@ public class FacturaServise {
             // Eliminación lógica si el stock llega a 0
             if (heno.getStock() == 0) {
                 heno.setEstado("Inactivo"); // Se cambia el estado en lugar de borrarlo físicamente para no romper el historial de facturas
+                heno.setActivo(false);
             }
             
             henoRepositorio.save(heno);

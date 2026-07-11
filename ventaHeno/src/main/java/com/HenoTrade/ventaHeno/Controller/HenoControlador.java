@@ -60,4 +60,39 @@ public class HenoControlador {
         return this.henoServise.buscarPorNombre(nombreHeno);
     }
 
+    @GetMapping("buscarTodos")
+    public List<Heno> buscarTodos() {
+        return this.henoServise.buscarTodos();
+    }
+
+    @GetMapping("buscarAnimales")
+    public List<Long> buscarAnimales(@RequestParam Long idHeno) {
+        return this.henoServise.buscarAnimalIds(idHeno);
+    }
+
+    @PutMapping("cambiarEstado/{id}")
+    public ResponseEntity<?> cambiarEstado(@PathVariable Long id, @RequestParam("activo") Boolean activo) {
+        try {
+            Heno henoActualizado = this.henoServise.cambiarEstado(id, activo);
+            return ResponseEntity.ok(henoActualizado);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error al cambiar el estado: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("editar/{id}")
+    public ResponseEntity<?> editarHeno(
+            @PathVariable Long id,
+            @RequestParam("heno") String henoJson,
+            @RequestParam(value = "imagen", required = false) MultipartFile archivoImagen,
+            @RequestParam(value = "idAnimales", required = false) List<Long> idAnimales) {
+
+        try {
+            Heno henoEditado = henoServise.editarHeno(id, henoJson, archivoImagen, idAnimales);
+            return ResponseEntity.ok(henoEditado);
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().body("Error al procesar la peticion de edicion: " + e.getMessage());
+        }
+    }
+
 }

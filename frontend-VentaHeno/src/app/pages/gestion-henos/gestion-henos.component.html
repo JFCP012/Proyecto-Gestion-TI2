@@ -1,0 +1,80 @@
+<header class="admin-top-header">
+  <div class="admin-header-inner">
+    <div class="admin-header-left">
+      <button class="btn-admin-back" (click)="volver()">← Volver al Panel</button>
+    </div>
+    <div class="admin-header-branding" (click)="volver()" style="cursor: pointer;">
+      <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
+      <div class="admin-brand-text">
+        <span class="brand-main">AgroHeno</span>
+        <span class="brand-sub">PANEL DE CONTROL</span>
+      </div>
+    </div>
+    <div class="admin-header-right">
+      <span class="admin-header-badge">Modo Edición 🔒</span>
+    </div>
+  </div>
+</header>
+
+<div class="gestion-container">
+  <!-- Bar under header with Title and Create button -->
+  <div class="action-bar">
+    <div class="bar-left">
+      <h2>Gestión de Heno</h2>
+    </div>
+    <div class="bar-right">
+      <button (click)="crearNuevo()" class="btn-crear">
+        <span>Crear Nuevo Producto</span>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="errorMsg" class="alert alert-error">
+    {{ errorMsg }}
+  </div>
+
+  <div *ngIf="loading" class="loading-state">
+    <span class="spinner">🌾</span> Cargando productos...
+  </div>
+
+  <div *ngIf="!loading && henos.length === 0" class="empty-state">
+    <p>No hay productos registrados en el inventario.</p>
+    <button (click)="crearNuevo()" class="btn-primary">Añadir Primer Producto</button>
+  </div>
+
+  <!-- Horizontal list similar to Cart -->
+  <div *ngIf="!loading && henos.length > 0" class="gestion-items">
+    <div class="gestion-item" *ngFor="let heno of henos" [class.inactive-item]="!heno.activo">
+      <!-- Thumbnail image -->
+      <img [src]="heno.imagen" [alt]="heno.nombre" class="item-img" *ngIf="heno.imagen">
+      <div class="item-placeholder" *ngIf="!heno.imagen">🌾</div>
+
+      <!-- Item Info -->
+      <div class="item-details">
+        <div class="title-row">
+          <h3>{{ heno.nombre }}</h3>
+          <span class="badge-status" [class.status-activo]="heno.activo" [class.status-inactivo]="!heno.activo">
+            {{ heno.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="info-price">${{ heno.precioU | number:'1.0-0' }} c/u</span>
+          <span class="info-divider">|</span>
+          <span class="info-stock">Stock: {{ heno.stock }} und</span>
+          <span class="info-divider">|</span>
+          <span class="info-quality">Calidad: {{ heno.estado }}</span>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="item-actions">
+        <button class="btn-action btn-edit" (click)="editar(heno.idHeno!)">
+          Editar
+        </button>
+        <button *ngIf="heno.activo" class="btn-action btn-deactivate" (click)="toggleEstado(heno)">
+          Desactivar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

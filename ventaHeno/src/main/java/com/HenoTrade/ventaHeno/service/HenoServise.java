@@ -2,6 +2,7 @@ package com.HenoTrade.ventaHeno.service;
 
 import com.HenoTrade.ventaHeno.Entity.Heno;
 import com.HenoTrade.ventaHeno.Repository.HenoRepositorio;
+import com.HenoTrade.ventaHeno.Repository.TipoHenoRepositorio;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,15 @@ public class HenoServise {
 
     private final HenoRepositorio repositorio;
     private final TipoHenoServise tipoHenoServise;
+    private final TipoHenoRepositorio tipoHenoRepositorio;
 
     @Autowired
     private Cloudinary cloudinary;
 
-    public HenoServise(HenoRepositorio repositorio, TipoHenoServise tipoHenoServise) {
+    public HenoServise(HenoRepositorio repositorio, TipoHenoServise tipoHenoServise, TipoHenoRepositorio tipoHenoRepositorio) {
         this.repositorio = repositorio;
         this.tipoHenoServise = tipoHenoServise;
+        this.tipoHenoRepositorio = tipoHenoRepositorio;
     }
 
     @Autowired
@@ -40,6 +43,13 @@ public class HenoServise {
             System.out.println("==== FIX DB APLICADO: Columna 'descripcion' en tabla 'heno' ahora permite nulos ====");
         } catch(Exception e) {
             System.out.println("==== FIX DB INFO: " + e.getMessage() + " ====");
+        }
+
+        try {
+            jdbcTemplate.execute("UPDATE heno SET activo = true WHERE activo IS NULL");
+            System.out.println("==== FIX DB APLICADO: Columna 'activo' inicializada a true para nulos ====");
+        } catch(Exception e) {
+            System.out.println("==== FIX DB ACTIVO INFO: " + e.getMessage() + " ====");
         }
 
         try {
@@ -66,7 +76,13 @@ public class HenoServise {
         double precioU = heno.getPrecioU();
         double precioC = (precioU * heno.getStock());
         heno.setPrecioC(precioC);
-        Long idHeno = heno.getIdHeno();
+        
+        // Asignar activo basado en el stock
+        if (heno.getStock() != null && heno.getStock() > 0) {
+            heno.setActivo(true);
+        } else {
+            heno.setActivo(false);
+        }
 
         // 2. Subir el archivo a Cloudinary
         Map uploadResult = cloudinary.uploader().upload(archivoImagen.getBytes(), ObjectUtils.emptyMap());
@@ -91,7 +107,71 @@ public class HenoServise {
     }
 
     public List<Heno> buscarHeno() {
+        return this.repositorio.findByActivoTrue();
+    }
+
+    public List<Heno> buscarTodos() {
         return this.repositorio.findAll();
+    }
+
+    public List<Long> buscarAnimalIds(Long idHeno) {
+        return this.tipoHenoRepositorio.findAnimalIdsByHenoId(idHeno);
+    }
+
+    public Heno cambiarEstado(Long id, Boolean activo) {
+        Heno heno = repositorio.findById(id)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND, "Heno no encontrado"));
+        heno.setActivo(activo);
+        if (!activo) {
+            heno.setStock(0);
+            heno.setPrecioC(0.0);
+        }
+        return repositorio.save(heno);
+    }
+
+    public Heno editarHeno(Long id, String henoJson, MultipartFile archivoImagen, List<Long> idAnimales) throws IOException {
+        Heno henoExistente = repositorio.findById(id)
+                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
+                        org.springframework.http.HttpStatus.NOT_FOUND, "Heno no encontrado"));
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        Heno henoDatos = objectMapper.readValue(henoJson, Heno.class);
+
+        henoExistente.setNombre(henoDatos.getNombre());
+        henoExistente.setPrecioU(henoDatos.getPrecioU());
+        henoExistente.setStock(henoDatos.getStock());
+        henoExistente.setDescripcionCorta(henoDatos.getDescripcionCorta());
+        henoExistente.setDescripcionLarga(henoDatos.getDescripcionLarga());
+        henoExistente.setFechaEntrada(henoDatos.getFechaEntrada());
+        henoExistente.setEstado(henoDatos.getEstado());
+        
+        // Manejo automático de estado basado en el stock
+        if (henoExistente.getStock() > 0) {
+            henoExistente.setActivo(true);
+        } else {
+            henoExistente.setActivo(false);
+        }
+
+        double precioC = henoExistente.getPrecioU() * henoExistente.getStock();
+        henoExistente.setPrecioC(precioC);
+
+        if (archivoImagen != null && !archivoImagen.isEmpty()) {
+            Map uploadResult = cloudinary.uploader().upload(archivoImagen.getBytes(), ObjectUtils.emptyMap());
+            String linkImagen = (String) uploadResult.get("secure_url");
+            henoExistente.setImagen(linkImagen);
+        }
+
+        Heno henoGuardado = repositorio.save(henoExistente);
+
+        if (idAnimales != null) {
+            tipoHenoRepositorio.deleteByHenoId(id);
+            for (Long idAnimal : idAnimales) {
+                tipoHenoServise.crearTipoHeno(idAnimal, henoGuardado.getIdHeno());
+            }
+        }
+
+        return henoGuardado;
     }
 
     public Optional<Heno> buscarPorId(Long id) {
