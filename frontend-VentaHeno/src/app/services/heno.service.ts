@@ -42,4 +42,28 @@ export class HenoService {
     return this.http.get<Heno>(`http://localhost:8080/Heno/buscarPorId?id=${id}`);
   }
 
+  buscarTodosHenos(): Observable<Heno[]> {
+    return this.http.get<Heno[]>(`http://localhost:8080/Heno/buscarTodos`);
+  }
+
+  buscarAnimales(idHeno: number): Observable<number[]> {
+    return this.http.get<number[]>(`http://localhost:8080/Heno/buscarAnimales?idHeno=${idHeno}`);
+  }
+
+  cambiarEstadoHeno(idHeno: number, activo: boolean): Observable<Heno> {
+    return this.http.put<Heno>(`http://localhost:8080/Heno/cambiarEstado/${idHeno}?activo=${activo}`, {});
+  }
+
+  editarHeno(idHeno: number, heno: any, imagen: File | null, idAnimales?: number[]): Observable<Heno> {
+    const formData = new FormData();
+    formData.append('heno', JSON.stringify(heno));
+    if (imagen) {
+      formData.append('imagen', imagen);
+    }
+    if (idAnimales && idAnimales.length > 0) {
+      idAnimales.forEach(id => formData.append('idAnimales', id.toString()));
+    }
+    return this.http.put<Heno>(`http://localhost:8080/Heno/editar/${idHeno}`, formData);
+  }
+
 }

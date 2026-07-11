@@ -9,5 +9,6 @@ export interface Heno {
   fechaEntrada: string;
   estado: string;
   imagen?: string;
+  activo?: boolean;
 }
 

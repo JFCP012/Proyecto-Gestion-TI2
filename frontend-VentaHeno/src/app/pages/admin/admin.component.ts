@@ -18,8 +18,8 @@ export class AdminComponent {
   // Variables para reportes
   menuReportesAbierto: boolean = false;
 
-  linkCrear() {
-    this.router.navigate(['/crear-producto']);
+  irAGestionHenos() {
+    this.router.navigate(['/gestion-henos']);
   }
 
   volverTienda() {

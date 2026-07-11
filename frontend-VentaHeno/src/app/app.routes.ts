@@ -9,6 +9,7 @@ import { ReportesMesComponent } from './pages/reportes-mes/reportes-mes.componen
 import { adminGuard } from './guards/admin.guard';
 import { ReportesAnimalComponent } from './pages/reportes-animal/reportes-animal.component';
 import { ReportesPacaComponent } from './pages/reportes-paca/reportes-paca.component';
+import { GestionHenosComponent } from './pages/gestion-henos/gestion-henos.component';
 
 export const routes: Routes = [
     { path: '', component: ProductoComponent },
@@ -21,4 +22,5 @@ export const routes: Routes = [
     { path: 'reportes-mes', component: ReportesMesComponent, canActivate: [adminGuard] },
     { path: 'reportes-animal', component: ReportesAnimalComponent, canActivate: [adminGuard] },
     { path: 'reportes-paca', component: ReportesPacaComponent, canActivate: [adminGuard] },
+    { path: 'gestion-henos', component: GestionHenosComponent, canActivate: [adminGuard] },
 ];
