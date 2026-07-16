@@ -19,4 +19,5 @@ public class FacturaReporteDTO {
     private String cedulaCliente;
     private Double totalVenta;
     private Double envio;
+    private java.util.List<DetalleFacturaReporteDTO> detalles;
 }

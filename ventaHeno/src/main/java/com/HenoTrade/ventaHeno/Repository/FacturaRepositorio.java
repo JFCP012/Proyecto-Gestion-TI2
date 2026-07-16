@@ -11,18 +11,18 @@ import com.HenoTrade.ventaHeno.Entity.Factura;
 @Repository
 public interface FacturaRepositorio extends JpaRepository<Factura, Long> {
 
-    @Query("SELECT f FROM Factura f WHERE YEAR(f.fechaFactura) = :anio AND MONTH(f.fechaFactura) = :mes")
+    @Query("SELECT f FROM Factura f WHERE YEAR(f.fechaFactura) = :anio AND MONTH(f.fechaFactura) = :mes ORDER BY f.idFactura ASC")
     List<Factura> findByAnioAndMes(@Param("anio") int anio, @Param("mes") int mes);
 
     @Query("SELECT DISTINCT f FROM Factura f JOIN DetalleVenta dv ON f.idFactura = dv.factura.idFactura " +
            "JOIN dv.heno h JOIN Tipo_Heno th ON h.idHeno = th.heno.idHeno " +
-           "WHERE th.animales.idAnimales = :idAnimal")
+           "WHERE th.animales.idAnimales = :idAnimal ORDER BY f.idFactura ASC")
     List<Factura> findFacturasPorAnimalId(@Param("idAnimal") Long idAnimal);
 
     @Query("SELECT DISTINCT f FROM Factura f JOIN DetalleVenta dv ON f.idFactura = dv.factura.idFactura " +
-           "JOIN dv.heno h WHERE LOWER(h.nombre) LIKE LOWER(CONCAT('%', :nombreHeno, '%'))")
+           "JOIN dv.heno h WHERE LOWER(h.nombre) LIKE LOWER(CONCAT('%', :nombreHeno, '%')) ORDER BY f.idFactura ASC")
     List<Factura> findFacturasPorNombreHeno(@Param("nombreHeno") String nombreHeno);
 
-    @Query("SELECT f FROM Factura f WHERE f.cedulaC = :cedula")
+    @Query("SELECT f FROM Factura f WHERE f.cedulaC = :cedula ORDER BY f.idFactura ASC")
     List<Factura> findByCedulaC(@Param("cedula") String cedula);
 }

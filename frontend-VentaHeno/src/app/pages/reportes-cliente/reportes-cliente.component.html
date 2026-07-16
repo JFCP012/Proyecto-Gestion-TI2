@@ -112,6 +112,7 @@
             <th>Fecha</th>
             <th>Nombre en Factura</th>
             <th>Cédula</th>
+            <th>Detalles de Compra</th>
             <th>Envío</th>
             <th>Total Venta</th>
           </tr>
@@ -122,6 +123,13 @@
             <td>{{ factura.fechaFactura | date:'dd/MM/yyyy':'UTC' }}</td>
             <td>{{ factura.nombreCliente }}</td>
             <td>{{ factura.cedulaCliente }}</td>
+            <td class="td-detalles">
+              <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85em; text-align: left;">
+                <li *ngFor="let det of factura.detalles" style="margin-bottom: 2px;">
+                  {{ det.tipoHeno }}: {{ det.cantidad }} a ${{ det.precioUnitario | number:'1.0-0' }} = <strong>${{ det.subtotal | number:'1.0-0' }}</strong>
+                </li>
+              </ul>
+            </td>
             <td>${{ factura.envio | number:'1.0-0' }}</td>
             <td class="td-monto">${{ factura.totalVenta | number:'1.0-0' }}</td>
           </tr>
