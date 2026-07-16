@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ReporteVentaMensual, ReporteFacturasAnimal, Animal, ReporteFacturasHeno, ReporteVentaCliente } from '../models/reporte-venta.model';
+import { API_BASE_URL } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReportesService {
 
-  private apiUrl = 'http://localhost:8080/Reportes';
-  private animalUrl = 'http://localhost:8080/animal';
+  private apiUrl = `${API_BASE_URL}/Reportes`;
+  private animalUrl = `${API_BASE_URL}/animal`;
 
   constructor(private http: HttpClient) { }
 
