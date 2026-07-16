@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/Heno")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"http://localhost:4200", "${cors.allowed-origins:https://agroheno-f1tdbpbjz-jfcp012s-projects.vercel.app}"})
 public class HenoControlador {
 
     @Autowired
