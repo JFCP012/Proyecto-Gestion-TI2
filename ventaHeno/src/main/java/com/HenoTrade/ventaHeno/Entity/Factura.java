@@ -10,6 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -57,6 +59,7 @@ public class Factura {
 
     @ManyToOne
     @JoinColumn(name = "cedulaC", referencedColumnName = "cedula", insertable = false, updatable = false, foreignKey = @jakarta.persistence.ForeignKey(jakarta.persistence.ConstraintMode.NO_CONSTRAINT))
+    @NotFound(action = NotFoundAction.IGNORE)
     private Cliente cliente;
 
 }
