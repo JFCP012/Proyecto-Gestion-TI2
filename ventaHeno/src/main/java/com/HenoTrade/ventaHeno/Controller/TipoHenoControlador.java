@@ -13,7 +13,7 @@ import com.HenoTrade.ventaHeno.service.TipoHenoServise;
 
 @RestController
 @RequestMapping("/tipoHeno")
-@CrossOrigin(origins = {"http://localhost:4200", "${cors.allowed-origins:https://agroheno-f1tdbpbjz-jfcp012s-projects.vercel.app}"})
+@CrossOrigin(origins = "*")
 public class TipoHenoControlador {
 
     @Autowired
