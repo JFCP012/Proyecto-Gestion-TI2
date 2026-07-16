@@ -72,8 +72,9 @@
             <th>Fecha</th>
             <th>Cliente</th>
             <th>Cédula</th>
-            <th>Envío</th>
-            <th>Total Venta</th>
+            <th>Precio Unitario</th>
+            <th>Cantidad</th>
+            <th>Total (Paca)</th>
           </tr>
         </thead>
         <tbody>
@@ -82,12 +83,18 @@
             <td>{{ factura.fechaFactura | date:'dd/MM/yyyy' }}</td>
             <td>{{ factura.nombreCliente }}</td>
             <td>{{ factura.cedulaCliente }}</td>
-            <td>{{ factura.envio | currency:'USD' }}</td>
-            <td class="td-monto">{{ factura.totalVenta | currency:'USD' }}</td>
+            <ng-container *ngIf="getDetalleHenoBuscado(factura) as detalle">
+              <td>${{ detalle.precioUnitario | number:'1.0-0' }}</td>
+              <td>{{ detalle.cantidad }} uds</td>
+              <td class="td-monto">${{ detalle.subtotal | number:'1.0-0' }}</td>
+            </ng-container>
+            <ng-container *ngIf="!getDetalleHenoBuscado(factura)">
+              <td>-</td><td>-</td><td>-</td>
+            </ng-container>
           </tr>
 
           <tr *ngIf="reportePaca.totalFacturas === 0">
-            <td colspan="6" class="empty-state">
+            <td colspan="7" class="empty-state">
               <div class="empty-icon">🍃</div>
               No se encontraron ventas para este tipo de heno.
             </td>

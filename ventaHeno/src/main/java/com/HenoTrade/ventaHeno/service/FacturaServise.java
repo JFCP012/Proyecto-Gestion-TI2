@@ -26,6 +26,7 @@ import com.HenoTrade.ventaHeno.dto.ReporteVentaAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteFacturasAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.VentaAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteVentaClienteDTO;
+import com.HenoTrade.ventaHeno.dto.DetalleFacturaReporteDTO;
 
 @Service
 public class FacturaServise {
@@ -107,6 +108,17 @@ public class FacturaServise {
         return facturaGuardada;
     }
 
+    private List<DetalleFacturaReporteDTO> obtenerDetallesDTO(Long idFactura) {
+        return detalleVentaRepositorio.findByFacturaIdFactura(idFactura).stream()
+            .map(dv -> DetalleFacturaReporteDTO.builder()
+                .tipoHeno(dv.getHeno().getNombre())
+                .precioUnitario(dv.getHeno().getPrecioU())
+                .cantidad(dv.getCantidad())
+                .subtotal(dv.getHeno().getPrecioU() * dv.getCantidad())
+                .build())
+            .collect(Collectors.toList());
+    }
+
     /**
      * Genera un reporte de ventas filtrado por mes y año.
      * Consulta todas las facturas del período y calcula los totales.
@@ -122,6 +134,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
+                .detalles(obtenerDetallesDTO(f.getIdFactura()))
                 .build())
             .collect(Collectors.toList());
 
@@ -152,6 +165,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
+                .detalles(obtenerDetallesDTO(f.getIdFactura()))
                 .build())
             .collect(Collectors.toList());
 
@@ -182,11 +196,14 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
+                .detalles(obtenerDetallesDTO(f.getIdFactura()))
                 .build())
             .collect(Collectors.toList());
 
         Double montoTotal = facturasDTO.stream()
-            .mapToDouble(FacturaReporteDTO::getTotalVenta)
+            .flatMap(f -> f.getDetalles().stream())
+            .filter(d -> d.getTipoHeno().toLowerCase().contains(nombreHeno.toLowerCase()))
+            .mapToDouble(DetalleFacturaReporteDTO::getSubtotal)
             .sum();
 
         return ReporteFacturasHenoDTO.builder()
@@ -212,6 +229,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
+                .detalles(obtenerDetallesDTO(f.getIdFactura()))
                 .build())
             .collect(Collectors.toList());
 

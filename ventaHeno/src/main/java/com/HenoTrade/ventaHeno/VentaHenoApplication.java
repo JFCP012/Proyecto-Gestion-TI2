@@ -1,19 +1,11 @@
-package com.HenoTrade.ventaHeno.service;
+package com.HenoTrade.ventaHeno;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.persistence.autoconfigure.EntityScan;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-
 import jakarta.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.HenoTrade.ventaHeno")
-@EntityScan(basePackages = "com.HenoTrade.ventaHeno.Entity")
-@EnableJpaRepositories(basePackages = "com.HenoTrade.ventaHeno.Repository")
-
 public class VentaHenoApplication {
 
 	@PostConstruct

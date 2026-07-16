@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "VentaHenoApplication",
+            "request": "launch",
+            "mainClass": "com.HenoTrade.ventaHeno.VentaHenoApplication",
+            "projectName": "ventaHeno"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-VentaHenoApplication<ventaHeno>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

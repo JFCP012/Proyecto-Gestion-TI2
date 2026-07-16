@@ -72,6 +72,11 @@ export class ReportesPacaComponent implements OnInit {
     this.generarReportePaca();
   }
 
+  getDetalleHenoBuscado(factura: any) {
+    if (!factura.detalles || !this.pacaSeleccionada) return null;
+    return factura.detalles.find((d: any) => d.tipoHeno.toLowerCase().includes(this.pacaSeleccionada!.toLowerCase()));
+  }
+
   generarReportePaca() {
     if (!this.pacaSeleccionada) {
       this.errorReporte = 'Selecciona un tipo de paca';

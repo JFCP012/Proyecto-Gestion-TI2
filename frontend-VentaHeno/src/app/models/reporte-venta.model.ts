@@ -6,6 +6,14 @@ export interface FacturaReporte {
   cedulaCliente: string;
   totalVenta: number;
   envio: number;
+  detalles: DetalleFacturaReporte[];
+}
+
+export interface DetalleFacturaReporte {
+  tipoHeno: string;
+  precioUnitario: number;
+  cantidad: number;
+  subtotal: number;
 }
 
 /** Respuesta completa del reporte mensual */
