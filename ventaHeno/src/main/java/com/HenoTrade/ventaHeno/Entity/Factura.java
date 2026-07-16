@@ -55,4 +55,9 @@ public class Factura {
     @Column(name = "envio", nullable = false)
     private double envio;
 
+    @ManyToOne
+    @JoinColumn(name = "cedulaC", referencedColumnName = "cedula", insertable = false, updatable = false, foreignKey = @jakarta.persistence.ForeignKey(jakarta.persistence.ConstraintMode.NO_CONSTRAINT))
+    private Cliente cliente;
+
 }
+

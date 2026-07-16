@@ -14,7 +14,7 @@
       <!-- Center Logo & Branding -->
       <div class="header-branding" (click)="cargarHenos()" title="Inicio - Cargar Henos">
         <!-- Logo Image -->
-        <img src="assets/logo.png" alt="AgroHeno Logo" class="agroheno-logo">
+        <img src="assets/Imagenes/Logo2.png" alt="AgroHeno Logo" class="agroheno-logo">
         <div class="brand-text-container">
           <span class="brand-main">AgroHeno</span>
           <span class="brand-sub">FABRICANTES DE HENO</span>
@@ -38,29 +38,37 @@
           </button>
         </div>
 
-        <!-- Cart Icon Button (Old Style: premium outline with 🛒 and text) -->
+        <!-- Cart Icon Button (Outlined with overlapping badge) -->
         <button class="nav-cart-btn-premium" (click)="irAlCarrito()" title="Ver Carrito">
-          <span class="cart-icon-text">🛒</span>
-          <span *ngIf="cantidadEnCarrito > 0" class="cart-badge-pill">{{ cantidadEnCarrito }}</span>
+          <div class="cart-container-inner">
+            <span class="cart-icon-text">🛒</span>
+            <span *ngIf="cantidadEnCarrito > 0" class="cart-badge-pill">{{ cantidadEnCarrito }}</span>
+          </div>
         </button>
       </div>
     </div>
   </header>
 
   <!-- BANNER HERO ("¿Quiénes Somos?") -->
-  <div class="hero-banner-image" [style.backgroundImage]="getHeroImageUrl()">
+  <div class="hero-banner-image" [style.backgroundImage]="getHeroImageUrl()"
+    [style.backgroundPosition]="getHeroImagePosition()">
     <div class="hero-overlay">
       <div class="hero-content">
-        <div class="hero-left">
-          <h2 class="hero-title">¿QUIENES<br>SOMOS?</h2>
-        </div>
-        <div class="hero-divider"></div>
-        <div class="hero-right">
-          <p class="hero-desc">
-            Somos una empresa fabricante de heno de alta calidad que comercializa sus productos a través de una
-            plataforma web, ofreciendo una experiencia de compra eficiente y confiable.
-          </p>
-        </div>
+        <ng-container *ngIf="categoriaSeleccionada === 'Todos' || categoriaSeleccionada === ''">
+          <div class="hero-left">
+            <h2 class="hero-title">¿QUIENES<br>SOMOS?</h2>
+          </div>
+          <div class="hero-divider"></div>
+          <div class="hero-right">
+            <p class="hero-desc">
+              Somos una empresa fabricante de heno de alta calidad que comercializa sus productos a través de una
+              plataforma web, ofreciendo una experiencia de compra eficiente y confiable.
+            </p>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="categoriaSeleccionada !== 'Todos' && categoriaSeleccionada !== ''">
+          <h2 class="hero-title">{{ categoriaSeleccionada | uppercase }}</h2>
+        </ng-container>
       </div>
     </div>
   </div>
@@ -74,33 +82,13 @@
     <!-- Filter Buttons (AgroHeno Styled Cards) -->
     <div class="filtros-container">
       <button class="filtro-btn" (click)="cargarHenos()" [class.active]="categoriaSeleccionada === 'Todos'">
-        <!-- Stacked hay bales SVG -->
-        <svg viewBox="0 0 64 64" class="filtro-img-svg" xmlns="http://www.w3.org/2000/svg">
-          <g fill="#f1c40f" stroke="#3d2302" stroke-width="1.8" stroke-linejoin="round">
-            <!-- Bale 1 (bottom left) -->
-            <polygon points="10,48 26,48 26,58 10,58" />
-            <polygon points="26,48 34,42 34,52 26,58" />
-            <polygon points="10,48 18,42 34,42 26,48" />
-
-            <!-- Bale 2 (bottom middle-right) -->
-            <polygon points="28,48 44,48 44,58 28,58" />
-            <polygon points="44,48 52,42 52,52 44,58" />
-            <polygon points="28,48 36,42 52,42 44,48" />
-
-            <!-- Bale 3 (top middle) -->
-            <polygon points="19,36 35,36 35,46 19,46" />
-            <polygon points="35,36 43,30 43,40 35,46" />
-            <polygon points="19,36 27,30 43,30 35,36" />
-          </g>
-          <!-- Straw textures -->
-          <path d="M13,53 h8 M13,55 h6 M31,53 h8 M31,55 h6 M22,41 h8 M22,43 h6" stroke="#8c5a15" stroke-width="1"
-            stroke-linecap="round" />
-        </svg>
+        <img src="assets/Imagenes/Todos.png" alt="Todos" class="filtro-img"
+          style="width: 75px; height: 75px; margin-top: -7.5px; margin-bottom: -7.5px;">
         <span>Todos</span>
       </button>
       <button class="filtro-btn" (click)="filtrarHenos('Equinos')" [class.active]="categoriaSeleccionada === 'Equinos'">
         <img src="assets/Imagenes/caballo.png" alt="Caballo" class="filtro-img">
-        <span>Caballos</span>
+        <span>Equinos</span>
       </button>
       <button class="filtro-btn" (click)="filtrarHenos('Bovinos')" [class.active]="categoriaSeleccionada === 'Bovinos'">
         <img src="assets/Imagenes/vaca.png" alt="Vacas" class="filtro-img">

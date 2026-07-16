@@ -38,3 +38,16 @@ export interface ReporteFacturasHeno {
   montoTotal: number;
   facturas: FacturaReporte[];
 }
+
+export interface ReporteVentaCliente {
+  cliente: {
+    cedula: string;
+    nombre: string;
+    telefono: string;
+    direccion?: string;
+  } | null;
+  totalFacturas: number;
+  montoTotal: number;
+  totalPacas: number;
+  facturas: FacturaReporte[];
+}

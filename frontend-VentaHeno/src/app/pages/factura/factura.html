@@ -1,13 +1,13 @@
 <header class="simple-header">
-  <div class="simple-header-inner">
-    <div class="header-branding" (click)="volverInicio()" style="cursor: pointer;">
-      <img src="assets/logo.png" alt="AgroHeno Logo" class="agroheno-logo">
-      <div class="brand-text-container">
-        <span class="brand-main">AgroHeno</span>
-        <span class="brand-sub">FABRICANTES DE HENO</span>
-      </div>
+    <div class="simple-header-inner">
+        <div class="header-branding" (click)="volverInicio()" style="cursor: pointer;">
+            <img src="assets/Imagenes/Logo2.png" alt="AgroHeno Logo" class="agroheno-logo">
+            <div class="brand-text-container">
+                <span class="brand-main">AgroHeno</span>
+                <span class="brand-sub">FABRICANTES DE HENO</span>
+            </div>
+        </div>
     </div>
-  </div>
 </header>
 
 <div class="checkout-container">
@@ -24,7 +24,9 @@
     <div *ngIf="!compraExitosa" class="checkout-layout">
         <div class="checkout-header">
             <button class="btn-back" (click)="volverCarrito()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="back-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                    class="back-arrow">
                     <line x1="19" y1="12" x2="5" y2="12"></line>
                     <polyline points="12 19 5 12 12 5"></polyline>
                 </svg>
@@ -39,21 +41,43 @@
                 <h3>Datos de Facturación</h3>
                 <form (ngSubmit)="procesarCompra()">
                     <div class="form-group">
-                        <label for="nombreC">Nombre Completo</label>
-                        <input type="text" id="nombreC" name="nombreC" [(ngModel)]="factura.nombreC" required
-                            placeholder="Ej: Juan Pérez">
+                        <label for="cedulaC">Cédula <span
+                                style="font-weight: normal; font-size: 0.8rem; color: #718096; margin-left: 0.25rem;">(Presione
+                                Enter para buscar)</span></label>
+                        <div class="input-with-loader">
+                            <input type="text" id="cedulaC" name="cedulaC" [(ngModel)]="factura.cedulaC" required
+                                placeholder="Ej: 123456789"
+                                pattern="[0-9]+"
+                                #cedulaCtrl="ngModel"
+                                (keydown.enter)="$event.preventDefault(); buscarClientePorCedula()"
+                                (input)="onCedulaInput()">
+                            <span *ngIf="buscandoCliente" class="input-spinner"></span>
+                        </div>
+                        <div *ngIf="cedulaCtrl.invalid && (cedulaCtrl.dirty || cedulaCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+                            <small *ngIf="cedulaCtrl.errors?.['pattern']">Solo se permiten números en la cédula.</small>
+                        </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="cedulaC">Cédula / NIT</label>
-                        <input type="text" id="cedulaC" name="cedulaC" [(ngModel)]="factura.cedulaC" required
-                            placeholder="Ej: 123456789">
+                        <label for="nombreC">Nombre Completo</label>
+                        <input type="text" id="nombreC" name="nombreC" [(ngModel)]="factura.nombreC" required
+                            placeholder="Ej: Juan Pérez"
+                            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+                            #nombreCtrl="ngModel">
+                        <div *ngIf="nombreCtrl.invalid && (nombreCtrl.dirty || nombreCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+                            <small *ngIf="nombreCtrl.errors?.['pattern']">Solo se permiten letras en el nombre.</small>
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label for="telefonoC">Teléfono</label>
                         <input type="tel" id="telefonoC" name="telefonoC" [(ngModel)]="factura.telefonoC" required
-                            placeholder="Ej: 3001234567">
+                            placeholder="Ej: 3001234567"
+                            pattern="[0-9]+"
+                            #telefonoCtrl="ngModel">
+                        <div *ngIf="telefonoCtrl.invalid && (telefonoCtrl.dirty || telefonoCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+                            <small *ngIf="telefonoCtrl.errors?.['pattern']">Solo se permiten números en el teléfono.</small>
+                        </div>
                     </div>
 
                     <div class="form-group delivery-options">
@@ -114,7 +138,9 @@
                     </div>
 
                     <!-- Botón Mobile -->
-                    <button type="submit" class="btn-submit mobile-only" [disabled]="tipoEntrega === 'envio' && totalPacas < 50" [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">Confirmar y Pagar</button>
+                    <button type="submit" class="btn-submit mobile-only"
+                        [disabled]="tipoEntrega === 'envio' && totalPacas < 50"
+                        [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">Confirmar y Pagar</button>
                 </form>
             </div>
 
@@ -135,9 +161,13 @@
                         <div class="item-info">
                             <span class="item-name">{{ item.producto.nombre }}</span>
                             <div class="qty-control">
-                                <button type="button" class="btn-qty" (click)="actualizarCantidad(item, item.cantidad - 1)">-</button>
-                                <input type="number" class="qty-input" [ngModel]="item.cantidad" (ngModelChange)="actualizarCantidad(item, $event)" min="1" [max]="item.producto.stock">
-                                <button type="button" class="btn-qty" (click)="actualizarCantidad(item, item.cantidad + 1)">+</button>
+                                <button type="button" class="btn-qty"
+                                    (click)="actualizarCantidad(item, item.cantidad - 1)">-</button>
+                                <input type="number" class="qty-input" [ngModel]="item.cantidad"
+                                    (ngModelChange)="actualizarCantidad(item, $event)" min="1"
+                                    [max]="item.producto.stock">
+                                <button type="button" class="btn-qty"
+                                    (click)="actualizarCantidad(item, item.cantidad + 1)">+</button>
                             </div>
                         </div>
                         <span class="item-price">${{ (item.producto.precioU * item.cantidad) | number:'1.0-0' }}</span>
@@ -162,7 +192,9 @@
                     </div>
                 </div>
 
-                <button class="btn-submit desktop-only" (click)="procesarCompra()" [disabled]="tipoEntrega === 'envio' && totalPacas < 50" [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">
+                <button class="btn-submit desktop-only" (click)="procesarCompra()"
+                    [disabled]="tipoEntrega === 'envio' && totalPacas < 50"
+                    [class.disabled-btn]="tipoEntrega === 'envio' && totalPacas < 50">
                     Confirmar y Pagar
                 </button>
 
@@ -172,8 +204,23 @@
             </div>
         </div>
     </div>
+
+    <!-- Modal de Registro de Cliente -->
+    <div *ngIf="mostrarModalRegistro" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-icon">👤</div>
+            <h3>¿Registrar nuevo cliente?</h3>
+            <p>El cliente con Cédula/NIT <strong>{{ cedulaPendienteRegistro }}</strong> no se encuentra registrado en el
+                sistema.</p>
+            <div class="modal-actions">
+                <button type="button" class="btn-modal-cancel" (click)="cancelarRegistroModal()">Seguir como
+                    invitado</button>
+                <button type="button" class="btn-modal-confirm" (click)="confirmarRegistroModal()">Registrar</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <footer class="simple-footer">
-  <p>&copy; 2026 AgroHeno. Todos los derechos reservados. | Diseñado para el Agro de Alta Calidad</p>
+    <p>&copy; 2026 AgroHeno. Todos los derechos reservados. | Diseñado para el Agro de Alta Calidad</p>
 </footer>

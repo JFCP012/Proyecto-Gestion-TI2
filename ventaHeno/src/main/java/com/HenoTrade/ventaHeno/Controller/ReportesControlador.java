@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.HenoTrade.ventaHeno.dto.ReporteFacturasAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteFacturasHenoDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteVentaMensualDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteVentaClienteDTO;
 import com.HenoTrade.ventaHeno.service.FacturaServise;
 
 @RestController
@@ -33,5 +34,10 @@ public class ReportesControlador {
     @GetMapping("/ventasPorHeno")
     public ReporteFacturasHenoDTO ventasPorHeno(@RequestParam String nombreHeno) {
         return facturaServise.generarReportePorHeno(nombreHeno);
+    }
+
+    @GetMapping("/ventasPorCliente")
+    public ReporteVentaClienteDTO ventasPorCliente(@RequestParam String cedula) {
+        return facturaServise.generarReportePorCliente(cedula);
     }
 }

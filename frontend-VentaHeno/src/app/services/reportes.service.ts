@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ReporteVentaMensual, ReporteFacturasAnimal, Animal, ReporteFacturasHeno } from '../models/reporte-venta.model';
+import { ReporteVentaMensual, ReporteFacturasAnimal, Animal, ReporteFacturasHeno, ReporteVentaCliente } from '../models/reporte-venta.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +27,9 @@ export class ReportesService {
 
   obtenerReportePorHeno(nombreHeno: string): Observable<ReporteFacturasHeno> {
     return this.http.get<ReporteFacturasHeno>(`${this.apiUrl}/ventasPorHeno?nombreHeno=${nombreHeno}`);
+  }
+
+  obtenerReportePorCliente(cedula: string): Observable<ReporteVentaCliente> {
+    return this.http.get<ReporteVentaCliente>(`${this.apiUrl}/ventasPorCliente?cedula=${cedula}`);
   }
 }

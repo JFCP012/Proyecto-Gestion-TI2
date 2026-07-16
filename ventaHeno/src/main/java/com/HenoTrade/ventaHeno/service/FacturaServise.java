@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.HenoTrade.ventaHeno.Entity.Cliente;
 import com.HenoTrade.ventaHeno.Entity.DetalleVenta;
 import com.HenoTrade.ventaHeno.Entity.Factura;
 import com.HenoTrade.ventaHeno.Entity.Heno;
 import com.HenoTrade.ventaHeno.Entity.Administrador;
+import com.HenoTrade.ventaHeno.Repository.ClienteRepositorio;
 import com.HenoTrade.ventaHeno.Repository.DetalleVentaRepositorio;
 import com.HenoTrade.ventaHeno.Repository.FacturaRepositorio;
 import com.HenoTrade.ventaHeno.Repository.HenoRepositorio;
@@ -23,6 +25,7 @@ import com.HenoTrade.ventaHeno.dto.ReporteFacturasHenoDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteVentaAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.ReporteFacturasAnimalDTO;
 import com.HenoTrade.ventaHeno.dto.VentaAnimalDTO;
+import com.HenoTrade.ventaHeno.dto.ReporteVentaClienteDTO;
 
 @Service
 public class FacturaServise {
@@ -39,6 +42,9 @@ public class FacturaServise {
     @Autowired
     private AdministradorRepositorio administradorRepositorio;
 
+    @Autowired
+    private ClienteRepositorio clienteRepositorio;
+
     public Factura guardarFactura(Factura factura) {
         return this.facturaRepositorio.save(factura);
     }
@@ -52,6 +58,15 @@ public class FacturaServise {
             Administrador administrador = administradorRepositorio.findById(factura.getAdministrador().getCedulaV())
                 .orElseThrow(() -> new RuntimeException("Administrador no encontrado con cédula: " + factura.getAdministrador().getCedulaV()));
             factura.setAdministrador(administrador);
+        }
+
+        // Asignar Cliente si viene en la factura (opcional)
+        if (factura.getCliente() != null) {
+            Cliente cliente = null;
+            if (factura.getCliente().getCedula() != null) {
+                cliente = clienteRepositorio.findById(factura.getCliente().getCedula()).orElse(null);
+            }
+            factura.setCliente(cliente);
         }
         
         // Asegurar que la fecha sea exactamente la de hoy en la zona horaria del servidor
@@ -178,6 +193,45 @@ public class FacturaServise {
             .nombreHeno(nombreHeno)
             .totalFacturas(facturasDTO.size())
             .montoTotal(montoTotal)
+            .facturas(facturasDTO)
+            .build();
+    }
+
+    /**
+     * Genera un reporte de ventas detallado filtrado por la cédula del cliente.
+     */
+    public ReporteVentaClienteDTO generarReportePorCliente(String cedula) {
+        Cliente cliente = clienteRepositorio.findByCedula(cedula).orElse(null);
+        List<Factura> facturas = facturaRepositorio.findByCedulaC(cedula);
+
+        List<FacturaReporteDTO> facturasDTO = facturas.stream()
+            .map(f -> FacturaReporteDTO.builder()
+                .idFactura(f.getIdFactura())
+                .fechaFactura(f.getFechaFactura().toString())
+                .nombreCliente(f.getNombreC())
+                .cedulaCliente(f.getCedulaC())
+                .totalVenta(f.getTotalVenta())
+                .envio(f.getEnvio())
+                .build())
+            .collect(Collectors.toList());
+
+        Double montoTotal = facturasDTO.stream()
+            .mapToDouble(FacturaReporteDTO::getTotalVenta)
+            .sum();
+
+        int totalPacas = 0;
+        for (Factura f : facturas) {
+            List<DetalleVenta> detalles = detalleVentaRepositorio.findByFacturaIdFactura(f.getIdFactura());
+            for (DetalleVenta dv : detalles) {
+                totalPacas += dv.getCantidad();
+            }
+        }
+
+        return ReporteVentaClienteDTO.builder()
+            .cliente(cliente)
+            .totalFacturas(facturasDTO.size())
+            .montoTotal(montoTotal)
+            .totalPacas(totalPacas)
             .facturas(facturasDTO)
             .build();
     }

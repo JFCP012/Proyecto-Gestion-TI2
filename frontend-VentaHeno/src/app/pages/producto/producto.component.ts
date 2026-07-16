@@ -148,14 +148,25 @@ export class ProductoComponent implements OnInit {
   getHeroImageUrl(): string {
     switch (this.categoriaSeleccionada) {
       case 'Equinos':
-        return "url('https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?auto=format&fit=crop&q=80&w=1400')";
+        return "url('assets/Imagenes/Caballos.png')";
       case 'Bovinos':
-        return "url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?auto=format&fit=crop&q=80&w=1400')";
+        return "url('assets/Imagenes/Vacas.png')";
       case 'Ovinos':
-        return "url('https://images.unsplash.com/photo-1484557985045-edf25e08da73?auto=format&fit=crop&q=80&w=1400')";
+        return "url('assets/Imagenes/Ovejas.png')";
       case 'Todos':
       default:
         return "url('../assets/Imagenes/caballo_todos.png')";
+    }
+  }
+
+  getHeroImagePosition(): string {
+    switch (this.categoriaSeleccionada) {
+      case 'Equinos':
+      case 'Bovinos':
+      case 'Ovinos':
+        return 'center 70%';
+      default:
+        return 'center 30%';
     }
   }
 }

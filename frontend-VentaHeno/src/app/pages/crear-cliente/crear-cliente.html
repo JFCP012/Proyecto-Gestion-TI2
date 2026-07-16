@@ -1,0 +1,85 @@
+<header class="simple-header">
+  <div class="simple-header-inner" (click)="volver()" style="cursor: pointer;">
+    <div class="header-branding">
+      <img src="assets/Imagenes/Logo2.png" alt="AgroHeno Logo" class="agroheno-logo">
+      <div class="brand-text-container">
+        <span class="brand-main">AgroHeno</span>
+        <span class="brand-sub">REGISTRO DE CLIENTE</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="crear-container">
+  <div class="card-form">
+    <div class="form-header">
+      <h2>Registrar Nuevo Cliente</h2>
+      <p>Complete los datos para asociar compras futuras a este cliente y generar reportes.</p>
+    </div>
+
+    <!-- Mensajes de Estado -->
+    <div *ngIf="successMsg" class="alert alert-success">
+      {{ successMsg }}
+    </div>
+    <div *ngIf="errorMsg" class="alert alert-error">
+      {{ errorMsg }}
+    </div>
+
+    <form (ngSubmit)="registrarCliente()" #clienteForm="ngForm">
+      <div class="form-grid">
+        <!-- Cédula -->
+        <div class="form-group">
+          <label for="cedula">Cédula / NIT *</label>
+          <input type="text" id="cedula" name="cedula" [(ngModel)]="cliente.cedula" required
+            placeholder="Ej. 123456789"
+            pattern="[0-9]+"
+            #cedulaCtrl="ngModel">
+          <div *ngIf="cedulaCtrl.invalid && (cedulaCtrl.dirty || cedulaCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+            <small *ngIf="cedulaCtrl.errors?.['pattern']">Solo se permiten números en la cédula.</small>
+          </div>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-group">
+          <label for="nombre">Nombre Completo *</label>
+          <input type="text" id="nombre" name="nombre" [(ngModel)]="cliente.nombre" required
+            placeholder="Ej. Juan Pérez"
+            pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+"
+            #nombreCtrl="ngModel">
+          <div *ngIf="nombreCtrl.invalid && (nombreCtrl.dirty || nombreCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+            <small *ngIf="nombreCtrl.errors?.['pattern']">Solo se permiten letras en el nombre.</small>
+          </div>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-group">
+          <label for="telefono">Teléfono *</label>
+          <input type="text" id="telefono" name="telefono" [(ngModel)]="cliente.telefono" required
+            placeholder="Ej. 3001234567"
+            pattern="[0-9]+"
+            #telefonoCtrl="ngModel">
+          <div *ngIf="telefonoCtrl.invalid && (telefonoCtrl.dirty || telefonoCtrl.touched)" style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+            <small *ngIf="telefonoCtrl.errors?.['pattern']">Solo se permiten números en el teléfono.</small>
+          </div>
+        </div>
+
+        <!-- Dirección -->
+        <div class="form-group">
+          <label for="direccion">Dirección (Opcional)</label>
+          <input type="text" id="direccion" name="direccion" [(ngModel)]="cliente.direccion"
+            placeholder="Ej. Calle 123 # 45-67">
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="volver()">
+          Cancelar y Volver
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="!clienteForm.form.valid || loading">
+          {{ loading ? 'Registrando...' : 'Registrar Cliente' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

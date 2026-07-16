@@ -1,9 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { CarritoService } from '../../services/carrito.service';
 import { FacturaService } from '../../services/factura.service';
+import { ClienteService } from '../../services/cliente.service';
 import { Factura as FacturaModel } from '../../models/Factura';
 import { take } from 'rxjs/operators';
 import jsPDF from 'jspdf';
@@ -21,12 +22,23 @@ export class Factura implements OnInit {
   carritoService = inject(CarritoService);
   facturaService = inject(FacturaService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  clienteService = inject(ClienteService);
+  private cdr = inject(ChangeDetectorRef);
 
   items$ = this.carritoService.cartItems$;
   subtotal = 0;
   envio = 0;
   total = 0;
   totalPacas = 0;
+
+  clienteSeleccionado: any = null;
+  cedulasNoRegistradas = new Set<string>();
+  mostrarModalRegistro = false;
+  cedulaPendienteRegistro = '';
+  buscandoCliente = false;
+  ultimoValorBuscado = '';
+  private cedulaTimeout: any = null;
 
   factura: Partial<FacturaModel> = {
     nombreC: '',
@@ -82,6 +94,7 @@ export class Factura implements OnInit {
   procesando = false;
   ultimaCompra: any = null;
   private logoBase64: string = '';
+  private logoAspectRatio: number = 1.0;
 
   ngOnInit() {
     // Subscribe to cart items to keep totals updated reactively
@@ -99,6 +112,74 @@ export class Factura implements OnInit {
     });
 
     this.cargarLogo();
+
+    this.route.queryParams.subscribe(params => {
+      const queryCedula = params['cedula'];
+      if (queryCedula) {
+        this.factura.cedulaC = queryCedula;
+        this.buscarClientePorCedula();
+      }
+    });
+  }
+
+  buscarClientePorCedula() {
+    const cedula = this.factura.cedulaC?.trim();
+    if (!cedula || this.buscandoCliente || cedula === this.ultimoValorBuscado) {
+      return;
+    }
+
+    if (this.cedulasNoRegistradas.has(cedula)) {
+      return;
+    }
+
+    this.buscandoCliente = true;
+    this.ultimoValorBuscado = cedula;
+    this.cdr.detectChanges();
+
+    this.clienteService.buscarPorCedula(cedula).subscribe({
+      next: (cliente) => {
+        this.buscandoCliente = false;
+        if (cliente) {
+          this.factura.nombreC = cliente.nombre;
+          this.factura.telefonoC = cliente.telefono;
+          if (cliente.direccion && this.tipoEntrega === 'envio') {
+            this.factura.direccionC = cliente.direccion;
+          }
+          this.clienteSeleccionado = cliente;
+          console.log('Cliente encontrado y asociado:', cliente);
+        }
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        this.buscandoCliente = false;
+        if (err.status === 404) {
+          this.cedulaPendienteRegistro = cedula;
+          this.mostrarModalRegistro = true;
+        } else {
+          console.error('Error al buscar cliente:', err);
+        }
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  onCedulaInput() {
+    this.ultimoValorBuscado = '';
+    this.clienteSeleccionado = null;
+    this.cdr.detectChanges();
+  }
+
+  confirmarRegistroModal() {
+    this.mostrarModalRegistro = false;
+    this.cdr.detectChanges();
+    this.router.navigate(['/crear-cliente'], { queryParams: { cedula: this.cedulaPendienteRegistro } });
+  }
+
+  cancelarRegistroModal() {
+    this.mostrarModalRegistro = false;
+    this.cedulasNoRegistradas.add(this.cedulaPendienteRegistro);
+    this.clienteSeleccionado = null;
+    this.cdr.detectChanges();
   }
 
   actualizarCantidad(item: any, nuevaCantidad: number) {
@@ -138,16 +219,14 @@ export class Factura implements OnInit {
       canvas.height = img.height;
       const ctx = canvas.getContext('2d')!;
 
-      // Fondo blanco para que la transparencia del PNG no cause problemas
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+      // Dibujar la imagen sin fondo blanco para mantener su transparencia original
       ctx.drawImage(img, 0, 0);
+      this.logoAspectRatio = img.width / img.height;
       this.logoBase64 = canvas.toDataURL('image/png');
-      console.log('✅ Logo cargado correctamente');
+      console.log('✅ Logo cargado correctamente, aspect ratio:', this.logoAspectRatio);
     };
     img.onerror = (e) => console.error('❌ Error cargando logo:', e);
-    img.src = '/assets/logo.png';
+    img.src = '/assets/Imagenes/Logo2.png';
   }
 
   procesarCompra() {
@@ -185,7 +264,8 @@ export class Factura implements OnInit {
       const compraDTO = {
         factura: {
           ...this.factura,
-          administrador: { cedulaV: 1 }
+          administrador: { cedulaV: 1 },
+          cliente: this.clienteSeleccionado ? { cedula: this.clienteSeleccionado.cedula } : null
         },
         detalles: detalles
       };
@@ -207,11 +287,13 @@ export class Factura implements OnInit {
           };
 
           this.carritoService.vaciarCarrito();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error al procesar la compra', err);
           alert('Ocurrió un error al procesar la compra. Revisa el stock disponible.');
           this.procesando = false;
+          this.cdr.detectChanges();
         }
       });
     });
@@ -227,13 +309,16 @@ export class Factura implements OnInit {
 
     // ── Logo ──────────────────────────────────────────────────────────
     if (this.logoBase64) {
-      doc.addImage(this.logoBase64, 'PNG', 14, 8, 28, 28);
+      // Ajustamos el tamaño del logo, mantienendo su relación de aspecto
+      const height = 25; 
+      const width = height * this.logoAspectRatio;
+      doc.addImage(this.logoBase64, 'PNG', 14, 10, width, height);
+    } else {
+      // Fallback
+      doc.setFontSize(22);
+      doc.setTextColor(56, 161, 105);
+      doc.text("AgroHeno", 14, 24);
     }
-
-    // Nombre empresa
-    doc.setFontSize(22);
-    doc.setTextColor(56, 161, 105);
-    doc.text("AgroHeno", 46, 22);
 
     // Línea separadora
     doc.setDrawColor(56, 161, 105);

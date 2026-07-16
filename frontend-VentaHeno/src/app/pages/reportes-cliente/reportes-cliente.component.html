@@ -1,0 +1,148 @@
+<header class="admin-top-header">
+  <div class="admin-header-inner">
+    <!-- Left: back to admin panel -->
+    <div class="admin-header-left">
+      <button class="btn-admin-back" (click)="volverAdmin()">← Volver al Panel</button>
+    </div>
+    <!-- Center: Logo -->
+    <div class="admin-header-branding">
+      <img src="assets/Imagenes/Logo2.png" alt="AgroHeno Logo" class="admin-header-logo">
+      <div class="admin-brand-text">
+        <span class="brand-main">AgroHeno</span>
+        <span class="brand-sub">REPORTES POR CLIENTE</span>
+      </div>
+    </div>
+    <!-- Right: Badge -->
+    <div class="admin-header-right">
+      <span class="admin-header-badge">Admin Mode 🔒</span>
+    </div>
+  </div>
+</header>
+
+<div class="reportes-cliente-container">
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Reporte de Ventas por Cliente</h1>
+      <p>Ingrese la Cédula/NIT de un cliente para consultar su historial de compras y acumulados.</p>
+    </div>
+  </div>
+
+  <div class="selector-card">
+    <div class="selector-content">
+      <div class="icon-wrapper">👤</div>
+      <div class="form-wrapper">
+        <label for="cedula-reporte">Cédula del Cliente:</label>
+        <div class="input-group">
+          <input type="text" id="cedula-reporte" [(ngModel)]="cedulaInput" placeholder="Ej. 1234567890" pattern="[0-9]+"
+            #cedulaRepCtrl="ngModel" (keydown.enter)="generarReporteCliente()" />
+          <button class="btn-generar" (click)="generarReporteCliente()"
+            [disabled]="cargandoReporte || cedulaRepCtrl.invalid">
+            {{ cargandoReporte ? 'Buscando...' : 'Generar Reporte' }}
+          </button>
+        </div>
+        <div *ngIf="cedulaRepCtrl.invalid && (cedulaRepCtrl.dirty || cedulaRepCtrl.touched)"
+          style="color: #e53e3e; font-size: 0.85rem; margin-top: 0.25rem;">
+          <small *ngIf="cedulaRepCtrl.errors?.['pattern']">Solo se permiten números en la cédula.</small>
+        </div>
+        <div class="error-msg" *ngIf="errorReporte">{{ errorReporte }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado de carga -->
+  <div class="loading-state" *ngIf="cargandoReporte" style="text-align: center; padding: 3rem;">
+    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...
+    </p>
+  </div>
+
+  <!-- Resultados del Reporte (Solo si se buscó y cargó) -->
+  <div class="reporte-resultados-container" *ngIf="reporteCliente && !cargandoReporte">
+
+    <!-- Ficha del Cliente -->
+    <div class="cliente-ficha-card">
+      <div class="ficha-header">
+        <h3>Información del Cliente</h3>
+      </div>
+      <div class="ficha-grid" *ngIf="reporteCliente.cliente">
+        <div class="ficha-item"><strong>Nombre:</strong> {{ reporteCliente.cliente.nombre }}</div>
+        <div class="ficha-item"><strong>Cédula:</strong> {{ reporteCliente.cliente.cedula }}</div>
+        <div class="ficha-item"><strong>Teléfono:</strong> {{ reporteCliente.cliente.telefono }}</div>
+        <div class="ficha-item" *ngIf="reporteCliente.cliente.direccion"><strong>Dirección:</strong> {{
+          reporteCliente.cliente.direccion }}</div>
+      </div>
+      <!-- Si compró como invitado (no registrado en tabla cliente) pero tiene facturas asociadas a su cédula -->
+      <div class="ficha-grid" *ngIf="!reporteCliente.cliente && reporteCliente.facturas.length > 0">
+        <div class="ficha-item"><strong>Nombre (Última Compra):</strong> {{ reporteCliente.facturas[0].nombreCliente }}
+        </div>
+        <div class="ficha-item"><strong>Cédula / NIT:</strong> {{ reporteCliente.facturas[0].cedulaCliente }}</div>
+        <div class="ficha-item"><strong>Nota:</strong> Este cliente ha realizado compras pero no se ha registrado en el
+          catálogo de clientes.</div>
+      </div>
+      <!-- Si no tiene facturas y tampoco está en tabla cliente -->
+      <div *ngIf="!reporteCliente.cliente && reporteCliente.facturas.length === 0" class="no-cliente-info">
+        <p>No se encontraron datos registrados ni compras previas para la cédula ingresada.</p>
+      </div>
+    </div>
+
+    <!-- Resumen de Métricas -->
+    <div class="reporte-header" *ngIf="reporteCliente.facturas.length > 0">
+      <h2>Resumen de Facturación</h2>
+      <div class="reporte-summary-cards">
+        <div class="summary-card">
+          <span class="label">Total Compras</span>
+          <span class="value">{{ reporteCliente.totalFacturas }}</span>
+        </div>
+        <div class="summary-card">
+          <span class="label">Total Pacas Compradas</span>
+          <span class="value">{{ reporteCliente.totalPacas }}</span>
+        </div>
+        <div class="summary-card highlight">
+          <span class="label">Total Invertido</span>
+          <span class="value">${{ reporteCliente.montoTotal | number:'1.0-0' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de Facturas -->
+    <div class="reporte-tabla-wrapper" *ngIf="reporteCliente.facturas.length > 0">
+      <table class="reporte-tabla">
+        <thead>
+          <tr>
+            <th>ID Factura</th>
+            <th>Fecha</th>
+            <th>Nombre en Factura</th>
+            <th>Cédula</th>
+            <th>Envío</th>
+            <th>Total Venta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let factura of facturasPaginadas">
+            <td>#{{ factura.idFactura }}</td>
+            <td>{{ factura.fechaFactura | date:'dd/MM/yyyy':'UTC' }}</td>
+            <td>{{ factura.nombreCliente }}</td>
+            <td>{{ factura.cedulaCliente }}</td>
+            <td>${{ factura.envio | number:'1.0-0' }}</td>
+            <td class="td-monto">${{ factura.totalVenta | number:'1.0-0' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="paginacion-container" *ngIf="paginas.length > 1 && reporteCliente.facturas.length > 0">
+      <button *ngFor="let pagina of paginas" class="btn-pagina" [class.activa]="pagina === paginaActual"
+        (click)="cambiarPagina(pagina)">
+        {{ pagina }}
+      </button>
+    </div>
+
+    <!-- Estado vacío (Si se buscó y no tiene facturas) -->
+    <div *ngIf="reporteCliente.totalFacturas === 0" class="reporte-empty-state">
+      <div class="empty-icon">🍃</div>
+      <h3>No se encontraron ventas para el cliente seleccionado</h3>
+      <p>La cédula ingresada no posee facturas registradas en el sistema.</p>
+    </div>
+
+  </div>
+</div>

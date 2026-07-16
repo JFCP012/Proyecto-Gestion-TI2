@@ -46,4 +46,8 @@ export class AdminComponent {
   irAReportesPaca() {
     this.router.navigate(['/reportes-paca']);
   }
+
+  irAReportesCliente() {
+    this.router.navigate(['/reportes-cliente']);
+  }
 }

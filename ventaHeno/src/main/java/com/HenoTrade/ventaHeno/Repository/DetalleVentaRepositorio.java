@@ -18,4 +18,7 @@ public interface DetalleVentaRepositorio extends JpaRepository<DetalleVenta, Lon
            "WHERE YEAR(f.fechaFactura) = :anio AND MONTH(f.fechaFactura) = :mes " +
            "GROUP BY a.nombre")
     List<VentaAnimalDTO> findVentasPorAnimal(@Param("anio") int anio, @Param("mes") int mes);
+
+    @Query("SELECT dv FROM DetalleVenta dv WHERE dv.factura.idFactura = :idFactura")
+    List<DetalleVenta> findByFacturaIdFactura(@Param("idFactura") Long idFactura);
 }

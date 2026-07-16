@@ -6,7 +6,7 @@
     </div>
     <!-- Center: Logo -->
     <div class="admin-header-branding">
-      <img src="assets/logo.png" alt="AgroHeno Logo" class="admin-header-logo">
+      <img src="assets/Imagenes/Logo2.png" alt="AgroHeno Logo" class="admin-header-logo">
       <div class="admin-brand-text">
         <span class="brand-main">AgroHeno</span>
         <span class="brand-sub">PANEL DE CONTROL</span>
@@ -67,6 +67,18 @@
         <h2>Ventas por Paca</h2>
         <p>Analiza el volumen de facturación segmentado por el tipo de heno vendido.</p>
         <button class="btn-dashboard-action" (click)="irAReportesPaca()">
+          <span>Generar Reporte</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tarjeta 4: Reporte de Ventas por Cliente -->
+    <div class="dashboard-card highlight">
+      <div class="card-icon">👤</div>
+      <div class="card-content">
+        <h2>Ventas por Cliente</h2>
+        <p>Analiza las facturas y compras totales acumuladas por un cliente ingresando su cédula.</p>
+        <button class="btn-dashboard-action" (click)="irAReportesCliente()">
           <span>Generar Reporte</span>
         </button>
       </div>

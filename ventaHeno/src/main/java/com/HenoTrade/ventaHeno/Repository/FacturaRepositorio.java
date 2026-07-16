@@ -22,4 +22,7 @@ public interface FacturaRepositorio extends JpaRepository<Factura, Long> {
     @Query("SELECT DISTINCT f FROM Factura f JOIN DetalleVenta dv ON f.idFactura = dv.factura.idFactura " +
            "JOIN dv.heno h WHERE LOWER(h.nombre) LIKE LOWER(CONCAT('%', :nombreHeno, '%'))")
     List<Factura> findFacturasPorNombreHeno(@Param("nombreHeno") String nombreHeno);
+
+    @Query("SELECT f FROM Factura f WHERE f.cedulaC = :cedula")
+    List<Factura> findByCedulaC(@Param("cedula") String cedula);
 }
