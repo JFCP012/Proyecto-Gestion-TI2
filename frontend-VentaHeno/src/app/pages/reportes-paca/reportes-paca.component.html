@@ -61,6 +61,11 @@
           <span class="label">Ingresos Totales</span>
           <span class="value">{{ reportePaca.montoTotal | currency:'USD' }}</span>
         </div>
+        <button class="btn-generar"
+          style="background-color: #2563eb; color: white; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: auto; margin-bottom: auto;"
+          (click)="descargarPDF()">
+          Descargar PDF
+        </button>
       </div>
     </div>
 
@@ -89,7 +94,9 @@
               <td class="td-monto">${{ detalle.subtotal | number:'1.0-0' }}</td>
             </ng-container>
             <ng-container *ngIf="!getDetalleHenoBuscado(factura)">
-              <td>-</td><td>-</td><td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
             </ng-container>
           </tr>
 

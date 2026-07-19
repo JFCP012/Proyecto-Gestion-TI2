@@ -100,6 +100,11 @@
           <span class="label">Total Invertido</span>
           <span class="value">${{ reporteCliente.montoTotal | number:'1.0-0' }}</span>
         </div>
+        <button class="btn-generar"
+          style="background-color: #2563eb; color: white; display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: auto; margin-bottom: auto;"
+          (click)="descargarPDF()">
+          Descargar PDF
+        </button>
       </div>
     </div>
 
@@ -126,7 +131,8 @@
             <td class="td-detalles">
               <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85em; text-align: left;">
                 <li *ngFor="let det of factura.detalles" style="margin-bottom: 2px;">
-                  {{ det.tipoHeno }}: {{ det.cantidad }} a ${{ det.precioUnitario | number:'1.0-0' }} = <strong>${{ det.subtotal | number:'1.0-0' }}</strong>
+                  {{ det.tipoHeno }}: {{ det.cantidad }} a ${{ det.precioUnitario | number:'1.0-0' }} = <strong>${{
+                    det.subtotal | number:'1.0-0' }}</strong>
                 </li>
               </ul>
             </td>

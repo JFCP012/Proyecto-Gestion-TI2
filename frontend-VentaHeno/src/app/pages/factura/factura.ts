@@ -318,6 +318,10 @@ export class Factura implements OnInit, OnDestroy {
         const height = 25; 
         const width = height * this.logoAspectRatio;
         doc.addImage(this.logoBase64, 'PNG', 14, 10, width, height);
+        
+        doc.setFontSize(22);
+        doc.setTextColor(56, 161, 105);
+        doc.text("AgroHeno", 14 + width + 5, 24);
       } else {
         // Fallback
         doc.setFontSize(22);
@@ -414,6 +418,20 @@ export class Factura implements OnInit, OnDestroy {
       doc.setFontSize(9);
       doc.setTextColor(148, 163, 184);
       doc.text("Gracias por su compra en AgroHeno.", 105, 281, { align: 'center' });
+
+      const pageCount = (doc as any).internal.getNumberOfPages();
+      for (let i = 1; i <= pageCount; i++) {
+        doc.setPage(i);
+        doc.setFontSize(10);
+        doc.setTextColor(150);
+        const pageSize = doc.internal.pageSize;
+        const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+        const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+        const text = "Fabricantes de heno";
+        const textWidth = doc.getStringUnitWidth(text) * doc.getFontSize() / doc.internal.scaleFactor;
+        const x = (pageWidth - textWidth) / 2;
+        doc.text(text, x, pageHeight - 10);
+      }
 
       doc.save(`Factura_AgroHeno_${f.idFactura || Date.now()}.pdf`);
     } catch (e: any) {
