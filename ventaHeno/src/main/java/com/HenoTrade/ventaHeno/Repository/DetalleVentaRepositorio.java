@@ -21,4 +21,7 @@ public interface DetalleVentaRepositorio extends JpaRepository<DetalleVenta, Lon
 
     @Query("SELECT dv FROM DetalleVenta dv WHERE dv.factura.idFactura = :idFactura")
     List<DetalleVenta> findByFacturaIdFactura(@Param("idFactura") Long idFactura);
+
+    @Query("SELECT dv FROM DetalleVenta dv JOIN FETCH dv.heno WHERE dv.factura.idFactura IN :idsFacturas")
+    List<DetalleVenta> findByFacturaIdFacturaIn(@Param("idsFacturas") List<Long> idsFacturas);
 }

@@ -28,9 +28,9 @@
   </div>
 
   <div class="animal-cards-grid">
-    <div class="animal-card" *ngFor="let animal of animalesList" 
-         [class.selected]="animalSeleccionadoId === animal.idAnimales"
-         (click)="seleccionarAnimal(animal.idAnimales, animal.nombre)">
+    <div class="animal-card" *ngFor="let animal of animalesList"
+      [class.selected]="animalSeleccionadoId === animal.idAnimales"
+      (click)="seleccionarAnimal(animal.idAnimales, animal.nombre)">
       <div class="animal-icon">
         <img *ngIf="getAnimalIcon(animal.nombre) !== ''" [src]="getAnimalIcon(animal.nombre)" [alt]="animal.nombre">
         <span *ngIf="getAnimalIcon(animal.nombre) === ''">🐾</span>
@@ -40,7 +40,8 @@
   </div>
 
   <div class="loading-state" *ngIf="cargandoReporte" style="text-align: center; padding: 3rem;">
-    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...</p>
+    <p style="font-size: 1.2rem; color: #4a5568; font-weight: 600;">⏳ Consultando la base de datos, por favor espera...
+    </p>
   </div>
 
   <div class="reporte-resultados-container" *ngIf="reporteAnimal && !cargandoReporte">
@@ -80,7 +81,8 @@
             <td class="td-detalles">
               <ul style="margin: 0; padding-left: 1.2rem; font-size: 0.85em; text-align: left;">
                 <li *ngFor="let det of factura.detalles" style="margin-bottom: 2px;">
-                  {{ det.tipoHeno }}: {{ det.cantidad }} a ${{ det.precioUnitario | number:'1.0-0' }} = <strong>${{ det.subtotal | number:'1.0-0' }}</strong>
+                  {{ det.tipoHeno }}: {{ det.cantidad }} a ${{ det.precioUnitario | number:'1.0-0' }} = <strong>${{
+                    det.subtotal | number:'1.0-0' }}</strong>
                 </li>
               </ul>
             </td>

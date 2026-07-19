@@ -32,7 +32,7 @@ public class Factura {
     @Column(name = "idFactura", nullable = false, unique = true)
     private Long idFactura;
 
-    @ManyToOne
+    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
     @JoinColumn(name = "cedulaV", referencedColumnName = "cedulaV")
     private Administrador administrador;
 
@@ -57,7 +57,7 @@ public class Factura {
     @Column(name = "envio", nullable = false)
     private double envio;
 
-    @ManyToOne
+    @ManyToOne(fetch = jakarta.persistence.FetchType.LAZY)
     @JoinColumn(name = "cedulaC", referencedColumnName = "cedula", insertable = false, updatable = false, foreignKey = @jakarta.persistence.ForeignKey(jakarta.persistence.ConstraintMode.NO_CONSTRAINT))
     @NotFound(action = NotFoundAction.IGNORE)
     private Cliente cliente;

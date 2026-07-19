@@ -2,6 +2,9 @@ package com.HenoTrade.ventaHeno.service;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -119,12 +122,34 @@ public class FacturaServise {
             .collect(Collectors.toList());
     }
 
+    private Map<Long, List<DetalleVenta>> obtenerDetallesPorFacturas(List<Factura> facturas) {
+        if (facturas == null || facturas.isEmpty()) {
+            return new HashMap<>();
+        }
+        List<Long> ids = facturas.stream().map(Factura::getIdFactura).collect(Collectors.toList());
+        List<DetalleVenta> todosDetalles = detalleVentaRepositorio.findByFacturaIdFacturaIn(ids);
+        return todosDetalles.stream().collect(Collectors.groupingBy(dv -> dv.getFactura().getIdFactura()));
+    }
+
+    private List<DetalleFacturaReporteDTO> mapearDetallesDTO(List<DetalleVenta> detalles) {
+        if (detalles == null) return new ArrayList<>();
+        return detalles.stream()
+            .map(dv -> DetalleFacturaReporteDTO.builder()
+                .tipoHeno(dv.getHeno().getNombre())
+                .precioUnitario(dv.getHeno().getPrecioU())
+                .cantidad(dv.getCantidad())
+                .subtotal(dv.getHeno().getPrecioU() * dv.getCantidad())
+                .build())
+            .collect(Collectors.toList());
+    }
+
     /**
      * Genera un reporte de ventas filtrado por mes y año.
      * Consulta todas las facturas del período y calcula los totales.
      */
     public ReporteVentaMensualDTO generarReportePorMes(int anio, int mes) {
         List<Factura> facturas = facturaRepositorio.findByAnioAndMes(anio, mes);
+        Map<Long, List<DetalleVenta>> detallesMap = obtenerDetallesPorFacturas(facturas);
 
         List<FacturaReporteDTO> facturasDTO = facturas.stream()
             .map(f -> FacturaReporteDTO.builder()
@@ -134,7 +159,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
-                .detalles(obtenerDetallesDTO(f.getIdFactura()))
+                .detalles(mapearDetallesDTO(detallesMap.get(f.getIdFactura())))
                 .build())
             .collect(Collectors.toList());
 
@@ -156,6 +181,7 @@ public class FacturaServise {
      */
     public ReporteFacturasAnimalDTO generarReportePorAnimal(Long idAnimal, String nombreAnimal) {
         List<Factura> facturas = facturaRepositorio.findFacturasPorAnimalId(idAnimal);
+        Map<Long, List<DetalleVenta>> detallesMap = obtenerDetallesPorFacturas(facturas);
 
         List<FacturaReporteDTO> facturasDTO = facturas.stream()
             .map(f -> FacturaReporteDTO.builder()
@@ -165,7 +191,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
-                .detalles(obtenerDetallesDTO(f.getIdFactura()))
+                .detalles(mapearDetallesDTO(detallesMap.get(f.getIdFactura())))
                 .build())
             .collect(Collectors.toList());
 
@@ -187,6 +213,7 @@ public class FacturaServise {
      */
     public ReporteFacturasHenoDTO generarReportePorHeno(String nombreHeno) {
         List<Factura> facturas = facturaRepositorio.findFacturasPorNombreHeno(nombreHeno);
+        Map<Long, List<DetalleVenta>> detallesMap = obtenerDetallesPorFacturas(facturas);
 
         List<FacturaReporteDTO> facturasDTO = facturas.stream()
             .map(f -> FacturaReporteDTO.builder()
@@ -196,7 +223,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
-                .detalles(obtenerDetallesDTO(f.getIdFactura()))
+                .detalles(mapearDetallesDTO(detallesMap.get(f.getIdFactura())))
                 .build())
             .collect(Collectors.toList());
 
@@ -220,6 +247,7 @@ public class FacturaServise {
     public ReporteVentaClienteDTO generarReportePorCliente(String cedula) {
         Cliente cliente = clienteRepositorio.findByCedula(cedula).orElse(null);
         List<Factura> facturas = facturaRepositorio.findByCedulaC(cedula);
+        Map<Long, List<DetalleVenta>> detallesMap = obtenerDetallesPorFacturas(facturas);
 
         List<FacturaReporteDTO> facturasDTO = facturas.stream()
             .map(f -> FacturaReporteDTO.builder()
@@ -229,7 +257,7 @@ public class FacturaServise {
                 .cedulaCliente(f.getCedulaC())
                 .totalVenta(f.getTotalVenta())
                 .envio(f.getEnvio())
-                .detalles(obtenerDetallesDTO(f.getIdFactura()))
+                .detalles(mapearDetallesDTO(detallesMap.get(f.getIdFactura())))
                 .build())
             .collect(Collectors.toList());
 
@@ -239,7 +267,7 @@ public class FacturaServise {
 
         int totalPacas = 0;
         for (Factura f : facturas) {
-            List<DetalleVenta> detalles = detalleVentaRepositorio.findByFacturaIdFactura(f.getIdFactura());
+            List<DetalleVenta> detalles = detallesMap.getOrDefault(f.getIdFactura(), new ArrayList<>());
             for (DetalleVenta dv : detalles) {
                 totalPacas += dv.getCantidad();
             }
