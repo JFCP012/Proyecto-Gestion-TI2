@@ -117,6 +117,24 @@ export class Factura implements OnInit, OnDestroy {
 
     this.cargarLogo();
 
+    // Si hay un cliente logueado, rellenar el formulario automáticamente
+    const clienteGuardado = localStorage.getItem('clienteActivo');
+    if (clienteGuardado) {
+      try {
+        const cliente = JSON.parse(clienteGuardado);
+        this.factura.cedulaC   = cliente.cedula   || '';
+        this.factura.nombreC   = cliente.nombre   || '';
+        this.factura.telefonoC = cliente.telefono || '';
+        if (cliente.direccion) {
+          this.factura.direccionC = cliente.direccion;
+        }
+        this.clienteSeleccionado = cliente;
+        this.ultimoValorBuscado = cliente.cedula; // evita que busque de nuevo
+      } catch {
+        console.error('Error al leer cliente del localStorage');
+      }
+    }
+
     this.queryParamsSubscription = this.route.queryParams.subscribe(params => {
       const queryCedula = params['cedula'];
       if (queryCedula) {

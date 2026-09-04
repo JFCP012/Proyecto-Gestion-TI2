@@ -1,0 +1,276 @@
+/* ── Header Centrado ─────────────────────────────── */
+.simple-header {
+  background: var(--primary-olive, #036c39);
+  padding: 0.75rem 2rem;
+  border-bottom: 3.5px solid var(--primary-gold, #cca243);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.simple-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-branding {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  user-select: none;
+}
+
+.agroheno-logo {
+  height: 48px;
+  width: auto;
+}
+
+.brand-text-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-main {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-family: 'Outfit', 'Inter', sans-serif;
+}
+
+.brand-sub {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #cca243;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-top: 0.15rem;
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Wrapper Completo ────────────────────────────── */
+.perfil-page-wrapper {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Barra Superior (Extendida a los Laterales) ──── */
+.perfil-top-bar {
+  width: 100%;
+  max-width: 100%;
+  margin: 1.5rem 0 1rem 0;
+  padding: 0 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.btn-volver {
+  background: rgba(3, 108, 57, 0.06);
+  border: 1.5px solid rgba(3, 108, 57, 0.18);
+  color: #036c39;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-volver:hover {
+  background: #036c39;
+  color: #ffffff;
+  border-color: #036c39;
+  box-shadow: 0 4px 12px rgba(3, 108, 57, 0.2);
+  transform: translateY(-1px);
+}
+
+.btn-cerrar {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  color: #dc2626;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  padding: 0.6rem 1.25rem;
+  border-radius: 50px;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.btn-cerrar:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+  color: #991b1b;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.15);
+}
+
+/* ── Contenedor de Información Plano ──────────────── */
+.perfil-container {
+  max-width: 900px;
+  margin: 1rem auto 4rem;
+  padding: 0 1.5rem;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1a202c;
+}
+
+/* ── Header Plano de Usuario (Avatar y Nombre) ──── */
+.perfil-header-flat {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.avatar-wrapper {
+  flex-shrink: 0;
+}
+
+.avatar-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3.5px solid #cca243;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.avatar-placeholder {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 3.5px solid #cca243;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-placeholder svg {
+  width: 48px;
+  height: 48px;
+  color: #64748b;
+}
+
+.user-details-flat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.user-badge {
+  display: inline-block;
+  background: rgba(3, 108, 57, 0.08);
+  color: #036c39;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.75rem;
+  border-radius: 2rem;
+  border: 1px solid rgba(3, 108, 57, 0.18);
+  width: fit-content;
+}
+
+.user-name {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.user-cedula {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* ── Divisor Plano ───────────────────────────────── */
+.flat-divider {
+  height: 1px;
+  background: #e2e8f0;
+  margin: 2rem 0;
+}
+
+/* ── Información Personal Plano ──────────────────── */
+.info-section-flat {
+  margin-top: 1rem;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 1.75rem 0;
+  letter-spacing: -0.01em;
+}
+
+.info-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem 2.5rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.detail-value {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1e293b;
+  word-break: break-word;
+}
+
+/* ── Responsivo ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .perfil-top-bar {
+    padding: 0 1rem;
+  }
+
+  .perfil-header-flat {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .user-badge {
+    margin: 0 auto;
+  }
+
+  .info-details-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}

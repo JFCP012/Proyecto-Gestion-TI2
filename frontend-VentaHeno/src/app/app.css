@@ -1,3 +1,4 @@
+/* Botón flotante del carrito */
 .floating-cart {
   position: fixed;
   bottom: 2rem;
@@ -40,4 +41,289 @@
   align-items: center;
   justify-content: center;
   border: 2px solid white;
+}
+
+/* =========================================
+   Círculo Avatar de Usuario (Top-Right)
+========================================= */
+.user-avatar-btn {
+  position: fixed;
+  top: 15px;
+  right: 1.5rem;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #163e26 0%, #2d5a3d 100%);
+  border: 2px solid #cca243;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2500;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-avatar-btn:hover {
+  background: linear-gradient(135deg, #2d5a3d 0%, #cca243 100%);
+  border-color: #ffffff;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 6px 20px rgba(204, 162, 67, 0.5);
+}
+
+.avatar-svg {
+  width: 22px;
+  height: 22px;
+  stroke: #ffffff;
+  transition: stroke 0.25s ease, transform 0.25s ease;
+}
+
+.user-avatar-btn:hover .avatar-svg {
+  stroke: #ffffff;
+  transform: scale(1.08);
+}
+
+.avatar-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.user-avatar-btn:has(.avatar-photo) {
+  border: 2px solid #cca243;
+  background: #163e26;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.user-avatar-btn:has(.avatar-photo):hover {
+  box-shadow: 0 6px 20px rgba(204, 162, 67, 0.65);
+}
+
+/* =========================================
+   Modal de Login
+========================================= */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(10, 20, 15, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 1.5rem;
+  width: 92%;
+  max-width: 500px;
+  box-shadow: 0 32px 64px -16px rgba(0, 0, 0, 0.45);
+  position: relative;
+  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow: hidden;
+}
+
+/* Cabecera verde oscura */
+.modal-header {
+  background: linear-gradient(135deg, #163e26 0%, #2d5a3d 100%);
+  padding: 2rem 2rem 1.75rem;
+  text-align: center;
+  position: relative;
+}
+
+.modal-badge-brand {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #cca243;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(204, 162, 67, 0.12);
+  border: 1px solid rgba(204, 162, 67, 0.3);
+  padding: 0.25rem 0.85rem;
+  border-radius: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.modal-header h3 {
+  font-size: 1.65rem;
+  font-weight: 800;
+  color: #cca243;
+  margin: 0 0 0.4rem 0;
+  letter-spacing: -0.02em;
+}
+
+.modal-header p {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+/* Botón cerrar (sobre fondo oscuro) */
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.9rem;
+  font-weight: 700;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: rgba(220, 38, 38, 0.85);
+  border-color: transparent;
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Cuerpo del formulario */
+.login-body {
+  padding: 1.75rem 2rem 2rem;
+}
+
+.login-body form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Grupos de input */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.input-group input {
+  padding: 0.75rem 1rem;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 0.65rem;
+  font-size: 0.95rem;
+  color: #1e293b;
+  background: #f8fafc;
+  transition: all 0.2s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.input-group input:focus {
+  border-color: #38a169;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(56, 161, 105, 0.15);
+}
+
+.input-group input::placeholder {
+  color: #a0aec0;
+  font-size: 0.9rem;
+}
+
+/* Botón Iniciar Sesión */
+.btn-login {
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #276749 0%, #38a169 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.7rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(56, 161, 105, 0.35);
+  letter-spacing: 0.02em;
+  margin-top: 0.5rem;
+  font-family: inherit;
+}
+
+.btn-login:hover {
+  background: linear-gradient(135deg, #22543d 0%, #276749 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(56, 161, 105, 0.45);
+}
+
+.btn-login:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(56, 161, 105, 0.3);
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #edf2f7;
+  margin: 1.25rem 0 1rem;
+}
+
+/* Texto pequeño */
+.small-text {
+  font-size: 0.85rem;
+  color: #718096;
+  margin: 0 0 0.75rem 0;
+  text-align: center;
+}
+
+/* Botón Crear Cuenta */
+.btn-register {
+  width: 100%;
+  padding: 0.75rem;
+  background: #f0fff4;
+  color: #276749;
+  border: 1.5px solid #c6f6d5;
+  border-radius: 0.7rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.btn-register:hover {
+  background: #c6f6d5;
+  border-color: #9ae6b4;
+  color: #1a3a2a;
+}
+
+/* =========================================
+   Animaciones
+========================================= */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.90) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }

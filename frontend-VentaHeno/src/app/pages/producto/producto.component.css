@@ -673,6 +673,7 @@
   align-items: center;
   gap: 1.25rem;
   justify-content: flex-end;
+  padding-right: 3.5rem;
 }
 
 .header-branding {

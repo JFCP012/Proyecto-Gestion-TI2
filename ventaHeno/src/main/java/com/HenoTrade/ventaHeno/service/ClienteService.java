@@ -1,9 +1,15 @@
 package com.HenoTrade.ventaHeno.service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.HenoTrade.ventaHeno.Entity.Cliente;
 import com.HenoTrade.ventaHeno.Repository.ClienteRepositorio;
 
@@ -11,7 +17,29 @@ import com.HenoTrade.ventaHeno.Repository.ClienteRepositorio;
 public class ClienteService {
 
     @Autowired
+    private Cloudinary cloudinary;
+
+    @Autowired
     private ClienteRepositorio clienteRepositorio;
+
+    public Cliente guardarCliente(String clienteJson, MultipartFile archivoImagen) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Cliente cliente = objectMapper.readValue(clienteJson, Cliente.class);
+        return guardarCliente(cliente, archivoImagen);
+    }
+
+    public Cliente guardarCliente(Cliente cliente, MultipartFile archivoImagen) {
+        if (archivoImagen != null && !archivoImagen.isEmpty()) {
+            try {
+                Map uploadResult = cloudinary.uploader().upload(archivoImagen.getBytes(), ObjectUtils.emptyMap());
+                String linkImagen = (String) uploadResult.get("secure_url");
+                cliente.setImagen(linkImagen);
+            } catch (Exception e) {
+                throw new RuntimeException("Error al subir la imagen del cliente a Cloudinary: " + e.getMessage(), e);
+            }
+        }
+        return guardarCliente(cliente);
+    }
 
     public Cliente guardarCliente(Cliente cliente) {
         Optional<Cliente> existente = clienteRepositorio.findByCedula(cliente.getCedula());
@@ -20,9 +48,26 @@ public class ClienteService {
             c.setNombre(cliente.getNombre());
             c.setTelefono(cliente.getTelefono());
             c.setDireccion(cliente.getDireccion());
+            if (cliente.getClave() != null && !cliente.getClave().isEmpty()) {
+                c.setClave(cliente.getClave());
+            }
+            if (cliente.getImagen() != null && !cliente.getImagen().isEmpty()) {
+                c.setImagen(cliente.getImagen());
+            }
             return clienteRepositorio.save(c);
         }
         return clienteRepositorio.save(cliente);
+    }
+
+    public Optional<Cliente> loginCliente(String cedula, String clave) {
+        Optional<Cliente> opt = clienteRepositorio.findByCedula(cedula);
+        if (opt.isPresent()) {
+            Cliente c = opt.get();
+            if (c.getClave() != null && c.getClave().equals(clave)) {
+                return Optional.of(c);
+            }
+        }
+        return Optional.empty();
     }
 
     public Optional<Cliente> buscarPorCedula(String cedula) {

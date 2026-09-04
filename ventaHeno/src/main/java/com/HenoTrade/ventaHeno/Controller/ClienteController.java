@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.HenoTrade.ventaHeno.Entity.Cliente;
 import com.HenoTrade.ventaHeno.service.ClienteService;
 
@@ -23,9 +25,15 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/registrar")
-    public ResponseEntity<Cliente> registrar(@RequestBody Cliente cliente) {
-        Cliente guardado = clienteService.guardarCliente(cliente);
-        return ResponseEntity.ok(guardado);
+    public ResponseEntity<Cliente> registrar(
+            @RequestParam("cliente") String clienteJson,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen) {
+        try {
+            Cliente guardado = clienteService.guardarCliente(clienteJson, imagen);
+            return ResponseEntity.ok(guardado);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
     }
 
     @GetMapping("/buscarPorCedula")
@@ -41,5 +49,17 @@ public class ClienteController {
     @GetMapping("/listarTodos")
     public ResponseEntity<List<Cliente>> listarTodos() {
         return ResponseEntity.ok(clienteService.buscarTodos());
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Cliente> login(@RequestBody java.util.Map<String, String> body) {
+        String cedula = body.get("cedula");
+        String clave = body.get("clave");
+        Optional<Cliente> resultado = clienteService.loginCliente(cedula, clave);
+        if (resultado.isPresent()) {
+            return ResponseEntity.ok(resultado.get());
+        } else {
+            return ResponseEntity.status(401).body(null);
+        }
     }
 }

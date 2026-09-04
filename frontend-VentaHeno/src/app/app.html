@@ -1,5 +1,61 @@
 <router-outlet />
 
+<!-- Círculo de Usuario (Esquina Superior Derecha, integrado al Header de AgroHeno) -->
+<div class="user-avatar-btn" (click)="abrirModalUsuario()" *ngIf="!esRutaExcluida" title="Cuenta de Cliente">
+    <!-- Si el cliente está logueado y tiene foto -->
+    <img *ngIf="clienteLogueado?.imagen" [src]="clienteLogueado?.imagen" alt="Foto del Cliente" class="avatar-photo" />
+
+
+    <!-- Si NO está logueado o NO tiene foto: Icono Vectorial SVG Elegante -->
+    <svg *ngIf="!clienteLogueado?.imagen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="avatar-svg"
+        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+        <circle cx="12" cy="7" r="4"></circle>
+    </svg>
+</div>
+
+<!-- Modal Emergente de Login (Base para que construyas tu formulario) -->
+<div class="modal-overlay" *ngIf="mostrarLoginModal" (click)="cerrarModalUsuario()">
+    <div class="modal-card" (click)="$event.stopPropagation()">
+        <!-- Botón de Cerrar Modal -->
+        <button type="button" class="modal-close" (click)="cerrarModalUsuario()" title="Cerrar">✕</button>
+
+        <div class="modal-header">
+            <h3>Iniciar Sesión</h3>
+            <p>Accede con tu cuenta para ver tus compras y perfil</p>
+        </div>
+
+        <!-- Contenedor del formulario de Login (Listo para que lo construyas) -->
+        <div class="login-body">
+            <form>
+                <!-- Email / Usuario -->
+                <div class="input-group">
+                    <label for="username">cedula</label>
+                    <input type="text" id="idCliente" name="idCliente" [(ngModel)]="idC" placeholder="[EMAIL_ADDRESS]"
+                        autocomplete="off" />
+                </div>
+
+                <!-- Password -->
+                <div class="input-group">
+                    <label for="password">clave</label>
+                    <input type="password" id="claveCliente" name="claveCliente" [(ngModel)]="claveC"
+                        placeholder="Ingresa tu clave" autocomplete="off" />
+                </div>
+
+                <!-- Botón de Acceso -->
+                <button type="submit" class="btn-login" (click)="submitLoginCliente()">Iniciar Sesión</button>
+
+                <div class="divider"></div>
+
+                <p class="small-text">¿No tienes cuenta?</p>
+                <button type="button" class="btn-register" (click)="registrarCliente()">Crear Cuenta</button>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
 <!-- Botón flotante del carrito -->
 <div class="floating-cart" (click)="irAlCarrito()" *ngIf="mostrarCarrito">
     <span class="cart-icon">🛒</span>

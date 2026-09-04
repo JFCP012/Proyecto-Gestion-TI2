@@ -24,6 +24,9 @@ export class CrearCliente implements OnInit {
     direccion: ''
   };
 
+  imagenSeleccionada: File | null = null;
+  imagenPreview: string | null = null;
+
   loading = false;
   successMsg = '';
   errorMsg = '';
@@ -36,9 +39,36 @@ export class CrearCliente implements OnInit {
     });
   }
 
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.imagenSeleccionada = file;
+
+      // Crear URL de vista previa
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imagenPreview = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  quitarImagen(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+    this.imagenSeleccionada = null;
+    this.imagenPreview = null;
+    const fileInput = document.getElementById('imagen') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = '';
+    }
+  }
+
   registrarCliente() {
     if (!this.cliente.cedula || !this.cliente.nombre || !this.cliente.telefono) {
-      this.errorMsg = 'Por favor complete todos los campos obligatorios';
+      this.errorMsg = 'Por favor complete todos los campos obligatorios (*).';
       return;
     }
 
@@ -46,7 +76,7 @@ export class CrearCliente implements OnInit {
     this.successMsg = '';
     this.errorMsg = '';
 
-    this.clienteService.registrarCliente(this.cliente).subscribe({
+    this.clienteService.registrarCliente(this.cliente, this.imagenSeleccionada).subscribe({
       next: (res) => {
         this.successMsg = '¡Cliente registrado con éxito!';
         this.loading = false;
@@ -56,7 +86,9 @@ export class CrearCliente implements OnInit {
       },
       error: (err) => {
         console.error('Error al registrar cliente:', err);
-        this.errorMsg = 'Ocurrió un error al registrar el cliente. Intente nuevamente.';
+        this.errorMsg = typeof err.error === 'string' 
+          ? err.error 
+          : (err.error?.message || 'Ocurrió un error al registrar el cliente en el servidor.');
         this.loading = false;
       }
     });

@@ -245,6 +245,9 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
   width: 100%;
   box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .simple-header-inner {

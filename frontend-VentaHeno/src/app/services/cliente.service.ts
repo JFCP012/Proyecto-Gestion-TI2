@@ -12,8 +12,13 @@ export class ClienteService {
 
   constructor(private http: HttpClient) { }
 
-  registrarCliente(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(`${this.apiUrl}/registrar`, cliente);
+  registrarCliente(cliente: Cliente, imagen?: File | null): Observable<Cliente> {
+    const formData = new FormData();
+    formData.append('cliente', JSON.stringify(cliente));
+    if (imagen) {
+      formData.append('imagen', imagen);
+    }
+    return this.http.post<Cliente>(`${this.apiUrl}/registrar`, formData);
   }
 
   buscarPorCedula(cedula: string): Observable<Cliente> {
@@ -24,5 +29,9 @@ export class ClienteService {
 
   listarTodos(): Observable<Cliente[]> {
     return this.http.get<Cliente[]>(`${this.apiUrl}/listarTodos`);
+  }
+
+  login(cedula: string, clave: string): Observable<Cliente> {
+    return this.http.post<Cliente>(`${this.apiUrl}/login`, { cedula, clave });
   }
 }

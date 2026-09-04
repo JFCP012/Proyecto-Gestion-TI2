@@ -33,4 +33,11 @@ public class Cliente {
 
     @Column(name = "direccion")
     private String direccion;
+
+    @Column(name = "imagen", length = 255)
+    private String imagen;
+
+    @Column(name = "clave")
+    private String clave;
+
 }

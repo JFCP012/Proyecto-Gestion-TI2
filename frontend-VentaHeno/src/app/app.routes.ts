@@ -12,6 +12,7 @@ import { ReportesPacaComponent } from './pages/reportes-paca/reportes-paca.compo
 import { GestionHenosComponent } from './pages/gestion-henos/gestion-henos.component';
 import { CrearCliente } from './pages/crear-cliente/crear-cliente';
 import { ReportesClienteComponent } from './pages/reportes-cliente/reportes-cliente.component';
+import { PerfilCliente } from './pages/perfil-cliente/perfil-cliente';
 
 export const routes: Routes = [
     { path: '', component: ProductoComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
     { path: 'carrito', component: CarritoComponent },
     { path: 'factura', component: Factura },
     { path: 'crear-cliente', component: CrearCliente },
+    { path: 'perfil-cliente', component: PerfilCliente },
     { path: 'admin', component: AdminComponent, canActivate: [adminGuard] },
     { path: 'reportes-mes', component: ReportesMesComponent, canActivate: [adminGuard] },
     { path: 'reportes-animal', component: ReportesAnimalComponent, canActivate: [adminGuard] },

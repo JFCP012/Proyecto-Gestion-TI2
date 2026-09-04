@@ -18,7 +18,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class Administrador {
-    
+
     @Id
     @Column(name = "cedulaV", nullable = false, unique = true)
     private Long cedulaV;
