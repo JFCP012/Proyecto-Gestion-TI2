@@ -18,7 +18,6 @@ import com.HenoTrade.ventaHeno.service.ClienteService;
 
 @RestController
 @RequestMapping("/Cliente")
-@CrossOrigin(origins = "*")
 public class ClienteController {
 
     @Autowired

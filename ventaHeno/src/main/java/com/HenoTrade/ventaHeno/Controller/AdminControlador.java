@@ -7,7 +7,6 @@ import com.HenoTrade.ventaHeno.service.AdminServise;
 
 @RestController
 @RequestMapping("/Admin")
-@CrossOrigin(origins = "*")
 public class AdminControlador {
 
     @Autowired

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/Heno")
-@CrossOrigin(origins = "*")
+
 public class HenoControlador {
 
     @Autowired
@@ -91,7 +91,8 @@ public class HenoControlador {
             Heno henoEditado = henoServise.editarHeno(id, henoJson, archivoImagen, idAnimales);
             return ResponseEntity.ok(henoEditado);
         } catch (IOException e) {
-            return ResponseEntity.internalServerError().body("Error al procesar la peticion de edicion: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("Error al procesar la peticion de edicion: " + e.getMessage());
         }
     }
 

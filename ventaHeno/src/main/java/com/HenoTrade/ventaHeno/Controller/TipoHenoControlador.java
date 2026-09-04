@@ -13,7 +13,7 @@ import com.HenoTrade.ventaHeno.service.TipoHenoServise;
 
 @RestController
 @RequestMapping("/tipoHeno")
-@CrossOrigin(origins = "*")
+
 public class TipoHenoControlador {
 
     @Autowired

@@ -15,7 +15,7 @@ import com.HenoTrade.ventaHeno.service.FacturaServise;
 
 @RestController
 @RequestMapping("/Reportes")
-@CrossOrigin(origins = "*")
+
 public class ReportesControlador {
 
     @Autowired
