@@ -14,7 +14,6 @@ import com.HenoTrade.ventaHeno.Entity.Animales;
 
 @RestController
 @RequestMapping("/animal")
-@CrossOrigin(origins = "*")
 public class AnimalControlaor {
 
     @Autowired

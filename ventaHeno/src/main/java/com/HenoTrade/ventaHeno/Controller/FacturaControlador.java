@@ -15,7 +15,6 @@ import com.HenoTrade.ventaHeno.dto.CompraDTO;
 
 @RestController
 @RequestMapping("/Factura")
-@CrossOrigin(origins = "*")
 public class FacturaControlador {
 
     @Autowired
@@ -25,7 +24,7 @@ public class FacturaControlador {
     public Factura guardarFactura(@RequestBody Factura factura) {
         return this.facturaServise.guardarFactura(factura);
     }
-    
+
     @PostMapping("/procesarCompra")
     public Factura procesarCompra(@RequestBody CompraDTO compraDTO) {
         return this.facturaServise.procesarCompra(compraDTO);
