@@ -75,12 +75,14 @@
 
 .input-group {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
-  max-width: 500px;
+  max-width: 100%;
 }
 
 .input-group input {
   flex: 1;
+  min-width: 200px;
   padding: 0.85rem 1rem;
   border: 1px solid #e2e8f0;
   border-radius: 10px;
@@ -206,6 +208,7 @@
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -213,8 +216,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .reporte-header {
@@ -410,4 +418,100 @@
   font-size: 3.5rem;
   margin-bottom: 1rem;
   opacity: 0.8;
+}
+
+/* Responsive Mobile */
+@media (max-width: 768px) {
+  .reportes-cliente-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .page-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .page-header p {
+    font-size: 0.9rem;
+  }
+
+  .selector-card {
+    padding: 1.25rem;
+  }
+
+  .selector-content {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .icon-wrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+  }
+
+  .icon-clientes {
+    width: 38px;
+    height: 38px;
+  }
+
+  .input-group {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .input-group input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .btn-generar {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+  }
+
+  .cliente-ficha-card {
+    padding: 1.25rem;
+  }
+
+  .ficha-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .ficha-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reporte-header {
+    padding: 1.25rem 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .reporte-header h2 {
+    font-size: 1.15rem;
+  }
+
+  .reporte-summary-cards {
+    flex-direction: column;
+    gap: 0.75rem;
+    width: 100%;
+  }
+
+  .summary-card {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .reporte-tabla th,
+  .reporte-tabla td {
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .reporte-empty-state {
+    padding: 3rem 1.5rem;
+  }
 }
