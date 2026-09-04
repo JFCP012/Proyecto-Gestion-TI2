@@ -22,5 +22,5 @@ public interface TipoHenoRepositorio extends JpaRepository<Tipo_Heno, Long> {
 
     @Query("SELECT t.animales.idAnimales FROM Tipo_Heno t WHERE t.heno.idHeno = :idHeno")
     List<Long> findAnimalIdsByHenoId(@Param("idHeno") Long idHeno);
-
+    // fhs
 }
