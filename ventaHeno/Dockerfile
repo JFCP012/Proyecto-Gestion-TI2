@@ -1,5 +1,5 @@
 # Etapa 1: Compilar el Backend (Spring Boot / Java)
-FROM maven:3.9.9-eclipse-temurin-21 AS backend-build
+FROM maven:3.9.9-eclipse-temurin-25 AS backend-build
 WORKDIR /app/backend
 
 # Copiar el pom.xml y código fuente
@@ -10,7 +10,7 @@ COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Etapa 2: Crear la imagen final de ejecución
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:25-jre-alpine
 WORKDIR /app
 COPY --from=backend-build /app/backend/target/ventaHeno-0.0.1-SNAPSHOT.jar app.jar
 
