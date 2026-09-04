@@ -980,7 +980,7 @@
 /* Responsividad general */
 @media (max-width: 768px) {
   .productos-container {
-    padding: 1rem;
+    padding: 1rem 0.75rem;
   }
 
   .grid-productos {
@@ -988,14 +988,34 @@
     gap: 1rem;
   }
 
+  .card-imagen {
+    height: 180px;
+  }
+
+  .card-content {
+    padding: 1rem;
+  }
+
+  .card-content h2 {
+    font-size: 1.1rem;
+  }
+
+  .descripcion {
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Filtros: grid 2x2 */
   .filtros-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
     margin: 1.5rem auto 2rem;
     padding: 0 0.5rem;
   }
 
   .filtro-btn {
-    width: calc(50% - 0.375rem);
+    width: 100%;
     height: auto;
     padding: 1rem 0.5rem;
   }
@@ -1010,6 +1030,24 @@
     height: 45px;
   }
 
+  /* Search and create bar */
+  .search-and-create-container {
+    flex-direction: column;
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .search-box {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .btn-crear {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Hero banner */
   .hero-content {
     flex-direction: column;
     gap: 1rem;
@@ -1023,7 +1061,7 @@
   }
 
   .hero-title {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 
   .hero-divider {
@@ -1033,17 +1071,112 @@
   }
 
   .hero-desc {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    max-width: 100%;
   }
 
   .hero-banner-image {
-    height: 280px;
+    height: 240px;
   }
 
+  .hero-overlay {
+    padding: 1rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Header */
+  .agroheno-header {
+    padding: 0.5rem 1rem;
+    overflow: hidden;
+  }
+
+  .header-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .header-left {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+    order: -1;
+  }
+
+  .header-admin-btn {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: center;
+    padding-right: 0;
+    gap: 0.75rem;
+    flex-wrap: nowrap;
+  }
+
+  .search-box-header {
+    flex: 1;
+    min-width: 0;
+    width: auto;
+    max-width: none;
+  }
+
+  .search-box-header:focus-within {
+    width: auto;
+    flex: 1;
+  }
+
+  .nav-cart-btn-premium {
+    position: relative;
+    flex-shrink: 0;
+    border-radius: 8px;
+    padding: 0.4rem 0.8rem;
+    background-color: rgba(255, 255, 255, 0.12);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    color: var(--white);
+    box-shadow: none;
+    width: auto;
+    height: auto;
+  }
+
+  .nav-cart-btn-premium .cart-icon-text {
+    font-size: 1.25rem;
+  }
+
+  .nav-cart-btn-premium .cart-badge-pill {
+    top: -6px;
+    right: -6px;
+    font-size: 0.7rem;
+  }
+
+  .agroheno-logo {
+    height: 38px;
+  }
+
+  .brand-main {
+    font-size: 1.6rem;
+  }
+
+  .brand-sub {
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+  }
+
+  /* Footer */
   .footer-top {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.25rem;
   }
 
   .footer-bottom-content {
@@ -1052,26 +1185,61 @@
     gap: 0.75rem;
   }
 
-  .header-inner {
-    display: flex;
+  .social-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* Modal */
+  .modal-content {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+  }
+
+  .modal-actions {
     flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
   }
 
-  .header-left {
+  .modal-actions button {
     width: 100%;
-    justify-content: center;
-    gap: 1rem;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 400px) {
+  .grid-productos {
+    grid-template-columns: 1fr;
   }
 
-  .search-box-header {
-    max-width: 280px;
+  .filtros-container {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
   }
 
-  .header-right {
-    width: 100%;
-    justify-content: center;
+  .filtro-btn {
+    padding: 0.75rem 0.4rem;
+  }
+
+  .filtro-img,
+  .filtro-img-svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .filtro-btn span {
+    font-size: 0.8rem;
+  }
+
+  .hero-title {
+    font-size: 1.5rem;
+  }
+
+  .hero-banner-image {
+    height: 200px;
   }
 }
 
