@@ -1,11 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --primary-olive: #036c39; /* Verde esmeralda de AgroHeno */
-  --primary-gold: #cca243;  /* Dorado/arena cálido para botones inactivos */
-  --gold-dark: #8c5a15;     /* Marrón/dorado oscuro para botón activo */
+  --primary-olive: #036c39;
+  /* Verde esmeralda de AgroHeno */
+  --primary-gold: #cca243;
+  /* Dorado/arena cálido para botones inactivos */
+  --gold-dark: #8c5a15;
+  /* Marrón/dorado oscuro para botón activo */
   --nav-cream: #f7f5f0;
   --white: #ffffff;
-  --text-dark: #3d2302;     /* Marrón oscuro para tipografía de filtros */
+  --text-dark: #3d2302;
+  /* Marrón oscuro para tipografía de filtros */
   --text-muted: #718096;
   --bg-cream: #fcfdfa;
 }
@@ -19,9 +23,11 @@ body {
 
 /* --- GLOBAL ADMIN HEADER STYLES --- */
 .admin-top-header {
-  background-color: #351903; /* Same color as product footer */
+  background-color: #351903;
+  /* Same color as product footer */
   padding: 0.75rem 2rem;
-  border-bottom: 3.5px solid #cca243; /* Gold border using global variable */
+  border-bottom: 3.5px solid #cca243;
+  /* Gold border using global variable */
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   width: 100%;
   box-sizing: border-box;
@@ -143,16 +149,44 @@ body {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+  .admin-top-header {
+    padding: 0.5rem 1rem;
+  }
+
   .admin-header-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
     align-items: center;
   }
 
-  .admin-header-left, .admin-header-right {
+  .admin-header-left,
+  .admin-header-right {
     width: 100%;
     justify-content: center;
+  }
+
+  .admin-header-logo {
+    height: 38px;
+  }
+
+  .admin-brand-text .brand-main {
+    font-size: 1.6rem;
+  }
+
+  .admin-brand-text .brand-sub {
+    font-size: 0.6rem;
+    letter-spacing: 1.5px;
+  }
+
+  .btn-admin-back {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.75rem;
+  }
+
+  .admin-header-badge {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.75rem;
   }
 }
 
@@ -254,7 +288,8 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: center; /* Center the logo and name */
+  justify-content: center;
+  /* Center the logo and name */
   align-items: center;
 }
 
@@ -291,7 +326,8 @@ body {
   display: flex;
 }
 
-.btn-volver, .btn-back {
+.btn-volver,
+.btn-back {
   background: rgba(3, 108, 57, 0.06) !important;
   border: 1.5px solid rgba(3, 108, 57, 0.15) !important;
   color: var(--primary-olive) !important;
@@ -309,7 +345,8 @@ body {
   box-shadow: none !important;
 }
 
-.btn-volver:hover, .btn-back:hover {
+.btn-volver:hover,
+.btn-back:hover {
   background: var(--primary-olive) !important;
   color: white !important;
   border-color: var(--primary-olive) !important;
@@ -324,9 +361,7 @@ body {
   vertical-align: middle;
 }
 
-.btn-volver:hover .back-arrow, .btn-back:hover .back-arrow {
+.btn-volver:hover .back-arrow,
+.btn-back:hover .back-arrow {
   transform: translateX(-4px);
 }
-
-
-
