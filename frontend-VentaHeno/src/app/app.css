@@ -47,7 +47,7 @@
    Círculo Avatar de Usuario (Top-Right)
 ========================================= */
 .user-avatar-btn {
-  position: fixed;
+  position: absolute;
   top: 15px;
   right: 1.5rem;
   width: 46px;
