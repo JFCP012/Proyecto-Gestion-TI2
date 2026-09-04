@@ -24,14 +24,16 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping("/registrar")
-    public ResponseEntity<Cliente> registrar(
+    public ResponseEntity<?> registrar(
             @RequestParam("cliente") String clienteJson,
             @RequestParam(value = "imagen", required = false) MultipartFile imagen) {
         try {
             Cliente guardado = clienteService.guardarCliente(clienteJson, imagen);
             return ResponseEntity.ok(guardado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "Error al registrar el cliente: " + e.getMessage()));
         }
     }
 
