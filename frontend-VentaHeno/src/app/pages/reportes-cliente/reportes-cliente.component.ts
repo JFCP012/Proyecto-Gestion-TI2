@@ -71,10 +71,25 @@ export class ReportesClienteComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  validarCedulaInput() {
+    if (this.cedulaInput && !/^[0-9]*$/.test(this.cedulaInput)) {
+      this.errorReporte = 'Solo se permiten números en la cédula.';
+      this.cedulaInput = this.cedulaInput.replace(/[^0-9]/g, '');
+    } else {
+      this.errorReporte = null;
+    }
+  }
+
   generarReporteCliente() {
     const cedula = this.cedulaInput?.trim();
     if (!cedula) {
-      this.errorReporte = 'Por favor, ingresa una cédula válida.';
+      this.errorReporte = 'Por favor, ingresa una cédula.';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    if (!/^[0-9]+$/.test(cedula)) {
+      this.errorReporte = 'La cédula solo debe contener números.';
       this.cdr.detectChanges();
       return;
     }
@@ -93,7 +108,11 @@ export class ReportesClienteComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error al generar el reporte:', err);
-        this.errorReporte = 'Ocurrió un error al cargar el reporte. Por favor, verifica que la cédula sea correcta y reintente.';
+        if (err.status === 404) {
+          this.errorReporte = 'No se encontró la cédula ingresada en la base de datos.';
+        } else {
+          this.errorReporte = 'No se encontró información o compras para la cédula ingresada. Verifica que esté bien escrita.';
+        }
         this.cargandoReporte = false;
         this.cdr.detectChanges();
       }

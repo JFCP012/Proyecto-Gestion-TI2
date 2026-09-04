@@ -26,7 +26,8 @@ export class App implements OnInit {
   clienteLogueado: Cliente | null = null;
   idC: string = "";
   claveC: string = "";
-
+  loginErrorMsg: string = "";
+  cedulaErrorMsg: string = "";
 
   ngOnInit() {
     // Si ya existe un cliente guardado en el navegador, cargarlo
@@ -76,33 +77,76 @@ export class App implements OnInit {
     if (this.clienteLogueado) {
       this.router.navigate(['/perfil-cliente']);
     } else {
+      this.loginErrorMsg = "";
+      this.cedulaErrorMsg = "";
       this.mostrarLoginModal = true;
     }
   }
 
+  validarCedulaInput() {
+    if (this.idC && !/^[0-9]*$/.test(this.idC)) {
+      this.cedulaErrorMsg = "Solo se permiten números en la cédula.";
+      this.idC = this.idC.replace(/[^0-9]/g, '');
+    } else {
+      this.cedulaErrorMsg = "";
+    }
+  }
+
   submitLoginCliente() {
-    this.clienteService.login(this.idC, this.claveC).subscribe({
+    this.loginErrorMsg = "";
+    this.cedulaErrorMsg = "";
+
+    const cedula = this.idC?.trim();
+    if (!cedula) {
+      this.loginErrorMsg = "Por favor ingrese su cédula.";
+      return;
+    }
+
+    if (!/^[0-9]+$/.test(cedula)) {
+      this.loginErrorMsg = "La cédula solo debe contener números.";
+      return;
+    }
+
+    if (!this.claveC || this.claveC.trim() === "") {
+      this.loginErrorMsg = "Por favor ingrese su clave.";
+      return;
+    }
+
+    this.clienteService.login(cedula, this.claveC).subscribe({
       next: (isValid) => {
-        if (isValid) {
+        if (isValid && isValid.cedula) {
           this.clienteLogueado = isValid;
           localStorage.setItem('clienteActivo', JSON.stringify(isValid));
           this.clienteLogueado.imagen = isValid.imagen ?? "";
           this.cerrarModalUsuario();
           this.router.navigate(['/']);
+        } else {
+          this.loginErrorMsg = "No se encontró la cédula o la clave es incorrecta.";
         }
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
+        if (error.status === 404) {
+          this.loginErrorMsg = "No existe un cliente registrado con esta cédula.";
+        } else if (error.status === 401 || error.status === 400) {
+          this.loginErrorMsg = "Cédula o clave incorrecta. Por favor verifique sus datos.";
+        } else {
+          this.loginErrorMsg = typeof error.error === 'string' && error.error
+            ? error.error
+            : (error.error?.message || 'No se encontró la cédula ingresada o la contraseña es incorrecta.');
+        }
       }
     });
   }
 
   cerrarModalUsuario() {
     this.mostrarLoginModal = false;
+    this.loginErrorMsg = "";
+    this.cedulaErrorMsg = "";
   }
   registrarCliente() {
     this.router.navigate(['/crear-cliente']);
-    this.mostrarLoginModal = false;
+    this.cerrarModalUsuario();
   }
   cerrarSesion() {
     localStorage.removeItem('clienteActivo');

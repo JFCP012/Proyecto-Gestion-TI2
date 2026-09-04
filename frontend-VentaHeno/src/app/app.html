@@ -25,25 +25,32 @@
             <p>Accede con tu cuenta para ver tus compras y perfil</p>
         </div>
 
-        <!-- Contenedor del formulario de Login (Listo para que lo construyas) -->
+        <!-- Contenedor del formulario de Login -->
         <div class="login-body">
-            <form>
-                <!-- Email / Usuario -->
+            <form (ngSubmit)="submitLoginCliente()">
+                <!-- Mensaje de error emergente si no se encuentra la cédula o la clave es incorrecta -->
+                <div *ngIf="loginErrorMsg" class="login-error-banner">
+                    ⚠️ {{ loginErrorMsg }}
+                </div>
+
+                <!-- Cédula -->
                 <div class="input-group">
-                    <label for="username">cedula</label>
-                    <input type="text" id="idCliente" name="idCliente" [(ngModel)]="idC" placeholder="Ingrese su cedula"
-                        autocomplete="off" />
+                    <label for="idCliente">CÉDULA</label>
+                    <input type="text" id="idCliente" name="idCliente" [(ngModel)]="idC"
+                        (input)="validarCedulaInput()"
+                        placeholder="Ingrese su cédula" autocomplete="off" />
+                    <small *ngIf="cedulaErrorMsg" class="field-error-text">⚠️ {{ cedulaErrorMsg }}</small>
                 </div>
 
                 <!-- Password -->
                 <div class="input-group">
-                    <label for="password">clave</label>
+                    <label for="claveCliente">CLAVE</label>
                     <input type="password" id="claveCliente" name="claveCliente" [(ngModel)]="claveC"
                         placeholder="Ingresa tu clave" autocomplete="off" />
                 </div>
 
                 <!-- Botón de Acceso -->
-                <button type="submit" class="btn-login" (click)="submitLoginCliente()">Iniciar Sesión</button>
+                <button type="submit" class="btn-login">Iniciar Sesión</button>
 
                 <div class="divider"></div>
 
