@@ -34,8 +34,9 @@
       <div class="form-wrapper">
         <label for="cedula-reporte">Cédula del Cliente:</label>
         <div class="input-group">
-          <input type="text" id="cedula-reporte" [(ngModel)]="cedulaInput" placeholder="Ej. 1234567890" pattern="[0-9]+"
-            #cedulaRepCtrl="ngModel" (keydown.enter)="generarReporteCliente()" />
+          <input type="text" id="cedula-reporte" [(ngModel)]="cedulaInput" (input)="validarCedulaInput()"
+            placeholder="Ej. 1234567890" pattern="[0-9]+" #cedulaRepCtrl="ngModel"
+            (keydown.enter)="generarReporteCliente()" />
           <button class="btn-generar" (click)="generarReporteCliente()"
             [disabled]="cargandoReporte || cedulaRepCtrl.invalid">
             {{ cargandoReporte ? 'Buscando...' : 'Generar Reporte' }}

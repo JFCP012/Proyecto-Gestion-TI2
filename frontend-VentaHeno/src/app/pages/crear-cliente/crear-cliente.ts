@@ -39,6 +39,12 @@ export class CrearCliente implements OnInit {
     });
   }
 
+  validarCedula() {
+    if (this.cliente.cedula && !/^[0-9]*$/.test(this.cliente.cedula)) {
+      this.cliente.cedula = this.cliente.cedula.replace(/[^0-9]/g, '');
+    }
+  }
+
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -86,8 +92,8 @@ export class CrearCliente implements OnInit {
       },
       error: (err) => {
         console.error('Error al registrar cliente:', err);
-        this.errorMsg = typeof err.error === 'string' 
-          ? err.error 
+        this.errorMsg = typeof err.error === 'string'
+          ? err.error
           : (err.error?.message || 'Ocurrió un error al registrar el cliente en el servidor.');
         this.loading = false;
       }
@@ -96,5 +102,8 @@ export class CrearCliente implements OnInit {
 
   volver() {
     this.router.navigate(['/factura']);
+  }
+  inicio() {
+    this.router.navigate(['/producto']);
   }
 }
