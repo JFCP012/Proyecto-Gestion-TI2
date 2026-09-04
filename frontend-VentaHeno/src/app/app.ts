@@ -119,7 +119,6 @@ export class App implements OnInit {
           localStorage.setItem('clienteActivo', JSON.stringify(isValid));
           this.clienteLogueado.imagen = isValid.imagen ?? "";
           this.cerrarModalUsuario();
-          this.router.navigate(['/']);
         } else {
           this.loginErrorMsg = "No se encontró la cédula o la clave es incorrecta.";
         }

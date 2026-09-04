@@ -29,6 +29,18 @@ public class ClienteService {
     }
 
     public Cliente guardarCliente(Cliente cliente, MultipartFile archivoImagen) {
+        if (cliente.getCedula() == null || cliente.getCedula().trim().isEmpty()) {
+            throw new IllegalArgumentException("La cédula del cliente es obligatoria.");
+        }
+
+        String cedulaTrimmed = cliente.getCedula().trim();
+        Optional<Cliente> existente = clienteRepositorio.findByCedula(cedulaTrimmed);
+        if (existente.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un cliente registrado con la cédula " + cedulaTrimmed + ".");
+        }
+
+        cliente.setCedula(cedulaTrimmed);
+
         if (archivoImagen != null && !archivoImagen.isEmpty()) {
             try {
                 Map uploadResult = cloudinary.uploader().upload(archivoImagen.getBytes(), ObjectUtils.emptyMap());
@@ -38,7 +50,7 @@ public class ClienteService {
                 throw new RuntimeException("Error al subir la imagen del cliente a Cloudinary: " + e.getMessage(), e);
             }
         }
-        return guardarCliente(cliente);
+        return clienteRepositorio.save(cliente);
     }
 
     public Cliente guardarCliente(Cliente cliente) {
