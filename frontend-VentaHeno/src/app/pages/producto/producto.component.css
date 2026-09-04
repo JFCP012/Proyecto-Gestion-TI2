@@ -1207,6 +1207,24 @@
   .modal-actions button {
     width: 100%;
   }
+
+  /* Footer Responsive */
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2rem 1.25rem;
+  }
+
+  .contact-text {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  .simple-footer p {
+    font-size: 0.8rem;
+    padding: 0 1rem;
+    line-height: 1.4;
+  }
 }
 
 /* Extra small screens */
