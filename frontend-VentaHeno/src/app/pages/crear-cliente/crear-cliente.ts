@@ -48,16 +48,14 @@ export class CrearCliente implements OnInit {
   }
 
   onFileSelected(event: any) {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file) {
+      if (this.imagenPreview && this.imagenPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(this.imagenPreview);
+      }
       this.imagenSeleccionada = file;
-
-      // Crear URL de vista previa
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imagenPreview = e.target?.result as string;
-      };
-      reader.readAsDataURL(file);
+      this.imagenPreview = URL.createObjectURL(file);
+      this.cdr.detectChanges();
     }
   }
 
@@ -66,12 +64,16 @@ export class CrearCliente implements OnInit {
       event.stopPropagation();
       event.preventDefault();
     }
+    if (this.imagenPreview && this.imagenPreview.startsWith('blob:')) {
+      URL.revokeObjectURL(this.imagenPreview);
+    }
     this.imagenSeleccionada = null;
     this.imagenPreview = null;
     const fileInput = document.getElementById('imagen') as HTMLInputElement;
     if (fileInput) {
       fileInput.value = '';
     }
+    this.cdr.detectChanges();
   }
 
   registrarCliente() {
@@ -97,12 +99,15 @@ export class CrearCliente implements OnInit {
 
     this.clienteService.registrarCliente(this.cliente, this.imagenSeleccionada).subscribe({
       next: (res) => {
-        this.successMsg = '¡Cliente registrado con éxito!';
+        this.successMsg = '¡Cuenta creada con éxito! Iniciando sesión...';
+        // Iniciar sesión automáticamente guardando en localStorage
+        localStorage.setItem('clienteActivo', JSON.stringify(res));
         this.loading = false;
         this.cdr.detectChanges();
         setTimeout(() => {
-          this.router.navigate(['/factura'], { queryParams: { cedula: res.cedula } });
-        }, 1500);
+          window.scrollTo(0, 0);
+          this.router.navigate(['/']);
+        }, 1000);
       },
       error: (err) => {
         console.error('Error al registrar cliente:', err);
@@ -120,9 +125,9 @@ export class CrearCliente implements OnInit {
   }
 
   volver() {
-    this.router.navigate(['/factura']);
+    this.router.navigate(['/']);
   }
   inicio() {
-    this.router.navigate(['/producto']);
+    this.router.navigate(['/']);
   }
 }

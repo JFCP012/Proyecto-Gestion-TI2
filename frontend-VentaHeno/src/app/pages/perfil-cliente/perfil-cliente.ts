@@ -249,12 +249,11 @@ export class PerfilCliente implements OnInit {
       this.archivoImagenSeleccionado = file;
       this.mensajeErrorPerfil = null;
 
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        this.previewImagenUrl = e.target.result;
-        this.cdr.detectChanges();
-      };
-      reader.readAsDataURL(file);
+      if (this.previewImagenUrl && this.previewImagenUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(this.previewImagenUrl);
+      }
+      this.previewImagenUrl = URL.createObjectURL(file);
+      this.cdr.detectChanges();
     }
   }
 
