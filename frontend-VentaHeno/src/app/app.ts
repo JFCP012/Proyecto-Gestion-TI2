@@ -1,4 +1,4 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject, OnInit, ChangeDetectorRef } from '@angular/core';
 import { RouterOutlet, Router, NavigationEnd } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,9 +20,11 @@ export class App implements OnInit {
   clienteService = inject(ClienteService);
   private router = inject(Router);
   carritoService = inject(CarritoService);
+  private cdr = inject(ChangeDetectorRef);
 
   esRutaExcluida = false;
   mostrarLoginModal = false;
+  cargandoLogin = false;
   clienteLogueado: Cliente | null = null;
   idC: string = "";
   claveC: string = "";
@@ -100,6 +102,8 @@ export class App implements OnInit {
   }
 
   submitLoginCliente() {
+    if (this.cargandoLogin) return;
+
     this.loginErrorMsg = "";
     this.cedulaErrorMsg = "";
 
@@ -119,19 +123,28 @@ export class App implements OnInit {
       return;
     }
 
+    this.cargandoLogin = true;
+    this.cdr.detectChanges();
+
     this.clienteService.login(cedula, this.claveC).subscribe({
       next: (isValid) => {
+        this.cargandoLogin = false;
         if (isValid && isValid.cedula) {
           this.clienteLogueado = isValid;
           localStorage.setItem('clienteActivo', JSON.stringify(isValid));
           this.clienteLogueado.imagen = isValid.imagen ?? "";
           this.cerrarModalUsuario();
+          this.cdr.detectChanges();
+          this.router.navigate(['/']);
+          window.scrollTo(0, 0);
         } else {
           this.loginErrorMsg = "No se encontró la cédula o la clave es incorrecta.";
+          this.cdr.detectChanges();
         }
       },
       error: (error) => {
         console.error('Error al iniciar sesión:', error);
+        this.cargandoLogin = false;
         if (error.status === 404) {
           this.loginErrorMsg = "No existe un cliente registrado con esta cédula.";
         } else if (error.status === 401 || error.status === 400) {
@@ -141,6 +154,7 @@ export class App implements OnInit {
             ? error.error
             : (error.error?.message || 'No se encontró la cédula ingresada o la contraseña es incorrecta.');
         }
+        this.cdr.detectChanges();
       }
     });
   }

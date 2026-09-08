@@ -50,7 +50,9 @@
                 </div>
 
                 <!-- Botón de Acceso -->
-                <button type="submit" class="btn-login">Iniciar Sesión</button>
+                <button type="submit" class="btn-login" [disabled]="cargandoLogin">
+                    {{ cargandoLogin ? 'Ingresando...' : 'Iniciar Sesión' }}
+                </button>
 
                 <div class="divider"></div>
 
