@@ -30,7 +30,22 @@ export class App implements OnInit {
   cedulaErrorMsg: string = "";
 
   ngOnInit() {
-    // Si ya existe un cliente guardado en el navegador, cargarlo
+    this.cargarClienteLogueado();
+
+    // Escuchar activamente los eventos del Router para actualizar la exclusión de vistas y estado del cliente
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      this.cargarClienteLogueado();
+      this.actualizarEstadoExclusion(event.urlAfterRedirects || event.url);
+      window.scrollTo(0, 0);
+    });
+
+    // Evaluar el estado de la ruta inicial
+    this.actualizarEstadoExclusion(this.router.url);
+  }
+
+  private cargarClienteLogueado() {
     const clienteGuardado = localStorage.getItem('clienteActivo');
     if (clienteGuardado) {
       try {
@@ -38,17 +53,9 @@ export class App implements OnInit {
       } catch (e) {
         console.error('Error al cargar cliente desde localStorage:', e);
       }
+    } else {
+      this.clienteLogueado = null;
     }
-
-    // Escuchar activamente los eventos del Router para actualizar la exclusión de vistas
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-      this.actualizarEstadoExclusion(event.urlAfterRedirects || event.url);
-    });
-
-    // Evaluar el estado de la ruta inicial
-    this.actualizarEstadoExclusion(this.router.url);
   }
 
   private actualizarEstadoExclusion(url: string) {
