@@ -63,6 +63,18 @@ public class ClienteController {
             return ResponseEntity.status(401).body(null);
         }
     }
-    // fthyt
-    // fhjddhjd
+
+    @PostMapping("/actualizar")
+    public ResponseEntity<?> actualizar(
+            @RequestParam("cliente") String clienteJson,
+            @RequestParam(value = "imagen", required = false) MultipartFile imagen) {
+        try {
+            Cliente actualizado = clienteService.actualizarCliente(clienteJson, imagen);
+            return ResponseEntity.ok(actualizado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", "Error al actualizar el cliente: " + e.getMessage()));
+        }
+    }
 }

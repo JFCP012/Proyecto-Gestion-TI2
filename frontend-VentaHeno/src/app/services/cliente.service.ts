@@ -34,4 +34,13 @@ export class ClienteService {
   login(cedula: string, clave: string): Observable<Cliente> {
     return this.http.post<Cliente>(`${this.apiUrl}/login`, { cedula, clave });
   }
+
+  actualizarCliente(cliente: Cliente, imagen?: File | null): Observable<Cliente> {
+    const formData = new FormData();
+    formData.append('cliente', JSON.stringify(cliente));
+    if (imagen) {
+      formData.append('imagen', imagen);
+    }
+    return this.http.post<Cliente>(`${this.apiUrl}/actualizar`, formData);
+  }
 }

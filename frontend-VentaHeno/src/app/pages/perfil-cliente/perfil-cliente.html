@@ -12,7 +12,7 @@
 
 <div class="perfil-page-wrapper" *ngIf="cliente">
 
-  <!-- Barra Superior Extendida a los Laterales del Pantalla -->
+  <!-- Barra Superior Extendida a los Laterales de la Pantalla -->
   <div class="perfil-top-bar">
     <button class="btn-volver" (click)="volver()">
       ← Volver al inicio
@@ -45,35 +45,265 @@
       </div>
     </div>
 
+    <!-- Pestañas de Navegación del Perfil -->
+    <div class="profile-tabs-nav">
+      <button class="tab-btn" [class.active]="pestanaActiva === 'perfil'" (click)="cambiarPestana('perfil')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        Mi Perfil
+      </button>
+
+      <button class="tab-btn" [class.active]="pestanaActiva === 'facturas'" (click)="cambiarPestana('facturas')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+          <polyline points="14 2 14 8 20 8"></polyline>
+          <line x1="16" y1="13" x2="8" y1="13"></line>
+          <line x1="16" y1="17" x2="8" y1="17"></line>
+          <polyline points="10 9 9 9 8 9"></polyline>
+        </svg>
+        Mis Facturas
+      </button>
+
+      <button class="tab-btn" [class.active]="pestanaActiva === 'editar'" (click)="cambiarPestana('editar')">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+        Editar Perfil
+      </button>
+    </div>
+
     <div class="flat-divider"></div>
 
-    <!-- Información Personal -->
-    <div class="info-section-flat">
-      <h2 class="section-title">Información Personal</h2>
+    <!-- PESTAÑA 1: INFORMACIÓN PERSONAL -->
+    <div class="info-section-flat" *ngIf="pestanaActiva === 'perfil'">
+      <div class="section-header-flex">
+        <h2 class="section-title">Información Personal</h2>
+      </div>
 
       <div class="info-details-grid">
-
         <div class="detail-item">
           <span class="detail-label">Nombre Completo</span>
           <span class="detail-value">{{ cliente.nombre }}</span>
         </div>
 
         <div class="detail-item">
-          <span class="detail-label">Cédula</span>
-          <span class="detail-value">{{ cliente.cedula }}</span>
+          <span class="detail-label">Cédula / NIT</span>
+          <span class="detail-value flex-align">
+            {{ cliente.cedula }}
+          </span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Teléfono</span>
-          <span class="detail-value">{{ cliente.telefono }}</span>
+          <span class="detail-value">{{ cliente.telefono || 'No registrado' }}</span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Dirección</span>
           <span class="detail-value">{{ cliente.direccion || 'No registrada' }}</span>
         </div>
+      </div>
+    </div>
+
+    <!-- PESTAÑA 2: MIS FACTURAS -->
+    <div class="facturas-section-flat" *ngIf="pestanaActiva === 'facturas'">
+      <h2 class="section-title">Mis Facturas de Compra</h2>
+      <p class="section-subtitle">Historial de compras registradas bajo la cédula <strong>{{ cliente.cedula }}</strong>.
+      </p>
+
+      <!-- Estado de carga -->
+      <div class="facturas-loading" *ngIf="cargandoFacturas">
+        <div class="spinner"></div>
+        <p>Cargando tus facturas...</p>
+      </div>
+
+      <!-- Estado de error -->
+      <div class="facturas-error" *ngIf="errorFacturas && !cargandoFacturas">
+        <p>{{ errorFacturas }}</p>
+        <button class="btn-retry" (click)="cargarFacturas()">Reintentar</button>
+      </div>
+
+      <!-- Lista vacía -->
+      <div class="facturas-empty"
+        *ngIf="!cargandoFacturas && !errorFacturas && (reporteCliente?.facturas?.length === 0 || !reporteCliente?.facturas)">
+        <div class="empty-icon"></div>
+        <h3>No tienes facturas registradas</h3>
+        <p>Aún no has realizado ninguna compra con tu cédula {{ cliente.cedula }}.</p>
+        <button class="btn-primary-action" (click)="volver()">Ir a la tienda</button>
+      </div>
+
+      <!-- Contenido de Facturas -->
+      <div *ngIf="!cargandoFacturas && reporteCliente && reporteCliente.facturas && reporteCliente.facturas.length > 0">
+
+        <!-- Resumen de Compras Sutil -->
+        <div class="user-stats-strip">
+          <span class="stat-inline"><strong>{{ reporteCliente.totalFacturas }}</strong> facturas realizadas</span>
+          <span class="stat-dot">•</span>
+          <span class="stat-inline"><strong>{{ reporteCliente.totalPacas }}</strong> pacas adquiridas</span>
+          <span class="stat-dot">•</span>
+          <span class="stat-inline">Total invertido: <strong>${{ reporteCliente.montoTotal.toLocaleString('es-CO')
+              }}</strong></span>
+        </div>
+
+        <!-- Lista de Tarjetas de Factura -->
+        <div class="facturas-list">
+          <div class="factura-card" *ngFor="let f of reporteCliente.facturas">
+
+            <div class="factura-card-header">
+              <div class="factura-info-main">
+                <span class="factura-id">Factura #{{ f.idFactura }}</span>
+                <span class="factura-fecha">{{ f.fechaFactura }}</span>
+              </div>
+              <span class="factura-total-badge">${{ f.totalVenta.toLocaleString('es-CO') }}</span>
+            </div>
+
+            <!-- Desglose de Productos -->
+            <div class="factura-card-body">
+              <h4 class="items-title">Productos comprados:</h4>
+              <div class="items-table-wrapper">
+                <table class="items-table">
+                  <thead>
+                    <tr>
+                      <th>Tipo de Heno</th>
+                      <th>Precio Unit.</th>
+                      <th>Cant.</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of f.detalles">
+                      <td>{{ item.tipoHeno }}</td>
+                      <td>${{ item.precioUnitario.toLocaleString('es-CO') }}</td>
+                      <td>{{ item.cantidad }}</td>
+                      <td>${{ item.subtotal.toLocaleString('es-CO') }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Footer de Tarjeta con Envío y Botón Descargar PDF -->
+            <div class="factura-card-footer">
+              <div class="factura-shipping">
+                <span>Costo de Envío: <strong>${{ f.envio.toLocaleString('es-CO') }}</strong></span>
+              </div>
+              <button class="btn-download-pdf" (click)="descargarFacturaPDF(f)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y1="3"></line>
+                </svg>
+                Descargar Factura (PDF)
+              </button>
+            </div>
+
+          </div>
+        </div>
 
       </div>
+
+    </div>
+
+    <!-- PESTAÑA 3: EDITAR PERFIL -->
+    <div class="edit-section-flat" *ngIf="pestanaActiva === 'editar'">
+      <h2 class="section-title">Editar Información de Perfil</h2>
+      <p class="section-subtitle">Actualiza tus datos de contacto y foto de perfil. Tu cédula permanecerá fija por
+        motivos de seguridad y facturación.</p>
+
+      <!-- Alertas de Estado -->
+      <div class="alert alert-success" *ngIf="mensajeExitoPerfil">
+        {{ mensajeExitoPerfil }}
+      </div>
+
+      <div class="alert alert-error" *ngIf="mensajeErrorPerfil">
+        {{ mensajeErrorPerfil }}
+      </div>
+
+      <form (ngSubmit)="guardarCambiosPerfil()" #editForm="ngForm" class="edit-profile-form">
+
+        <!-- Foto de Perfil Upload -->
+        <div class="form-group-avatar">
+          <label class="form-label">Foto de Perfil</label>
+          <div class="avatar-edit-container">
+            <div class="avatar-preview-box">
+              <img *ngIf="previewImagenUrl" [src]="previewImagenUrl" alt="Vista previa de perfil" class="preview-img" />
+              <div *ngIf="!previewImagenUrl" class="avatar-placeholder">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+              </div>
+            </div>
+
+            <div class="avatar-upload-actions">
+              <label for="input-foto" class="btn-upload-label">
+                Seleccionar nueva imagen
+              </label>
+              <input type="file" id="input-foto" accept="image/*" (change)="onImagenSeleccionada($event)"
+                class="input-file-hidden" />
+              <span class="file-hint" *ngIf="archivoImagenSeleccionado">{{ archivoImagenSeleccionado.name }}</span>
+              <span class="file-hint" *ngIf="!archivoImagenSeleccionado">Formatos permitidos: JPG, PNG.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-grid-edit">
+
+          <!-- Campo Cédula BLOQUEADO (Estricto) -->
+          <div class="form-group disabled-group">
+            <label class="form-label flex-between">
+              <span>Cédula / NIT</span>
+            </label>
+            <div class="disabled-input-wrapper">
+              <input type="text" [value]="cliente.cedula" disabled class="form-input disabled-input" />
+            </div>
+            <span class="field-help">Tu cédula no se puede editar porque está vinculada a tus facturas e historial de
+              compras.</span>
+          </div>
+
+          <!-- Nombre Completo (Editable) -->
+          <div class="form-group">
+            <label class="form-label">Nombre Completo *</label>
+            <input type="text" [(ngModel)]="clienteEdit.nombre" name="nombre" required class="form-input"
+              placeholder="Ej. Juan Pérez" />
+          </div>
+
+          <!-- Teléfono (Editable) -->
+          <div class="form-group">
+            <label class="form-label">Teléfono de Contacto</label>
+            <input type="text" [(ngModel)]="clienteEdit.telefono" name="telefono" class="form-input"
+              placeholder="Ej. 3001234567" />
+          </div>
+
+          <!-- Dirección (Editable) -->
+          <div class="form-group">
+            <label class="form-label">Dirección de Entrega</label>
+            <input type="text" [(ngModel)]="clienteEdit.direccion" name="direccion" class="form-input"
+              placeholder="Ej. Cra 45 # 12-34, Bogotá" />
+          </div>
+
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="form-actions-bar">
+          <button type="button" class="btn-cancel" (click)="cambiarPestana('perfil')">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-save" [disabled]="guardandoPerfil">
+            <span *ngIf="!guardandoPerfil">Guardar Cambios</span>
+            <span *ngIf="guardandoPerfil">Guardando...</span>
+          </button>
+        </div>
+
+      </form>
     </div>
 
   </div>
