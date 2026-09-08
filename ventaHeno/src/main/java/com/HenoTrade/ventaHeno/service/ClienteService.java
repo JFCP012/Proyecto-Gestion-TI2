@@ -71,6 +71,49 @@ public class ClienteService {
         return clienteRepositorio.save(cliente);
     }
 
+    public Cliente actualizarCliente(String clienteJson, MultipartFile archivoImagen) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Cliente cliente = objectMapper.readValue(clienteJson, Cliente.class);
+        return actualizarCliente(cliente, archivoImagen);
+    }
+
+    public Cliente actualizarCliente(Cliente cliente, MultipartFile archivoImagen) {
+        if (cliente.getCedula() == null || cliente.getCedula().trim().isEmpty()) {
+            throw new IllegalArgumentException("La cédula del cliente es obligatoria.");
+        }
+
+        String cedulaTrimmed = cliente.getCedula().trim();
+        Optional<Cliente> existente = clienteRepositorio.findByCedula(cedulaTrimmed);
+        if (existente.isEmpty()) {
+            throw new IllegalArgumentException("No existe un cliente registrado con la cédula " + cedulaTrimmed + ".");
+        }
+
+        Cliente c = existente.get();
+        if (cliente.getNombre() != null && !cliente.getNombre().trim().isEmpty()) {
+            c.setNombre(cliente.getNombre().trim());
+        }
+        if (cliente.getTelefono() != null) {
+            c.setTelefono(cliente.getTelefono().trim());
+        }
+        if (cliente.getDireccion() != null) {
+            c.setDireccion(cliente.getDireccion().trim());
+        }
+        if (cliente.getClave() != null && !cliente.getClave().trim().isEmpty()) {
+            c.setClave(cliente.getClave());
+        }
+
+        if (archivoImagen != null && !archivoImagen.isEmpty()) {
+            try {
+                Map uploadResult = cloudinary.uploader().upload(archivoImagen.getBytes(), ObjectUtils.emptyMap());
+                String linkImagen = (String) uploadResult.get("secure_url");
+                c.setImagen(linkImagen);
+            } catch (Exception e) {
+                throw new RuntimeException("Error al subir la imagen del cliente a Cloudinary: " + e.getMessage(), e);
+            }
+        }
+        return clienteRepositorio.save(c);
+    }
+
     public Optional<Cliente> loginCliente(String cedula, String clave) {
         Optional<Cliente> opt = clienteRepositorio.findByCedula(cedula);
         if (opt.isPresent()) {
