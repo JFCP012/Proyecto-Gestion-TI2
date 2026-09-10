@@ -13,10 +13,12 @@ import { GestionHenosComponent } from './pages/gestion-henos/gestion-henos.compo
 import { CrearCliente } from './pages/crear-cliente/crear-cliente';
 import { ReportesClienteComponent } from './pages/reportes-cliente/reportes-cliente.component';
 import { PerfilCliente } from './pages/perfil-cliente/perfil-cliente';
+import { AsistenteVirtualComponent } from './pages/asistente-virtual/asistente-virtual.component';
 
 export const routes: Routes = [
     { path: '', component: ProductoComponent },
     { path: 'producto', component: ProductoComponent },
+    { path: 'asistente-virtual', component: AsistenteVirtualComponent },
     { path: 'crear-producto', component: CrearProducto, canActivate: [adminGuard] },
     { path: 'detalle-producto/:id', component: DetalleProducto },
     { path: 'carrito', component: CarritoComponent },
@@ -29,4 +31,4 @@ export const routes: Routes = [
     { path: 'reportes-paca', component: ReportesPacaComponent, canActivate: [adminGuard] },
     { path: 'reportes-cliente', component: ReportesClienteComponent, canActivate: [adminGuard] },
     { path: 'gestion-henos', component: GestionHenosComponent, canActivate: [adminGuard] },
-];
+];

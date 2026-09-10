@@ -45,6 +45,11 @@ export class ProductoComponent implements OnInit {
     this.router.navigate(['/carrito']);
   }
 
+  irAlAsistenteVirtual() {
+    this.router.navigate(['/asistente-virtual']);
+  }
+
+
   cargarHenos(setCategoria = true) {
     if (setCategoria) {
       this.categoriaSeleccionada = 'Todos';

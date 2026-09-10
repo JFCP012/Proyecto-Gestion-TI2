@@ -82,6 +82,11 @@ export class App implements OnInit {
     this.router.navigate(['/carrito']);
   }
 
+  irAlAsistenteVirtual() {
+    this.router.navigate(['/asistente-virtual']);
+  }
+
+
   abrirModalUsuario() {
     if (this.clienteLogueado) {
       this.router.navigate(['/perfil-cliente']);

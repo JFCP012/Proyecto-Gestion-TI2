@@ -70,3 +70,9 @@
     <span class="cart-icon">🛒</span>
     <span class="cart-badge">{{ cantidadEnCarrito }}</span>
 </div>
+
+<!-- Botón flotante del Asistente Virtual IA -->
+<div class="floating-chat-btn" (click)="irAlAsistenteVirtual()" *ngIf="!esRutaExcluida" title="Asistente Virtual Agroheno IA">
+    <span class="chat-icon">💬</span>
+    <span class="chat-badge-pulse"></span>
+</div>
