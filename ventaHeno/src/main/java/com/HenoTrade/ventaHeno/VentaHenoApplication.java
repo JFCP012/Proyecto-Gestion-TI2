@@ -9,7 +9,7 @@ import java.util.TimeZone;
 public class VentaHenoApplication {
 
 	@PostConstruct
-	public void init(){
+	public void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("America/Bogota"));
 	}
 

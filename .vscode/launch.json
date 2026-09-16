@@ -11,8 +11,8 @@
             "type": "java",
             "name": "Spring Boot-VentaHenoApplication<ventaHeno>",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "com.HenoTrade.ventaHeno.service.VentaHenoApplication",
+            "cwd": "${workspaceFolder}/ventaHeno",
+            "mainClass": "com.HenoTrade.ventaHeno.VentaHenoApplication",
             "projectName": "ventaHeno",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
