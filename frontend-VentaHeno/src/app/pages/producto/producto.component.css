@@ -57,7 +57,7 @@
 
 /* Area de Imagen */
 .card-imagen {
-  height: 220px;
+  height: 240px;
   position: relative;
   overflow: hidden;
   background: #f7fafc;
@@ -245,11 +245,12 @@
   background-color: var(--primary-gold);
   border: none;
   border-radius: 20px;
-  padding: 1.5rem 1rem;
+  padding: 1.25rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0.5rem;
   cursor: pointer;
   width: 165px;
   height: 165px;
@@ -272,12 +273,22 @@
   transform: translateY(-2px);
 }
 
+/* Caja contenedora uniforme para icono */
+.filtro-icon-box {
+  width: 68px;
+  height: 68px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Imagen del filtro */
 .filtro-img {
-  width: 60px;
-  height: 60px;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
-  margin-bottom: 0.5rem;
   transition: transform 0.3s ease;
   /* Filter to convert images to elegant dark brown silhouettes matching var(--text-dark) */
   filter: brightness(0) saturate(100%) invert(18%) sepia(21%) saturate(996%) hue-rotate(345deg) brightness(97%) contrast(92%);
@@ -980,55 +991,74 @@
 /* Responsividad general */
 @media (max-width: 768px) {
   .productos-container {
-    padding: 1rem 0.75rem;
+    padding: 1.25rem 1rem;
   }
 
   .grid-productos {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.25rem;
   }
 
   .card-imagen {
-    height: 180px;
+    height: 230px;
   }
 
   .card-content {
-    padding: 1rem;
+    padding: 1.1rem;
   }
 
   .card-content h2 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
   }
 
   .descripcion {
-    font-size: 0.85rem;
+    font-size: 0.88rem;
     margin-bottom: 1rem;
   }
 
-  /* Filtros: grid 2x2 */
+  /* Filtros: grid 2x2 estrictamente parejo */
   .filtros-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin: 1.5rem auto 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 0.85rem;
+    margin: 1.5rem auto 2.25rem;
     padding: 0 0.5rem;
+    max-width: 440px;
   }
 
   .filtro-btn {
     width: 100%;
-    height: auto;
+    height: 100%;
+    min-height: 125px;
     padding: 1rem 0.5rem;
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    box-sizing: border-box;
+  }
+
+  .filtro-icon-box {
+    width: 54px;
+    height: 54px;
   }
 
   .filtro-btn span {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 
   .filtro-img,
   .filtro-img-svg {
-    width: 45px;
-    height: 45px;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
   }
+
+
 
   /* Search and create bar */
   .search-and-create-container {
@@ -1227,29 +1257,76 @@
   }
 }
 
+/* Mobile screens: 1 columna completa para productos e imágenes grandes */
+@media (max-width: 640px) {
+  .grid-productos {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+  }
+
+  .card-imagen {
+    height: 240px;
+  }
+
+  .filtros-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 0.75rem;
+    max-width: 390px;
+    margin: 1.25rem auto 2rem;
+  }
+
+  .filtro-btn {
+    min-height: 120px;
+    border-radius: 16px;
+    padding: 0.9rem 0.5rem;
+  }
+
+  .filtro-icon-box {
+    width: 48px;
+    height: 48px;
+  }
+
+  .filtro-btn span {
+    font-size: 0.9rem;
+  }
+}
+
 /* Extra small screens */
 @media (max-width: 400px) {
   .grid-productos {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card-imagen {
+    height: 210px;
   }
 
   .filtros-container {
-    grid-template-columns: 1fr 1fr;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
     gap: 0.5rem;
+    max-width: 100%;
+    padding: 0 0.25rem;
   }
 
   .filtro-btn {
-    padding: 0.75rem 0.4rem;
+    min-height: 108px;
+    padding: 0.75rem 0.35rem;
+    border-radius: 14px;
+    gap: 0.35rem;
   }
 
-  .filtro-img,
-  .filtro-img-svg {
-    width: 36px;
-    height: 36px;
+  .filtro-icon-box {
+    width: 42px;
+    height: 42px;
   }
 
   .filtro-btn span {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
   }
 
   .hero-title {
